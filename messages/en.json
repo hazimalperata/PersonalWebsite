@@ -1,0 +1,21 @@
+{
+  "HomePage": {
+    "title": "Hello world!",
+    "about": "Go to the about page"
+  },
+  "404": {
+    "title": "Not Found"
+  },
+  "LanguageSwitcher": {
+    "label": "Change",
+    "locale": "{locale, select, tr {\uD83C\uDDF9\uD83C\uDDF7 Turkish} en {🇺🇸 English} other {Unknown}}"
+  },
+  "ThemeChanger": {
+    "system": "System",
+    "dark": "Dark",
+    "light": "Light"
+  },
+  "Common": {
+    "loading": "Loading..."
+  }
+}

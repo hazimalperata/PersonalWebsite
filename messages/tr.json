@@ -1,0 +1,21 @@
+{
+  "HomePage": {
+    "title": "Selam dünya!",
+    "about": "Hakkımızda sayfasına git"
+  },
+  "404": {
+    "title": "Bulunamadı"
+  },
+  "LanguageSwitcher": {
+    "label": "Change",
+    "locale": "{locale, select, tr {\uD83C\uDDF9\uD83C\uDDF7 Türkçe} en {\uD83C\uDDFA\uD83C\uDDF8 İngilizce} other {Unknown}}"
+  },
+  "ThemeChanger": {
+    "system": "Sistem",
+    "dark": "Koyu",
+    "light": "Açık"
+  },
+  "Common": {
+    "loading": "Yükleniyor..."
+  }
+}

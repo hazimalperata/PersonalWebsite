@@ -1,0 +1,15 @@
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.stickyHeader {
+  position: fixed;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  animation: slideDown 0.35s ease-out;
+}

@@ -1,0 +1,77 @@
+$verticalLineHeight: 300px;
+$horizontalLineWidth: 150px;
+
+$lineStroke: 2px;
+
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr $lineStroke 1fr;
+}
+
+
+.verticalLine {
+  width: $lineStroke;
+  height: $verticalLineHeight;
+
+  &.upper {
+    border-bottom: $verticalLineHeight solid #555;
+    border-left: $lineStroke/2 solid transparent;
+    border-right: $lineStroke/2 solid transparent;
+  }
+
+  &.bottom {
+    border-top: $verticalLineHeight solid #555;
+    border-left: $lineStroke/2 solid transparent;
+    border-right: $lineStroke/2 solid transparent;
+  }
+
+  &.middle {
+    border-left: $lineStroke solid #555;
+  }
+}
+
+.horizontalLine {
+  height: $lineStroke;
+  border-top: $lineStroke/2 solid transparent;
+  border-bottom: $lineStroke/2 solid transparent;
+
+  &.right {
+    animation: rightHorizontalLineAnimation linear both;
+    animation-timeline: view();
+    transform-origin: left;
+  }
+
+  &.left {
+    animation: leftHorizontalLineAnimation linear both;
+    animation-timeline: view();
+    transform-origin: right;
+  }
+}
+
+
+@keyframes leftHorizontalLineAnimation {
+  0% {
+    width: 0;
+  }
+  30%, 70% {
+    border-right: $horizontalLineWidth solid #555;
+    width: $horizontalLineWidth;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes rightHorizontalLineAnimation {
+  0% {
+    width: 0;
+  }
+  30%, 70% {
+    border-left: $horizontalLineWidth solid #555;
+    width: $horizontalLineWidth;
+  }
+  100% {
+    width: 0;
+  }
+}

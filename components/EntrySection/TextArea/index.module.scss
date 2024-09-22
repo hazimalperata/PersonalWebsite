@@ -1,0 +1,40 @@
+@keyframes leftToRightAnimation {
+  70% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  95% {
+    opacity: 0;
+    transform: translateX(200px);
+  }
+}
+
+@keyframes rightToLeftAnimation {
+  70% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  95% {
+    opacity: 0;
+    transform: translateX(-200px);
+  }
+}
+
+@keyframes enterText {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
+}
+
+.leftToRightAnimation {
+  animation: leftToRightAnimation linear both;
+  animation-timeline: view();
+}
+
+.rightToLeftAnimation {
+  animation: rightToLeftAnimation linear both;
+  animation-timeline: view();
+}
