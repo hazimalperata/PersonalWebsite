@@ -1,0 +1,44 @@
+.technologies {
+  .technology {
+    //@for $i from 1 through var(--child-count) {
+    //  &:nth-child(3n + #{$i}) {
+    //    background-color: lighten($base-color, $i * 5%);
+    //  }
+    //}
+
+    &:first-child, &:last-child {
+      transition-delay: 1.5s;
+    }
+
+    &:nth-child(2), &:nth-child(4) {
+      transition-delay: 1s;
+    }
+
+    &:nth-child(3) {
+      transition-delay: 0.5s;
+    }
+  }
+
+  &:hover {
+    .technology:not(:hover) {
+      filter: grayscale(1) blur(4px);
+    }
+  }
+}
+
+.technology {
+  transform: translateY(50px);
+  filter: blur(20px);
+  opacity: 0;
+  transition: 1s;
+
+  &.atScreen {
+    transform: translateY(0);
+    filter: blur(0);
+    opacity: 1;
+  }
+
+  :hover {
+    scale: 1.05;
+  }
+}

@@ -17,6 +17,8 @@ const config: Config = {
         '2xl': '1440px',
       },
       colors: {
+        darkGrey: "#121212",
+
         background: "var(--background)",
         foreground: "var(--foreground)",
 

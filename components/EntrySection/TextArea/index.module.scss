@@ -38,3 +38,10 @@
   animation: rightToLeftAnimation linear both;
   animation-timeline: view();
 }
+
+.gradientText {
+  background: -webkit-linear-gradient(45deg, #0061ff, #0d9488);
+  //background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
