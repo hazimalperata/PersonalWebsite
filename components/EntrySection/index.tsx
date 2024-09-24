@@ -9,7 +9,6 @@ export default function EntrySection() {
     >
       <TextArea/>
       <MainLineArea/>
-      {/*<BlackHole/>*/}
     </section>
   )
 }

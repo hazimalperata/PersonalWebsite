@@ -1,6 +1,7 @@
-import {RefObject, useEffect, useState} from "react"
+import {useEffect, useRef, useState} from "react"
 
-export default function useOnScreen(ref: RefObject<HTMLElement>, allowMultiple?: boolean, options?: IntersectionObserverInit) {
+export default function useOnScreen(allowMultiple?: boolean, options?: IntersectionObserverInit) {
+  const ref = useRef(null);
 
   const [isIntersecting, setIntersecting] = useState(false)
 
@@ -30,5 +31,5 @@ export default function useOnScreen(ref: RefObject<HTMLElement>, allowMultiple?:
     };
   }, [allowMultiple, options, ref]);
 
-  return isIntersecting;
+  return {ref, isIntersecting};
 }

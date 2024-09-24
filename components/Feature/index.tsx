@@ -1,3 +1,8 @@
+"use client"
+
+import useOnScreen from "@/utils/useOnScreen";
+import clsx from "clsx";
+
 const iconRender = (val: string) => {
   switch (val) {
     case "send":
@@ -77,14 +82,22 @@ const services = [
   },
 ]
 const Services = () => {
+
+  const titleOnScreen = useOnScreen();
+  const descriptionOnScreen = useOnScreen();
+
   return (
     <section className="py-20">
       <div className="max-w-7xl mx-auto px-5 sm:px-10 md:px-12 lg:px-5 flex flex-col items-center gap-10 xl:gap-14">
         <div className="text-center max-w-3xl mx-auto space-y-4 z-1">
-          <h1 className="text-gray-900 dark:text-white font-semibold text-4xl">
+          <h1 ref={titleOnScreen.ref} className={clsx("fromBlurAppear text-gray-900 dark:text-white font-semibold text-4xl", {
+            "atScreen": titleOnScreen.isIntersecting
+          })}>
             What can I offer?
           </h1>
-          <p className="text-gray-700 dark:text-gray-300">
+          <p ref={descriptionOnScreen.ref} className={clsx("fromBlurAppear text-gray-700 dark:text-gray-300", {
+            "atScreen": descriptionOnScreen.isIntersecting
+          })}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </p>
         </div>

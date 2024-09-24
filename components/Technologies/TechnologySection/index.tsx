@@ -2,20 +2,26 @@
 
 import clsx from "clsx";
 import styles from "@/components/Technologies/index.module.scss";
-import Image from "next/image";
 import useOnScreen from "@/utils/useOnScreen";
-import {useRef} from "react";
+import React, {SVGProps} from "react";
 
-export default function Technology() {
-  const ref = useRef<HTMLDivElement | null>(null);
+export type Tech = {
+  icon: (props: SVGProps<SVGSVGElement>) => React.JSX.Element;
+  name: string;
+}
 
-  const onScreen = useOnScreen(ref, true);
+type TechnologyProps = {
+  tech: Tech;
+}
+
+export default function Technology({tech}: TechnologyProps) {
+  const {ref, isIntersecting} = useOnScreen(false);
 
   return (
-    <div ref={ref} className={clsx("py-4 px-5 sm:p-5 rounded-lg group transition-all", styles.technology, {
-      [styles.atScreen]: onScreen
+    <div ref={ref} title={tech.name} className={clsx("py-4 px-6 rounded-lg group transition-all", styles.technology, {
+      [styles.atScreen]: isIntersecting
     })}>
-      <Image src="/spotify.png" alt="spotify" width={100} height={60} className="h-7 sm:h-10 w-auto ease-linear duration-300"/>
+      {tech.icon({className: "h-7 sm:h-10 w-auto ease-linear duration-300", width: 800, height: 250})}
     </div>
   )
 }

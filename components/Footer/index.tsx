@@ -1,4 +1,5 @@
 import Link from "next/link"
+import {MdFacebook} from "react-icons/md"
 
 const FooterItem = ({text, link}: { text: string, link: string }) => {
   return (
@@ -117,6 +118,9 @@ const FooterBlock = () => {
           </form>
         </div>
         <div className="flex justify-center sm:justify-end w-full gap-3">
+          <a href="#" className="p-1 rounded-full hover:text-blue-600 group hover:scale-110 transition-all">
+            <MdFacebook fontSize={24} className="group-hover:scale-110"/>
+          </a>
           <a href="#" aria-label="social link" rel="noreferer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-5 h-5" viewBox="0 0 16 16">
               <path

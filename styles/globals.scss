@@ -5,37 +5,33 @@
 html {
   &[class*="light"] {
     background-color: #FAFAFA;
+
+    body {
+      background-image: repeating-linear-gradient(to right, transparent 0 49px, rgba(238, 238, 238, 0.8) 49px 50px), repeating-linear-gradient(to bottom, transparent 0 49px, rgba(238, 238, 238, 0.87) 49px 50px);
+    }
   }
+
   &[class*="dark"] {
     background-color: #121212;
+
+    body {
+      background-image: repeating-linear-gradient(to right, transparent 0 49px, #eee1 49px 50px), repeating-linear-gradient(to bottom, transparent 0 49px, #eee1 49px 50px);
+    }
   }
-
 }
 
-:root {
-  --background: #FAFAFA;
-  --foreground: #161722;
+.fromBlurAppear {
+  transform: translateY(50px);
+  filter: blur(20px);
+  opacity: 0;
+  transition: transform 1s ease, filter 1s ease, opacity 1s ease;
+
+  &.atScreen {
+    transform: translateY(0);
+    filter: blur(0);
+    opacity: 1;
+  }
 }
-
-[data-theme='dark'] {
-  //--background: black;
-  //--foreground: white;
-  --background: #161722;
-  --foreground: #FAFAFA;
-}
-
-//@media (prefers-color-scheme: dark) {
-//  :root {
-//    --background: #0a0a0a;
-//    --foreground: #ededed;
-//  }
-//}
-
-//body {
-//  color: var(--foreground);
-//  background: var(--background);
-//  /*font-family: Arial, Helvetica, sans-serif;*/
-//}
 
 @layer utilities {
   .text-balance {
