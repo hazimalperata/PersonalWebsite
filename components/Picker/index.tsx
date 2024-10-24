@@ -12,7 +12,7 @@ export default function AccountPicker() {
   const getRandomAccount = useCallback(async () => {
     if (isProcessing) return;
     setIsProcessing(true);
-    const response = await fetch('/api/get-file');
+    const response = await fetch('/api/get-file', {cache: "no-store"});
     const result = await response.json();
     if (spanRef.current) {
       spanRef.current.innerText = result.content;
