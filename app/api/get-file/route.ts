@@ -12,6 +12,6 @@ export async function GET() {
     const randomAccount = accountList[Math.floor(Math.random() * accountList.length)];
     return NextResponse.json({content: randomAccount});
   } catch (error) {
-    return NextResponse.json({error: 'Dosya okunamadı'}, {status: 500});
+    return NextResponse.json({error: `Dosya okunamadı:${error}`}, {status: 500});
   }
 }
