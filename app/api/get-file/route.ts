@@ -1,9 +1,7 @@
 import {NextResponse} from 'next/server';
 import {promises as fs} from 'fs';
 
-// export type RandomAccount = {
-//
-// }
+export const revalidate = 0;
 
 export async function GET() {
   const separator = "=========== List By TheFry =============="
