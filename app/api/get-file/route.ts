@@ -1,9 +1,12 @@
+import { unstable_noStore as noStore } from 'next/cache';
+
 import {NextResponse} from 'next/server';
 import {promises as fs} from 'fs';
 
 export const revalidate = 1;
 
 export async function GET() {
+  noStore();
   const separator = "=========== List By TheFry =============="
 
   try {

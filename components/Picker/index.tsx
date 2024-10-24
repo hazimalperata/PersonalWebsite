@@ -1,6 +1,7 @@
 'use client'
 
 import {useCallback, useRef, useState} from "react";
+import clsx from "clsx";
 
 export default function AccountPicker() {
   const [userName, setUserName] = useState("");
@@ -27,7 +28,9 @@ export default function AccountPicker() {
 
   return (
     <div className="flex flex-col gap-y-5 bg-slate-700 rounded-xl p-8 shadow-2xl max-w-screen-2xl">
-      <button disabled={isProcessing} onClick={getRandomAccount} className="py-2 px-4 bg-slate-500 rounded-full hover:scale-105 transition-all duration-200">
+      <button disabled={isProcessing} onClick={getRandomAccount} className={clsx("py-2 px-4 bg-slate-500 rounded-full hover:scale-105 transition-all duration-200", {
+        "animate-pulse cursor-wait": isProcessing,
+      })}>
         Hesap al
       </button>
       <div className="flex flex-col gap-y-2">
