@@ -17,6 +17,7 @@ export default function AccountPicker() {
     const result = await response.json();
     if (spanRef.current) {
       spanRef.current.innerText = result.content;
+      console.log(result.content)
       const parsedList = result.content.split("\r\n");
       console.log(parsedList)
       if (parsedList) {
