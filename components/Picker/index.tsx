@@ -1,6 +1,6 @@
 'use client'
 
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useRef, useState} from "react";
 
 export default function AccountPicker() {
   const [userName, setUserName] = useState("");
@@ -24,20 +24,6 @@ export default function AccountPicker() {
     }
     setIsProcessing(false);
   }, [isProcessing]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const response = await fetch('/api/get-file');
-  //       const data = await response.json();
-  //       setAccountsFile(data.content);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       console.error("Dosya okunamadı:", error);
-  //       setIsLoading(false);
-  //     }
-  //   })()
-  // }, []);
 
   return (
     <div className="flex flex-col gap-y-5 bg-slate-700 rounded-xl p-8 shadow-2xl max-w-screen-2xl">
