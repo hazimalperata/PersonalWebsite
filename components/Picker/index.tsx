@@ -18,10 +18,13 @@ export default function AccountPicker() {
     if (spanRef.current) {
       spanRef.current.innerText = result.content;
       const parsedList = result.content.split("\r\n");
-      const userNameText = parsedList[2];
-      const passwordText = parsedList[3];
-      setUserName(userNameText.split(" = ")[1]);
-      setPassword(passwordText.split(" = ")[1]);
+      console.log(parsedList)
+      if (parsedList) {
+        const userNameText = parsedList[2];
+        const passwordText = parsedList[3];
+        setUserName(userNameText.split(" = ")[1]);
+        setPassword(passwordText.split(" = ")[1]);
+      }
     }
     setIsProcessing(false);
   }, [isProcessing]);
