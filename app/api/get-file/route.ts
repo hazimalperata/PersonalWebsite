@@ -1,7 +1,7 @@
 import {NextResponse} from 'next/server';
 import {promises as fs} from 'fs';
 
-export const revalidate = 0;
+export const revalidate = 1;
 
 export async function GET() {
   const separator = "=========== List By TheFry =============="

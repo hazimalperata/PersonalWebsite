@@ -1,22 +1,23 @@
 'use client'
 
 import {useCallback, useRef, useState} from "react";
+import {revalidateTag} from "next/cache";
 
 export default function AccountPicker() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-
   const spanRef = useRef<HTMLSpanElement>(null);
 
   const getRandomAccount = useCallback(async () => {
     if (isProcessing) return;
     setIsProcessing(true);
-    const response = await fetch('/api/get-file', {cache: "no-store"});
+    const response = await fetch('/api/get-file', {cache: "no-store",next: { tags: ["data"] }});
     const result = await response.json();
     if (spanRef.current) {
       spanRef.current.innerText = result.content;
       console.log(result.content);
+      revalidateTag('data');
       // const parsedList = result.content.split("\r\n");
       // const userNameText = parsedList[2];
       // const passwordText = parsedList[3];
