@@ -1,0 +1,17 @@
+.backgroundLight {
+  animation: orbiting 10s infinite cubic-bezier(0, 1, 1, 0);
+  scale: 1.8;
+}
+
+@keyframes orbiting {
+  from {
+    top: 100%;
+    transform: translateX(-100%) translateY(0);
+    left: 0;
+  }
+  to {
+    top: 0;
+    transform: translateX(100%) translateY(-100%);
+    left: 100%;
+  }
+}

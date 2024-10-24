@@ -9,13 +9,6 @@ import {useEffect, useState} from "react";
 export default function Header() {
   const [isFixedHeader, setIsFixedHeader] = useState(false);
 
-  // useEffect(() => {
-  //   if (window) {
-  //     const currentScroll = window.scrollY;
-  //     setIsFixedHeader(currentScroll > 150);
-  //   }
-  // }, []);
-
   useEffect(() => {
     const checkScroll = () => {
       if (typeof window !== "undefined") {
@@ -34,7 +27,7 @@ export default function Header() {
     <header
       className={clsx("absolute top-0 flex flex-row items-center justify-center w-full z-header", {
         [styles.stickyHeader]: isFixedHeader,
-        "bg-lightblue dark:bg-darkblue": !isFixedHeader,
+        "bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300": !isFixedHeader,
       })}
     >
       <div className="grid grid-cols-3 max-w-screen-2xl w-full py-2 px-5">
