@@ -13,6 +13,7 @@ export default function AccountPicker() {
     if (isProcessing) return;
     setIsProcessing(true);
     const response = await fetch('/api/get-file', {cache: "no-store"});
+    // const response = await fetch('/accounts.txt',{cache:"no-store"});
     const result = await response.json();
     if (spanRef.current) {
       spanRef.current.innerText = result.content;
