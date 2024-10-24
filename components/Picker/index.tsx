@@ -1,6 +1,6 @@
 'use client'
 
-import {useCallback, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import clsx from "clsx";
 
 export default function AccountPicker() {
@@ -8,12 +8,12 @@ export default function AccountPicker() {
   const [password, setPassword] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const spanRef = useRef<HTMLSpanElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getRandomAccount = useCallback(async () => {
     if (isProcessing) return;
     setIsProcessing(true);
     const response = await fetch('/api/get-file', {cache: "no-store"});
-    // const response = await fetch('/accounts.txt',{cache:"no-store"});
     const result = await response.json();
     if (spanRef.current) {
       spanRef.current.innerText = result.content;
@@ -28,9 +28,20 @@ export default function AccountPicker() {
     setIsProcessing(false);
   }, [isProcessing]);
 
+  useEffect(() => {
+    const prepareAccounts = async () => {
+      const response = await fetch("/api/get-file", {method: 'POST'});
+      const result = await response.json();
+      if (result.ready) {
+        setIsLoading(false);
+      }
+    };
+    prepareAccounts();
+  }, []);
+
   return (
     <div className="flex flex-col gap-y-5 bg-slate-700 rounded-xl p-8 shadow-2xl max-w-screen-2xl">
-      <button disabled={isProcessing} onClick={getRandomAccount} className={clsx("py-2 px-4 bg-slate-500 rounded-full hover:scale-105 transition-all duration-200", {
+      <button disabled={isProcessing || isLoading} onClick={getRandomAccount} className={clsx("py-2 px-4 bg-slate-500 rounded-full hover:scale-105 transition-all duration-200", {
         "animate-pulse cursor-wait": isProcessing,
       })}>
         Hesap al
