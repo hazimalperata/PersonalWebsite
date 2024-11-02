@@ -23,8 +23,8 @@ export default function AccountPicker() {
         const parsedList: string[] = result.content.split("\n");
         if (parsedList) {
           const filtered = parsedList.filter(x => x !== "");
-          const userNameText = filtered[2];
-          const passwordText = filtered[3];
+          const userNameText = filtered[1];
+          const passwordText = filtered[2];
           setUserName(userNameText.split(" = ")[1]);
           setPassword(passwordText.split(" = ")[1]);
         }
