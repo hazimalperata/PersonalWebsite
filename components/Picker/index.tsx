@@ -1,14 +1,16 @@
 'use client'
 
-import {ChangeEvent, useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import clsx from "clsx";
 
 export default function AccountPicker() {
+  const spanRef = useRef<HTMLSpanElement>(null);
+
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const spanRef = useRef<HTMLSpanElement>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCopyDone, setIsCopyDone] = useState(false);
 
   const getRandomAccount = useCallback(async () => {
     if (isProcessing) return;
@@ -32,6 +34,24 @@ export default function AccountPicker() {
     setIsProcessing(false);
   }, [isProcessing]);
 
+  const isValidCopy = useMemo(() => {
+    if (isCopyDone) return;
+    if (userName === "") return;
+    if (password === "") return;
+    return true;
+  }, [isCopyDone, password, userName]);
+
+  const onHandleCopy = useCallback(async () => {
+    if (!isValidCopy) return;
+    try {
+      await navigator.clipboard.writeText([userName, password].join(":"));
+      setIsCopyDone(true);
+      setTimeout(() => setIsCopyDone(false), 2000);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [isValidCopy, password, userName]);
+
   useEffect(() => {
     const prepareAccounts = async () => {
       const response = await fetch("/api/get-file", {method: 'POST'});
@@ -43,48 +63,6 @@ export default function AccountPicker() {
     prepareAccounts();
   }, []);
 
-  // const separator = "=========== List By TheFry ==============";
-
-  // const onUploadFile = async (e: ChangeEvent<HTMLInputElement>) => {
-  //   const files = e.target.files;
-  //   if (files && files.length > 0) {
-  //     const file = files[0];
-  //     const parsed = await file.text();
-  //     const parsedList = parsed.split(separator);
-  //
-  //     // const tried = parsedList[1].split("\r\n");
-  //     // const filtered = tried.filter(x => x !== "");
-  //     // console.log(filtered[3].split(" = ")[1]);
-  //
-  //     let applyList: string[] = [];
-  //
-  //     parsedList.forEach(x => {
-  //       const pars = x.split("\r\n");
-  //       const filteredPars = pars.filter(x => x !== "");
-  //       if (filteredPars) {
-  //         if (Number(filteredPars[3].split(" = ")[1]) >= 10) {
-  //           applyList.push(x);
-  //         }
-  //       }
-  //     });
-  //
-  //     // const result = applyList.join(separator + "\r\n");
-  //
-  //     const newList = applyList.flatMap(e => [e, (separator + "\r")]).slice(0, -1);
-  //
-  //     const blob = new Blob(newList, {type: "text/plain"});
-  //     const url = URL.createObjectURL(blob);
-  //     const link = document.createElement("a");
-  //     link.download = "deneme.txt";
-  //     link.href = url;
-  //     link.click();
-  //     link.remove();
-  //     URL.revokeObjectURL(url);
-  //
-  //     console.log(parsedList.length, applyList.length);
-  //   }
-  // }
-
   return (
     <div className="flex flex-col gap-y-5 bg-slate-700 rounded-xl p-8 shadow-2xl max-w-screen-2xl">
       <button disabled={isProcessing || isLoading} onClick={getRandomAccount} className={clsx("py-2 px-4 bg-slate-500 rounded-full hover:scale-105 transition-all duration-200", {
@@ -92,9 +70,31 @@ export default function AccountPicker() {
       })}>
         Hesap al
       </button>
-      <div className="flex flex-col gap-y-2">
-        <div className="cursor-pointer" onClick={() => navigator.clipboard.writeText(userName)}>Kullanıcı Adı: {userName}</div>
-        <div className="cursor-pointer" onClick={() => navigator.clipboard.writeText(password)}>Şifre: {password}</div>
+      <div className="flex flex-row items-center justify-between gap-5">
+        <div className="flex flex-col gap-y-2">
+          <div>Kullanıcı Adı: {userName}</div>
+          <div>Şifre: {password}</div>
+        </div>
+
+        <button disabled={!isValidCopy} className={clsx("transition-all duration-200 p-2 rounded-xl", {
+          "bg-gray-400": !isValidCopy,
+          "hover:bg-gray-300": isValidCopy,
+          "text-white": !isCopyDone,
+          "text-green-400": isCopyDone,
+        })} onClick={onHandleCopy}>
+          {isCopyDone ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" clipRule="evenodd"
+                    d="M21.5731 4.32992C22.0927 4.81482 22.1453 5.65717 21.6907 6.21135L10.7532 19.5447C10.3003 20.0968 9.5143 20.1549 8.99431 19.6747L2.43182 13.6141C1.90991 13.1321 1.85313 12.29 2.305 11.7333C2.75688 11.1766 3.54629 11.116 4.06821 11.598L9.69062 16.7904L19.8093 4.45534C20.2639 3.90116 21.0536 3.84501 21.5731 4.32992Z"
+                    fill="currentColor"/>
+            </svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          )}
+        </button>
       </div>
       <span ref={spanRef} className="bg-gray-400 rounded-lg py-2 px-4">
           </span>
