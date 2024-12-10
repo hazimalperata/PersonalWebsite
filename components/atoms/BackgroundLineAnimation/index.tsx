@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect, useMemo, useRef} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import {useTheme} from "next-themes";
 import {getRandomInt} from "@/utils/random";
 
@@ -8,16 +8,18 @@ export default function BackgroundLineAnimation() {
   const animationFrameId = useRef<number | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const hueRef = useRef<number>(0);
-  const isInitialized = useRef<boolean>(false);
   const unitCount = 200;
 
-  const {theme} = useTheme();
+  const [isFirstInitial, setIsFirstInitial] = useState(false);
+
+  const {resolvedTheme} = useTheme();
+
 
   const fillStyle = useMemo(() => {
-    return theme === "dark"
+    return resolvedTheme === "dark"
       ? "rgba(0, 0, 0, 0.05)"
       : "rgba(255, 255, 255, 0.05)";
-  }, [theme]);
+  }, [resolvedTheme]);
 
   // Unit sınıfı
   class Unit {
@@ -142,9 +144,8 @@ export default function BackgroundLineAnimation() {
     };
 
     resizeCanvas();
-    if (!isInitialized.current) {
+    if (!isFirstInitial) {
       setTimeout(() => createUnits(), 4000);
-      isInitialized.current = true;
     } else {
       createUnits()
     }
@@ -161,7 +162,12 @@ export default function BackgroundLineAnimation() {
       window.removeEventListener("resize", resizeCanvas);
     };
     // eslint-disable-next-line
-  }, [fillStyle]);
+  }, [isFirstInitial, fillStyle]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsFirstInitial(true), 4000);
+    return () => clearTimeout(timeout);
+  }, [])
 
   return (
     <canvas

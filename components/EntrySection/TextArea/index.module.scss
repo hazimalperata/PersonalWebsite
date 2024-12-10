@@ -7,6 +7,19 @@
   }
 }
 
+@keyframes textAnimation {
+  0% {
+    stroke-dashoffset: 2000;
+  }
+  70% {
+    fill: transparent;
+  }
+  100% {
+    fill: currentColor;
+    stroke-dashoffset: 0;
+  }
+}
+
 .spaceImage {
   animation: fromBlur 4s ease-in-out forwards;
 }
@@ -21,19 +34,6 @@
     scale: 1.4;
     filter: blur(1px);
     opacity: 1;
-  }
-}
-
-@keyframes textAnimation {
-  0% {
-    stroke-dashoffset: 2000;
-  }
-  70% {
-    fill: transparent;
-  }
-  100% {
-    fill: currentColor;
-    stroke-dashoffset: 0;
   }
 }
 
