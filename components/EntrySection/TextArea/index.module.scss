@@ -1,47 +1,67 @@
-@keyframes leftToRightAnimation {
-  70% {
-    opacity: 1;
-    transform: translateX(0px);
-  }
-  95% {
-    opacity: 0;
-    transform: translateX(200px);
+.textFillAnimation {
+  path {
+    fill: transparent;
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: textAnimation 5s ease-in-out 1 forwards;
   }
 }
 
-@keyframes rightToLeftAnimation {
-  70% {
-    opacity: 1;
-    transform: translateX(0px);
-  }
-  95% {
-    opacity: 0;
-    transform: translateX(-200px);
-  }
+.spaceImage {
+  animation: fromBlur 4s ease-in-out forwards;
 }
 
-@keyframes enterText {
+@keyframes fromBlur {
   from {
+    scale: 2;
+    filter: blur(20px);
     opacity: 0;
   }
   to {
-    opacity: 100;
+    scale: 1.4;
+    filter: blur(1px);
+    opacity: 1;
   }
 }
 
-.leftToRightAnimation {
-  animation: leftToRightAnimation linear both;
-  animation-timeline: view();
+@keyframes textAnimation {
+  0% {
+    stroke-dashoffset: 2000;
+  }
+  70% {
+    fill: transparent;
+  }
+  100% {
+    fill: currentColor;
+    stroke-dashoffset: 0;
+  }
 }
 
-.rightToLeftAnimation {
-  animation: rightToLeftAnimation linear both;
-  animation-timeline: view();
+.textContainer {
+  animation: expanding 3.5s ease-in-out forwards;
 }
 
-.gradientText {
-  background: -webkit-linear-gradient(45deg, #0061ff, #0d9488);
-  //background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+@keyframes expanding {
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.typingTextAnimation {
+  animation: typing 3s steps(18) 3.3s, cursor .4s step-end infinite alternate;
+}
+
+@keyframes cursor {
+  50% {
+    border-color: transparent;
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
 }

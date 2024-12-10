@@ -16,14 +16,14 @@ $lineStroke: 2px;
 
   &.upper {
     border-bottom: $verticalLineHeight solid #555;
-    border-left: $lineStroke/2 solid transparent;
-    border-right: $lineStroke/2 solid transparent;
+    border-left: calc($lineStroke/2) solid transparent;
+    border-right: calc($lineStroke/2) solid transparent;
   }
 
   &.bottom {
     border-top: $verticalLineHeight solid #555;
-    border-left: $lineStroke/2 solid transparent;
-    border-right: $lineStroke/2 solid transparent;
+    border-left: calc($lineStroke/2) solid transparent;
+    border-right: calc($lineStroke/2) solid transparent;
   }
 
   &.middle {
@@ -33,8 +33,8 @@ $lineStroke: 2px;
 
 .horizontalLine {
   height: $lineStroke;
-  border-top: $lineStroke/2 solid transparent;
-  border-bottom: $lineStroke/2 solid transparent;
+  border-top: calc($lineStroke/2) solid transparent;
+  border-bottom: calc($lineStroke/2) solid transparent;
 
   &.right {
     animation: rightHorizontalLineAnimation linear both;

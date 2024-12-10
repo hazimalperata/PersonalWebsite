@@ -4,7 +4,7 @@ import {MdFacebook} from "react-icons/md"
 import {RiInstagramFill} from "react-icons/ri"
 
 
-export default function FooterBlock() {
+export default function Footer() {
   return (
     <footer className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
       <div className="max-w-7xl mx-auto px-5 sm:px-10 md:px-12 lg:px-5 grid grid-cols-2 gap-12 lg:gap-16 py-20">

@@ -1,15 +1,20 @@
 import clsx from "clsx";
 import styles from "@/components/EntrySection/TextArea/index.module.scss";
 import React from "react";
-import BackgroundMask from "@/components/BackgroundMask";
+import {NameText} from "@/components/icons";
+import BackgroundLineAnimation from "@/components/atoms/BackgroundLineAnimation";
+
 
 export default function TextArea() {
   return (
-    <div className="relative flex flex-col items-center w-3/4 py-[300px]">
-      <h3 className={clsx("text-2xl", styles.leftToRightAnimation, styles.enterAnimation)}>Welcome,</h3>
-      <h1 className={clsx("text-7xl ml-10 font-semibold", styles.rightToLeftAnimation, styles.gradientText)}>Hazim Alper ATA</h1>
-      <h2 className={clsx("text-4xl ml-6 font-medium", styles.leftToRightAnimation)}>Frontend Web Developer</h2>
-      <BackgroundMask/>
+    <div className="relative w-full flex flex-col items-center justify-center h-screen">
+      <BackgroundLineAnimation/>
+      <NameText className={clsx("z-1 stroke-2 stroke-darkGrey dark:stroke-white", styles.textFillAnimation)}/>
+      <div className={clsx("inline-block z-1 text-6xl opacity-0 select-none", styles.textContainer)}>
+        <span className={clsx("inline-block border-r-2 border-current w-full overflow-hidden whitespace-nowrap font-medium", styles.typingTextAnimation)}>
+          Frontend Developer
+      </span>
+      </div>
     </div>
   )
 }

@@ -6,7 +6,7 @@ import styles from "./index.module.scss";
 import clsx from "clsx";
 import {useEffect, useState} from "react";
 
-export default function Header() {
+export default function Navbar() {
   const [isFixedHeader, setIsFixedHeader] = useState(false);
 
   useEffect(() => {
@@ -38,9 +38,9 @@ export default function Header() {
           <div>A</div>
           <div>A</div>
         </div>
-        <div className="flex justify-center items-center">
+        <span className="flex justify-center items-center">
           LOGO
-        </div>
+        </span>
         <div className="flex flex-row items-center justify-end gap-x-5">
           <ThemeChanger/>
           <LanguageSwitcher/>
