@@ -1,10 +1,15 @@
 import styles from "./index.module.scss";
 import clsx from "clsx";
 
-export default function TextBox({text}:{text:string}) {
+export default function TextBox({ text }: { text: string }) {
   return (
-    <div className={clsx("bg-lightThird dark:bg-darkThird rounded-lg p-2 text-white md:max-w-[400px] max-w-[150px]", styles.textBoxEntry)}>
+    <div
+      className={clsx(
+        "max-w-[150px] rounded-lg bg-lightThird p-2 text-white md:max-w-[400px] dark:bg-darkThird",
+        styles.textBoxEntry,
+      )}
+    >
       {text}
     </div>
-  )
+  );
 }

@@ -1,6 +1,6 @@
-import {CSSProperties} from "react";
+import { CSSProperties } from "react";
 
 export type LoadingCircleProps = {
   className?: string;
-  style?: CSSProperties
-}
+  style?: CSSProperties;
+};

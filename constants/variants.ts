@@ -1,4 +1,4 @@
-import {Variants} from "framer-motion";
+import { Variants } from "framer-motion";
 
 export const backgroundVariant: Variants = {
   initial: {
@@ -13,7 +13,7 @@ export const backgroundVariant: Variants = {
     transition: {
       type: "tween",
       duration: 3,
-    }
+    },
   },
   exit: {
     // scale: 0.95,
@@ -21,15 +21,15 @@ export const backgroundVariant: Variants = {
     transition: {
       type: "tween",
       duration: 1,
-    }
+    },
   },
-}
+};
 
 export const displayVariant: Variants = {
   initial: {
     y: 50,
     opacity: 0,
-    filter: "blur(4px)"
+    filter: "blur(4px)",
   },
   animate: {
     y: 0,
@@ -38,7 +38,7 @@ export const displayVariant: Variants = {
     transition: {
       type: "tween",
       duration: 3,
-    }
+    },
   },
   exit: {
     transition: {
@@ -55,6 +55,6 @@ export const anim = (variants: Variants) => {
     initial: "initial",
     animate: "animate",
     exit: "exit",
-    variants
-  }
-}
+    variants,
+  };
+};

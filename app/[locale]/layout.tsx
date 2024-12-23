@@ -1,29 +1,35 @@
-import {NextIntlClientProvider} from 'next-intl';
-import {getMessages} from 'next-intl/server';
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import React from "react";
-import {Inter} from "next/font/google";
-import clsx from 'clsx';
-import {ThemeProvider} from 'next-themes';
+import { Inter } from "next/font/google";
+import clsx from "clsx";
+import { ThemeProvider } from "next-themes";
 import BackToTopButton from "@/components/atoms/BackToTopButton";
 
 const inter = Inter({
-  subsets: ["latin"]
-})
+  subsets: ["latin"],
+});
 
-export default async function LocaleLayout({children, params}: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
-  const {locale} = await params;
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const messages = await getMessages();
 
   return (
     <html lang={locale} suppressHydrationWarning>
-    <body className={clsx(inter.className, "antialiased")}>
-    <NextIntlClientProvider messages={messages}>
-      <ThemeProvider>
-        {children}
-        <BackToTopButton/>
-      </ThemeProvider>
-    </NextIntlClientProvider>
-    </body>
+      <body className={clsx(inter.className, "antialiased")}>
+        <NextIntlClientProvider messages={messages}>
+          <ThemeProvider>
+            {children}
+            <BackToTopButton />
+          </ThemeProvider>
+        </NextIntlClientProvider>
+      </body>
     </html>
   );
 }

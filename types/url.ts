@@ -1,3 +1,3 @@
-import {UrlObject} from "url";
+import { UrlObject } from "url";
 
 export type Url = string | UrlObject;

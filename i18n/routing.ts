@@ -1,5 +1,5 @@
-import {defineRouting} from 'next-intl/routing';
-import {createNavigation} from 'next-intl/navigation';
+import { defineRouting } from "next-intl/routing";
+import { createNavigation } from "next-intl/navigation";
 
 export enum LOCALES {
   EN = "en",
@@ -17,20 +17,20 @@ export const routing = defineRouting({
   pathnames: {
     // If locales use different paths, you can
     // specify each external path per locale
-    '/deneme': {
-      en: '/trying',
-      tr: '/deneme'
+    "/deneme": {
+      en: "/trying",
+      tr: "/deneme",
     },
-    '/deneme/[slug]': {
-      en: '/trying/[slug]',
-      tr: '/deneme/[slug]'
+    "/deneme/[slug]": {
+      en: "/trying/[slug]",
+      tr: "/deneme/[slug]",
     },
-  }
-
+  },
 });
 
 export type Locale = (typeof routing.locales)[number];
 
 // Lightweight wrappers around Next.js' navigation APIs
 // that will consider the routing configuration
-export const {Link, redirect, usePathname, useRouter} = createNavigation(routing);
+export const { Link, redirect, usePathname, useRouter } =
+  createNavigation(routing);

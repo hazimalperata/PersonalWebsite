@@ -45,7 +45,9 @@
 }
 
 .typingTextAnimation {
-  animation: typing 3s linear 3.3s, cursor .4s step-end infinite alternate;
+  animation:
+    typing 3s linear 3.3s,
+    cursor 0.4s step-end infinite alternate;
 }
 
 @keyframes cursor {

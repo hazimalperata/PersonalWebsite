@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 // @ts-expect-error No type
-import {GLTF, GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 // @ts-expect-error No type
-import {AnimationMixer} from "three/src/animation/AnimationMixer";
+import { AnimationMixer } from "three/src/animation/AnimationMixer";
 
 export default function BlackHole() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -18,7 +18,7 @@ export default function BlackHole() {
         10,
         window.innerWidth / window.innerHeight,
         0.1,
-        1000
+        1000,
       );
 
       camera.position.z = 13;
@@ -28,7 +28,8 @@ export default function BlackHole() {
       let mixer: AnimationMixer;
 
       const loader = new GLTFLoader();
-      loader.load("/blackhole.glb",
+      loader.load(
+        "/blackhole.glb",
         function (gltf: GLTF) {
           if (blackHole === null) {
             blackHole = gltf.scene;
@@ -38,15 +39,13 @@ export default function BlackHole() {
             mixer.clipAction(gltf.animations[0]).play();
           }
         },
-        function () {
-
-        },
+        function () {},
         function (error: unknown) {
           console.log(error);
-        }
+        },
       );
 
-      const renderer = new THREE.WebGLRenderer({alpha: true});
+      const renderer = new THREE.WebGLRenderer({ alpha: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       containerRef.current.appendChild(renderer.domElement);
 
@@ -65,7 +64,7 @@ export default function BlackHole() {
         requestAnimationFrame(reRender3D);
         renderer.render(scene, camera);
         if (mixer) mixer.update(0.001);
-      }
+      };
 
       reRender3D();
 
@@ -73,8 +72,10 @@ export default function BlackHole() {
     }
   }, []);
 
-
   return (
-    <div ref={containerRef} className="flex justify-center absolute -z-1 inset-0 pointer-events-none overflow-hidden blur-[2px]"/>
-  )
+    <div
+      ref={containerRef}
+      className="pointer-events-none absolute inset-0 -z-1 flex justify-center overflow-hidden blur-[2px]"
+    />
+  );
 }

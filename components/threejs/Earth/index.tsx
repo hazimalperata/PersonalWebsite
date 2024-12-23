@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, {useEffect, useRef, useState} from 'react';
-import Button from '@/components/atoms/Button';
-import {AnimatePresence, motion} from 'framer-motion';
-import {anim, backgroundVariant, displayVariant} from '@/constants/variants';
-import {MdVolumeUp} from 'react-icons/md';
-import {getFresnelMat, getStarfield} from '@/components/threejs/Earth/utils';
+import React, { useEffect, useRef, useState } from "react";
+import Button from "@/components/atoms/Button";
+import { AnimatePresence, motion } from "framer-motion";
+import { anim, backgroundVariant, displayVariant } from "@/constants/variants";
+import { MdVolumeUp } from "react-icons/md";
+import { getFresnelMat, getStarfield } from "@/components/threejs/Earth/utils";
 import {
   AdditiveBlending,
   AgXToneMapping,
@@ -21,17 +21,25 @@ import {
   MeshPhongMaterial,
   MeshStandardMaterial,
   PerspectiveCamera,
-  Scene, TextureLoader,
+  Scene,
+  TextureLoader,
   Vector2,
-  WebGLRenderer
+  WebGLRenderer,
 } from "three";
-import {EffectComposer, GLTF, GLTFLoader, OrbitControls, RenderPass, UnrealBloomPass} from "three-stdlib";
+import {
+  EffectComposer,
+  GLTF,
+  GLTFLoader,
+  OrbitControls,
+  RenderPass,
+  UnrealBloomPass,
+} from "three-stdlib";
 // @ts-expect-error There is no type file about the outputpass
-import {OutputPass} from "three/examples/jsm/postprocessing/OutputPass";
-import {useTranslations} from "next-intl";
+import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass";
+import { useTranslations } from "next-intl";
 
 export default function Earth() {
-  const t = useTranslations('404');
+  const t = useTranslations("404");
 
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -50,16 +58,15 @@ export default function Earth() {
       const scene = new Scene();
       const camera = new PerspectiveCamera(75, w / h, 0.1, 1000);
       camera.position.z = 2;
-      const renderer = new WebGLRenderer({antialias: true});
+      const renderer = new WebGLRenderer({ antialias: true });
       renderer.setSize(w, h);
       containerRef.current.appendChild(renderer.domElement);
 
       renderer.toneMapping = AgXToneMapping;
       renderer.outputColorSpace = LinearSRGBColorSpace;
 
-
       const earthGroup = new Group();
-      earthGroup.rotation.z = -23.4 * Math.PI / 180;
+      earthGroup.rotation.z = (-23.4 * Math.PI) / 180;
       scene.add(earthGroup);
       const detail = 12;
       const loader = new TextureLoader();
@@ -85,7 +92,8 @@ export default function Earth() {
       let mixer: AnimationMixer;
 
       const gltfLoader = new GLTFLoader();
-      gltfLoader.load("/textures/blackhole.glb",
+      gltfLoader.load(
+        "/textures/blackhole.glb",
         function (gltf: GLTF) {
           if (blackHole === null) {
             blackHole = gltf.scene;
@@ -97,28 +105,25 @@ export default function Earth() {
             const blackHoleLight = new DirectionalLight("rgb(255,255,255)", 3);
             // const lightHelper = new THREE.DirectionalLightHelper(blackHoleLight, 5); // 5 birim boyutunda
             // scene.add(lightHelper);
-            blackHoleLight.position.y = -5
+            blackHoleLight.position.y = -5;
             blackHole?.add(blackHoleLight);
             scene.add(blackHole!);
             mixer = new AnimationMixer(blackHole!);
             mixer.clipAction(gltf.animations[0]).play();
           }
         },
-        function () {
-
-        },
+        function () {},
         function (error: unknown) {
           console.log(error);
-        }
+        },
       );
-
 
       const cloudsMat = new MeshStandardMaterial({
         map: loader.load("/textures/04_earthcloudmap.jpg"),
         transparent: true,
         opacity: 0.8,
         blending: AdditiveBlending,
-        alphaMap: loader.load('/textures/05_earthcloudmaptrans.jpg'),
+        alphaMap: loader.load("/textures/05_earthcloudmaptrans.jpg"),
       });
       const cloudsMesh = new Mesh(geometry, cloudsMat);
       cloudsMesh.scale.setScalar(1.003);
@@ -129,7 +134,7 @@ export default function Earth() {
       glowMesh.scale.setScalar(1.01);
       earthGroup.add(glowMesh);
 
-      const stars = getStarfield({numStars: 2000});
+      const stars = getStarfield({ numStars: 2000 });
       scene.add(stars);
 
       const sunLight = new DirectionalLight("rgb(255,255,255)", 0.5);
@@ -138,10 +143,11 @@ export default function Earth() {
 
       const renderScene = new RenderPass(scene, camera);
 
-      const bloomPass = new UnrealBloomPass(new Vector2(window.innerWidth, window.innerHeight),
+      const bloomPass = new UnrealBloomPass(
+        new Vector2(window.innerWidth, window.innerHeight),
         1.0,
         0.5,
-        0.1
+        0.1,
       );
 
       const outputPass = new OutputPass();
@@ -159,14 +165,12 @@ export default function Earth() {
       const duration = 40; // Animasyon süresi 40 saniye
 
       function animate() {
-
         if (animationStarted && !runOnce) {
           const elapsedTime = clock.getElapsedTime() - startTime;
           const progress = Math.min(easeInExpo(elapsedTime / duration), 1); // Easing ile dönüşüm ilerlemesi
 
           camera.rotation.z = MathUtils.lerp(0, Math.PI / 1.16, progress);
           camera.position.z = MathUtils.lerp(2, 100, progress);
-
 
           // Animasyon bitmis demektir
           if (progress === 1) {
@@ -176,7 +180,6 @@ export default function Earth() {
               new OrbitControls(camera, renderer.domElement);
               camera.rotation.z = Math.PI / 1.16;
             }
-
           }
         }
         requestAnimationFrame(animate);
@@ -187,9 +190,7 @@ export default function Earth() {
         glowMesh.rotation.y += 0.0002;
         // stars.rotation.y += 0.0002;
         if (mixer) mixer.update(0.001);
-
       }
-
 
       function startAnimation() {
         if (!animationStarted) {
@@ -203,7 +204,6 @@ export default function Earth() {
         }
       }
 
-
       animate();
       buttonRef.current?.addEventListener("click", startAnimation);
 
@@ -213,30 +213,35 @@ export default function Earth() {
         renderer.setSize(window.innerWidth, window.innerHeight);
       }
 
-      window.addEventListener('resize', handleWindowResize, false);
+      window.addEventListener("resize", handleWindowResize, false);
     }
   }, []);
 
   return (
-    <div className="flex justify-center absolute inset-0 overflow-hidden">
-      <AnimatePresence
-        mode="wait"
-      >
+    <div className="absolute inset-0 flex justify-center overflow-hidden">
+      <AnimatePresence mode="wait">
         {!isClickedViewButton && (
-          <motion.div {...anim(backgroundVariant)} className="fixed inset-0 flex items-center bg-black w-screen h-screen z-overlay">
-            <motion.div {...anim(displayVariant)} className="flex flex-col gap-y-5 justify-center p-4 ml-40 rounded-lg bg-white bg-opacity-30 max-w-[450px]">
-              <h1 className="font-medium text-3xl">
-                {t('title')}
-              </h1>
-              <h2>
-                {t('description')}
-              </h2>
+          <motion.div
+            {...anim(backgroundVariant)}
+            className="fixed inset-0 z-overlay flex h-screen w-screen items-center bg-black"
+          >
+            <motion.div
+              {...anim(displayVariant)}
+              className="ml-40 flex max-w-[450px] flex-col justify-center gap-y-5 rounded-lg bg-white bg-opacity-30 p-4"
+            >
+              <h1 className="text-3xl font-medium">{t("title")}</h1>
+              <h2>{t("description")}</h2>
               <div className="flex flex-row justify-between">
-                <Button href="/" label={t('backToMainPage')} variant="filledBlack" size="large"/>
+                <Button
+                  href="/"
+                  label={t("backToMainPage")}
+                  variant="filledBlack"
+                  size="large"
+                />
                 {!isAnimationEnd && (
                   <Button
                     ref={buttonRef}
-                    label={t('lookView')}
+                    label={t("lookView")}
                     variant="borderless"
                     size="medium"
                     icon={MdVolumeUp}
@@ -248,13 +253,21 @@ export default function Earth() {
           </motion.div>
         )}
         {isAnimationEnd && (
-          <motion.div {...anim(displayVariant)} className="fixed flex flex-col gap-y-5 justify-center bottom-5 max-w-[450px]">
-            <Button href="/" label={t('backToMainPage')} variant="filledBlack" size="large"/>
+          <motion.div
+            {...anim(displayVariant)}
+            className="fixed bottom-5 flex max-w-[450px] flex-col justify-center gap-y-5"
+          >
+            <Button
+              href="/"
+              label={t("backToMainPage")}
+              variant="filledBlack"
+              size="large"
+            />
           </motion.div>
         )}
       </AnimatePresence>
-      <audio ref={audioRef} src="/sounds/blackhole_music.mp3"/>
-      <div ref={containerRef} className="w-full h-full"/>
+      <audio ref={audioRef} src="/sounds/blackhole_music.mp3" />
+      <div ref={containerRef} className="h-full w-full" />
     </div>
-  )
+  );
 }

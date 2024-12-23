@@ -1,21 +1,23 @@
-import {useEffect, useRef, useState} from "react"
+import { useEffect, useRef, useState } from "react";
 
-export default function useOnScreen(allowMultiple?: boolean, options?: IntersectionObserverInit) {
+export default function useOnScreen(
+  allowMultiple?: boolean,
+  options?: IntersectionObserverInit,
+) {
   const ref = useRef(null);
 
-  const [isIntersecting, setIntersecting] = useState(false)
+  const [isIntersecting, setIntersecting] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (allowMultiple) {
-          setIntersecting(entry.isIntersecting);
-        } else {
-          if (entry.isIntersecting) {
-            setIntersecting(true);
-          }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (allowMultiple) {
+        setIntersecting(entry.isIntersecting);
+      } else {
+        if (entry.isIntersecting) {
+          setIntersecting(true);
         }
-      }, options);
+      }
+    }, options);
 
     const elem = ref.current;
 
@@ -31,5 +33,5 @@ export default function useOnScreen(allowMultiple?: boolean, options?: Intersect
     };
   }, [allowMultiple, options, ref]);
 
-  return {ref, isIntersecting};
+  return { ref, isIntersecting };
 }

@@ -10,18 +10,23 @@
   transform: translateY(50px);
   filter: blur(20px);
   opacity: 0;
-  transition: transform 1s ease, filter 1s ease, opacity 1s ease;
+  transition:
+    transform 1s ease,
+    filter 1s ease,
+    opacity 1s ease;
 
   &.atScreen {
     transform: translateY(0);
     filter: blur(0);
     opacity: 1;
 
-    &:first-of-type, &:last-of-type {
+    &:first-of-type,
+    &:last-of-type {
       transition-delay: 1.5s;
     }
 
-    &:nth-of-type(2), &:nth-of-type(4) {
+    &:nth-of-type(2),
+    &:nth-of-type(4) {
       transition-delay: 1s;
     }
 

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export function getStarfield({numStars = 2000} = {}) {
+export function getStarfield({ numStars = 2000 } = {}) {
   function randomSpherePoint() {
     const minRadius = 75; // Minimum uzaklık
     const maxRadius = 125; // Maksimum uzaklık
@@ -26,7 +26,7 @@ export function getStarfield({numStars = 2000} = {}) {
   let col;
   for (let i = 0; i < numStars; i += 1) {
     const p = randomSpherePoint();
-    const {pos, hue} = p;
+    const { pos, hue } = p;
     positions.push(p);
     col = new THREE.Color().setHSL(hue, 0.2, Math.random());
     verts.push(pos.x, pos.y, pos.z);
@@ -38,22 +38,23 @@ export function getStarfield({numStars = 2000} = {}) {
   const mat = new THREE.PointsMaterial({
     size: 0.2,
     vertexColors: true,
-    map: new THREE.TextureLoader().load(
-      "/textures/stars/circle.png"
-    ),
+    map: new THREE.TextureLoader().load("/textures/stars/circle.png"),
     transparent: true,
   });
   const points = new THREE.Points(geo, mat);
   return points;
 }
 
-export function getFresnelMat({rimHex = 0x0088ff, facingHex = 0x000000} = {}) {
+export function getFresnelMat({
+  rimHex = 0x0088ff,
+  facingHex = 0x000000,
+} = {}) {
   const uniforms = {
-    color1: {value: new THREE.Color(rimHex)},
-    color2: {value: new THREE.Color(facingHex)},
-    fresnelBias: {value: 0.1},
-    fresnelScale: {value: 1.0},
-    fresnelPower: {value: 4.0},
+    color1: { value: new THREE.Color(rimHex) },
+    color2: { value: new THREE.Color(facingHex) },
+    fresnelBias: { value: 0.1 },
+    fresnelScale: { value: 1.0 },
+    fresnelPower: { value: 4.0 },
   };
   const vs = `
   uniform float fresnelBias;
@@ -96,4 +97,3 @@ export function getFresnelMat({rimHex = 0x0088ff, facingHex = 0x000000} = {}) {
   });
   return fresnelMat;
 }
-

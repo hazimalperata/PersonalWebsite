@@ -1,9 +1,23 @@
 .customMain {
-  &:where([data-theme='light'] *) {
-    background-image: repeating-linear-gradient(to right, transparent 0 49px, rgba(238, 238, 238, 0.8) 49px 50px), repeating-linear-gradient(to bottom, transparent 0 49px, rgba(238, 238, 238, 0.87) 49px 50px);
+  &:where([data-theme="light"] *) {
+    background-image: repeating-linear-gradient(
+        to right,
+        transparent 0 49px,
+        rgba(238, 238, 238, 0.8) 49px 50px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0 49px,
+        rgba(238, 238, 238, 0.87) 49px 50px
+      );
   }
 
-  &:where([data-theme='dark'] *) {
-    background-image: repeating-linear-gradient(to right, transparent 0 49px, #eee1 49px 50px), repeating-linear-gradient(to bottom, transparent 0 49px, #eee1 49px 50px);
+  &:where([data-theme="dark"] *) {
+    background-image: repeating-linear-gradient(
+        to right,
+        transparent 0 49px,
+        #eee1 49px 50px
+      ),
+      repeating-linear-gradient(to bottom, transparent 0 49px, #eee1 49px 50px);
   }
 }

@@ -1,10 +1,9 @@
-import type {Config} from "tailwindcss";
-import typo from '@tailwindcss/typography';
+import type { Config } from "tailwindcss";
+import typo from "@tailwindcss/typography";
 import colors from "tailwindcss/colors";
 
-
 const config: Config = {
-  darkMode: ['selector', '[data-theme="dark"]'],
+  darkMode: ["selector", '[data-theme="dark"]'],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -13,11 +12,11 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
-        'sm': '640px',
-        'md': '768px',
-        'lg': '1025px',
-        'xl': '1280px',
-        '2xl': '1440px',
+        sm: "640px",
+        md: "768px",
+        lg: "1025px",
+        xl: "1280px",
+        "2xl": "1440px",
       },
       colors: {
         black: {
@@ -41,31 +40,31 @@ const config: Config = {
       },
       zIndex: {
         "1": "1",
-        'overlay': '1000',
-        'dropdown': '2000',
-        'header': '3000',
-        'modal': '4000',
+        overlay: "1000",
+        dropdown: "2000",
+        header: "3000",
+        modal: "4000",
       },
       fontSize: {
-        'xxs': '8px',
-        'xs': '10px',
-        'sm': '12px',
-        'tiny': '14px',
-        'base': '16px',
-        'lg': '18px',
-        'xl': '20px',
-        '2xl': '24px',
-        '3xl': '30px',
-        '4xl': '32px',
-        '5xl': '40px',
-        '6xl': '48px',
-        '7xl': '64px',
-        '8xl': '96px',
+        xxs: "8px",
+        xs: "10px",
+        sm: "12px",
+        tiny: "14px",
+        base: "16px",
+        lg: "18px",
+        xl: "20px",
+        "2xl": "24px",
+        "3xl": "30px",
+        "4xl": "32px",
+        "5xl": "40px",
+        "6xl": "48px",
+        "7xl": "64px",
+        "8xl": "96px",
       },
     },
     screens: {
-      "2xl": "1440px"
-    }
+      "2xl": "1440px",
+    },
   },
   plugins: [typo],
 };

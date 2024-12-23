@@ -1,52 +1,79 @@
-'use client'
+"use client";
 
-import clsx from "clsx"
+import clsx from "clsx";
 import styles from "./index.module.scss";
 import useOnScreen from "@/utils/useOnScreen";
-import {useTranslations} from "next-intl";
+import { useTranslations } from "next-intl";
 
 export default function CtaSection() {
-  const t = useTranslations('HomePage.quickStart');
+  const t = useTranslations("HomePage.quickStart");
 
   const titleOnScreen = useOnScreen();
   const descriptionOnScreen = useOnScreen();
   const buttonOnScreen = useOnScreen();
 
-
   return (
     <section className="py-24">
-      <div className="max-w-7xl mx-auto px-5 sm:px-10 md:px-12 lg:px-5">
-        <div className="w-full relative py-8 md:py-10 px-6 md:px-8 rounded-2xl bg-gradient-to-tr from-gray-100 to-gray-200 dark:from-gray-900">
-          <div className="absolute left-0 bottom-0 h-full w-full flex overflow-hidden">
-            <div className={clsx("w-28 h-28 overflow-hidden flex rounded-xl relative blur-2xl", styles.backgroundLight)}>
-              <span className="absolute w-16 h-16 -top-1 -right-1 bg-blue-500 rounded-md rotate-45"/>
-              <span className="absolute w-16 h-16 -bottom-1 -right-1 bg-teal-500 rounded-md rotate-45"/>
-              <span className="absolute w-16 h-16 -bottom-1 -left-1 bg-indigo-300 rounded-md rotate-45"/>
+      <div className="mx-auto max-w-7xl px-5 sm:px-10 md:px-12 lg:px-5">
+        <div className="relative w-full rounded-2xl bg-gradient-to-tr from-gray-100 to-gray-200 px-6 py-8 md:px-8 md:py-10 dark:from-gray-900">
+          <div className="absolute bottom-0 left-0 flex h-full w-full overflow-hidden">
+            <div
+              className={clsx(
+                "relative flex h-28 w-28 overflow-hidden rounded-xl blur-2xl",
+                styles.backgroundLight,
+              )}
+            >
+              <span className="absolute -right-1 -top-1 h-16 w-16 rotate-45 rounded-md bg-blue-500" />
+              <span className="absolute -bottom-1 -right-1 h-16 w-16 rotate-45 rounded-md bg-teal-500" />
+              <span className="absolute -bottom-1 -left-1 h-16 w-16 rotate-45 rounded-md bg-indigo-300" />
             </div>
           </div>
-          <div className="mx-auto text-center max-w-xl md:max-w-2xl relative space-y-8">
-            <h1 ref={titleOnScreen.ref} className={clsx("fromBlurAppear text-3xl/tight sm:text-4xl/tight md:text-5xl/tight font-bold text-blue-950 dark:text-white", {
-              "atScreen": titleOnScreen.isIntersecting
-            })}>
+          <div className="relative mx-auto max-w-xl space-y-8 text-center md:max-w-2xl">
+            <h1
+              ref={titleOnScreen.ref}
+              className={clsx(
+                "fromBlurAppear text-3xl/tight font-bold text-blue-950 sm:text-4xl/tight md:text-5xl/tight dark:text-white",
+                {
+                  atScreen: titleOnScreen.isIntersecting,
+                },
+              )}
+            >
               {t.rich("title", {
-                gradient: (chunks) => <span className="text-transparent bg-clip-text bg-gradient-to-br from-blue-600 from-20% via-indigo-400 via-30% to-teal-600">{chunks}</span>
+                gradient: (chunks) => (
+                  <span className="bg-gradient-to-br from-blue-600 from-20% via-indigo-400 via-30% to-teal-600 bg-clip-text text-transparent">
+                    {chunks}
+                  </span>
+                ),
               })}
             </h1>
-            <p ref={descriptionOnScreen.ref} className={clsx("fromBlurAppear text-gray-700 dark:text-gray-300", {
-              "atScreen": descriptionOnScreen.isIntersecting
-            })}>
-              {t('description')}
+            <p
+              ref={descriptionOnScreen.ref}
+              className={clsx(
+                "fromBlurAppear text-gray-700 dark:text-gray-300",
+                {
+                  atScreen: descriptionOnScreen.isIntersecting,
+                },
+              )}
+            >
+              {t("description")}
             </p>
-            <div className="mx-auto max-w-md sm:max-w-xl flex justify-center">
-              <a href="mailto:hazimalperata@gmail.com" ref={buttonOnScreen.ref} className={clsx("fromBlurAppear outline-none h-12 px-5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white flex items-center hover:scale-105", {
-                "atScreen": buttonOnScreen.isIntersecting
-              })}>
-                {t('getInTouch')}
+            <div className="mx-auto flex max-w-md justify-center sm:max-w-xl">
+              <a
+                href="mailto:hazimalperata@gmail.com"
+                ref={buttonOnScreen.ref}
+                className={clsx(
+                  "fromBlurAppear flex h-12 items-center rounded-xl bg-blue-600 px-5 text-white outline-none hover:scale-105 hover:bg-blue-700",
+                  {
+                    atScreen: buttonOnScreen.isIntersecting,
+                  },
+                )}
+              >
+                {t("getInTouch")}
               </a>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

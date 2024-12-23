@@ -1,8 +1,13 @@
-import React, {CSSProperties} from "react";
-import {IconType} from "react-icons";
-import {Url} from "@/types/url";
+import React, { CSSProperties } from "react";
+import { IconType } from "react-icons";
+import { Url } from "@/types/url";
 
-export type ButtonVariants = "outline" | "borderless" | "filledBlack" | "filledRed" | "filledBlue";
+export type ButtonVariants =
+  | "outline"
+  | "borderless"
+  | "filledBlack"
+  | "filledRed"
+  | "filledBlue";
 export type ButtonSizeVariants = "xSmall" | "small" | "medium" | "large";
 
 type BaseButtonProps = {
@@ -16,7 +21,10 @@ type BaseButtonProps = {
   icon?: IconType;
   href?: Url;
   target?: React.HTMLAttributeAnchorTarget;
-}
+};
 
-export type ButtonProps = BaseButtonProps & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
-
+export type ButtonProps = BaseButtonProps &
+  React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >;
