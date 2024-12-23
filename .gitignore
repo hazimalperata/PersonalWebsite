@@ -38,5 +38,3 @@ next-env.d.ts
 # produced style files
 /styles/tailwind.css
 /.idea
-/.idea
-yarn.lock
