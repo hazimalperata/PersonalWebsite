@@ -4,6 +4,7 @@ import CtaSection from "@/components/Contact";
 import Services from "@/components/Feature";
 import React from "react";
 import DefaultWrapper from "@/components/wrappers/NavbarWrapper";
+import Expertises from "@/components/Expertises";
 
 export default function HomePage() {
 
@@ -11,6 +12,7 @@ export default function HomePage() {
     <DefaultWrapper>
       <EntrySection/>
       <Technologies/>
+      <Expertises/>
       <Services/>
       <CtaSection/>
     </DefaultWrapper>

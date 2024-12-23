@@ -1,10 +1,7 @@
-import {useTranslations} from "next-intl";
+import Earth from "@/components/threejs/Earth";
 
 export default function NotFound() {
-  const t = useTranslations('404');
   return (
-    <div>
-      {t('title')}
-    </div>
+    <Earth/>
   )
 }

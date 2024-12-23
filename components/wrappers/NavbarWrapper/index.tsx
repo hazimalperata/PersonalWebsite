@@ -1,16 +1,14 @@
 import Navbar from "@/components/Navbar";
-import React, {ReactNode} from "react";
+import React from "react";
 import Footer from "@/components/Footer";
+import {DefaultWrapperProps} from "@/components/wrappers/NavbarWrapper/types";
+import clsx from "clsx";
+import styles from "./index.module.scss";
 
-type DefaultWrapperProps = {
-  children: ReactNode | ReactNode[];
-  hideNavbar?: boolean;
-  hideFooter?: boolean;
-}
 
 export default function DefaultWrapper({children, hideNavbar, hideFooter}: DefaultWrapperProps) {
   return (
-    <>
+    <main className={clsx("flex flex-col w-full h-full", styles.customMain)}>
       {!hideNavbar && (
         <Navbar/>
       )}
@@ -18,6 +16,6 @@ export default function DefaultWrapper({children, hideNavbar, hideFooter}: Defau
       {!hideFooter && (
         <Footer/>
       )}
-    </>
+    </main>
   )
 }

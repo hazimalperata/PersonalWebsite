@@ -6,6 +6,7 @@ import Technology, {Tech} from "@/components/Technologies/TechnologySection";
 import React from "react";
 import {CssIcon, HtmlIcon, NextJsIcon, ReactIcon, TailwindIcon} from "@/components/icons";
 import useOnScreen from "@/utils/useOnScreen";
+import {useTranslations} from "next-intl";
 
 export default function Technologies() {
   const technologies: Tech[] = [
@@ -16,6 +17,8 @@ export default function Technologies() {
     {icon: CssIcon, name: "CSS"},
   ]
 
+  const t = useTranslations('HomePage');
+
   const {ref, isIntersecting} = useOnScreen();
 
   return (
@@ -24,7 +27,7 @@ export default function Technologies() {
         <div className="text-center space-y-6 max-w-2xl mx-auto">
           <h1 ref={ref} className={clsx("fromBlurAppear text-3xl font-bold text-gray-900 dark:text-white capitalize", {
             "atScreen": isIntersecting
-          })}>Technologies</h1>
+          })}>{t('technologies')}</h1>
         </div>
         <div className={clsx("flex justify-center flex-wrap w-fit", styles.technologies)}>
           {technologies.map(tech => (

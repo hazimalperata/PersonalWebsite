@@ -10,9 +10,9 @@ export default function LanguageSwitcher() {
 
   return (
     <LanguageSwitcherSelect defaultValue={locale} label={t('label')}>
-      {Object.values(LOCALES).map((cur) => (
-        <option key={cur} value={cur} className="text-tiny text-white dark:text-gray-700 w-min">
-          {t('locale', {locale: cur})}
+      {Object.values(LOCALES).map((locale) => (
+        <option key={locale} value={locale} className="text-tiny w-min">
+          {t('locale', {locale})}
         </option>
       ))}
     </LanguageSwitcherSelect>

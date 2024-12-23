@@ -42,7 +42,7 @@ export default function ThemeChanger() {
   }
 
   return (
-    <div className="flex flex-row rounded-full border border-transparent hover:border-gray-500 dark:hover:border-gray-300 gap-x-1 group transition-all relative h-[42px] w-[42px] hover:w-[118px] overflow-hidden">
+    <div className="flex flex-row rounded-full ml-auto border border-transparent hover:border-gray-500 dark:hover:border-gray-300 gap-x-1 group transition-all relative h-[42px] w-[42px] hover:w-[118px] overflow-hidden">
       {themeOptions.map((option, index) => (
         <button
           key={option.value}

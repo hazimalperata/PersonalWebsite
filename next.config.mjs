@@ -8,8 +8,12 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: "flagsapi.com",
+                hostname: 'flagsapi.com',
                 pathname: '/**',
+            }, {
+                protocol: 'https',
+                hostname: 'cdn.sanity.io',
+                pathname: '/**'
             }
         ]
     }

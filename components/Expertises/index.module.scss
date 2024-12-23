@@ -1,0 +1,24 @@
+@mixin slideUp($delay) {
+  animation: slideUpAnimation 0.5s ease-out forwards;
+  animation-delay: $delay;
+}
+
+@keyframes slideUpAnimation {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animatedItem {
+  opacity: 0;
+  transform: translateY(20px); /* Başlangıçta öğe aşağıda ve görünmez */
+  &.onScreen {
+    @include slideUp(0s); /* Animasyon fonksiyonunu çağırıyoruz */
+  }
+
+}

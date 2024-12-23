@@ -5,6 +5,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import styles from "./index.module.scss";
 import clsx from "clsx";
 import {useEffect, useState} from "react";
+import {PersonalLogo} from "@/components/icons";
 
 export default function Navbar() {
   const [isFixedHeader, setIsFixedHeader] = useState(false);
@@ -31,20 +32,9 @@ export default function Navbar() {
       })}
     >
       <div className="grid grid-cols-3 max-w-screen-2xl w-full py-2 px-5">
-        <div className="flex flex-row items-center gap-x-5">
-          <div>A</div>
-          <div>A</div>
-          <div>A</div>
-          <div>A</div>
-          <div>A</div>
-        </div>
-        <span className="flex justify-center items-center">
-          LOGO
-        </span>
-        <div className="flex flex-row items-center justify-end gap-x-5">
-          <ThemeChanger/>
-          <LanguageSwitcher/>
-        </div>
+        <LanguageSwitcher/>
+        <PersonalLogo className="mx-auto"/>
+        <ThemeChanger/>
       </div>
     </header>
   )

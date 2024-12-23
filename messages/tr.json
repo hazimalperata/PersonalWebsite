@@ -1,10 +1,59 @@
 {
+  "Navbar": {
+  },
   "HomePage": {
-    "title": "Selam dünya!",
-    "about": "Hakkımızda sayfasına git"
+    "heroSection": {
+      "title": "Web Ön Yüz Yazılım Geliştirici"
+    },
+    "experiences": {
+      "inovathings": "Buradaki deneyimim temel atmamda çok etkili oldu. Pandemi öncesi ReactJS ve CSS'in temellerini kavradığım zamanlardı. Burada birkaç web sayfasının tasarımını tamamladım. Tasarımları web siteleerine aktardım. Çok küçük çaplı kod ve sayfa optimizasyonları da yaptım.",
+      "baykar": "Zorunlu stajımı yaptığım, çok güzel zaman geçirdiğim ve hayatımda ilk defa Teknofest'e gitmeme vesile olan bir dönem. Burada bana verilen görevleri titizlikle tamamlamaya çalıştım. Sıfırdan proje geliştirme ve köklü bir firmada çalışmanın inceliklerini öğrendim. Elde ettiğim temel deneyimler ve beraber zaman geçirdiğim bütün insanların hayatımda özel bir yeri olacak.",
+      "birlikte": "Üniversitedeyken deneyim kazanayım düşüncesiyle girdiğim, mezun olduktan sonra bile yılmadan çok çalışarak çok küçük bir ekiple yola koyulduğumuz bir e-ticaret sistemi. Startup temelinde de olsa yapmaya çalıştığı, ortaya koyduğu proje günümüz çoğu şirketinde yer almayan bir sistem bütünü. Burada 3 projenin bütün işlevlerini yürüttüm. Gerek tasarımsal gerek sistemsel bütün ihtiyaçların giderilmesinde tek başıma sorumluluk alarak yürüttüm. Mevcut deneyimlerimin çok büyük bir kısmını buradaki özverili ve azimli çalışmam ile elde ettim.",
+      "soon": "Yakında..."
+    },
+    "technologies": "Temel Teknolojilerim",
+    "expertises": "Hakim Olduğum Kavramlar",
+    "offerArea": {
+      "title": "Size nasıl katkı sağlayabilirim?",
+      "description": "Sağlam bir temel üzerine inşa ettiğimi düşündüğüm kişiliğim ve deneyimlerim ile:",
+      "areas": {
+        "1": {
+          "title": "Ekip Çalışmasında Güçlü Bir Halkayım",
+          "description": "Ekip çalışmasının değerini her zaman ön planda tutarım. Tecrübelerim, takım üyeleriyle uyumlu çalışarak en iyi sonuçları elde etmenin önemini bana öğretti. İletişim, işbirliği ve karşılıklı destek benim için vazgeçilmezdir."
+        },
+        "2": {
+          "title": "Sürekli Öğrenme ve Gelişim Odaklıyım",
+          "description": "Bilgi öğrenmenin sınırı yok! Sadece uzmanlık alanımla değil, farklı disiplinlerde de kendimi geliştirmekten keyif alırım. Teknolojik yeniliklere açık bir şekilde, her yeni bilgiyi bir fırsat olarak görürüm."
+        },
+        "3": {
+          "title": "Detaylara Önem Veririm",
+          "description": "Mükemmel bir sonucun, doğru kararlarla alınmış küçük detaylarda saklı olduğunu biliyorum. Projelerde bu detaylara dikkat ederek kullanıcı deneyimini zenginleştirmek önceliğimdir."
+        },
+        "4": {
+          "title": "Proaktif ve Girişimci Bir Yaklaşıma Sahibim",
+          "description": "Fikir üretmekten çekinmem ve harekete geçerim. İhtiyaç duyulan alanlarda inisiyatif alarak projelerin hızlı ilerlemesine katkı sağlarım. Çözüm odaklıyım ve işleri kolaylaştıran adımları atmaktan çekinmem."
+        },
+        "5": {
+          "title": "Pixel Perfect Tasarımı Önemsiyorum",
+          "description": "Bir web sitesinin, tasarımının aynısını hayata geçirebilmek için planlama ve uygulama aşamalarında büyük bir özen gösteririm. Görsellik ve işlevsellik arasında mükemmel dengeyi kurarım."
+        },
+        "6": {
+          "title": "Problem Çözmede Yetkinim",
+          "description": "Karşılaşılan sorunları birer fırsat olarak görürüm. Her hata bir deneyimdir. Sorunları derinlemesine analiz ederek hızlı ve kalıcı çözümler üretirim. Çözüm odaklı yaklaşımım, projelerin kesintisiz ilerlemesine yardımcı olur."
+        }
+      }
+    },
+    "quickStart": {
+      "title": "Birlikte <gradient>Harika Web Sistemlerine</gradient> İmza Atalım",
+      "description": "Sorularınız mı var? Ya da birlikte çalışabileceğimiz güzel fikriniz mi var? Benimle iletişime geçin, size yardımcı olmaktan mutluluk duyarım.",
+      "getInTouch": "İletişime Geç"
+    }
   },
   "404": {
-    "title": "Bulunamadı"
+    "title": "Aradığın sayfa bulunamadı",
+    "description": "Görüşüne göre kaybolmuşa benziyorsun. Daha fazla kaybolmadan ana sayfaya dönebilirsin ya da bu muazzam uzay manzarasının tadını çıkarabilirsin.",
+    "backToMainPage": "Anasayfaya Dön",
+    "lookView": "Manzaranın Tadını Çıkar"
   },
   "LanguageSwitcher": {
     "label": "Change",
@@ -16,6 +65,7 @@
     "light": "Açık"
   },
   "Common": {
-    "loading": "Yükleniyor..."
+    "loading": "Yükleniyor...",
+    "backToTop": "Başa Dön"
   }
 }

@@ -54,7 +54,7 @@ export default function BlackHole() {
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
 
       ambientLight.position.set(0, 0, 0);
-      scene.add(ambientLight);
+      // scene.add(ambientLight);
 
       // const topLight = new THREE.DirectionalLight(0xffffff, 1);
       //

@@ -1,8 +1,6 @@
 import {defineRouting} from 'next-intl/routing';
 import {createNavigation} from 'next-intl/navigation';
 
-// export const LOCALES = ["en", "tr"]
-
 export enum LOCALES {
   EN = "en",
   TR = "tr",
@@ -15,7 +13,20 @@ export const routing = defineRouting({
   locales: Object.values(LOCALES),
 
   // Used when no locale matches
-  defaultLocale: DEFAULT_LOCALE
+  defaultLocale: DEFAULT_LOCALE,
+  pathnames: {
+    // If locales use different paths, you can
+    // specify each external path per locale
+    '/deneme': {
+      en: '/trying',
+      tr: '/deneme'
+    },
+    '/deneme/[slug]': {
+      en: '/trying/[slug]',
+      tr: '/deneme/[slug]'
+    },
+  }
+
 });
 
 export type Locale = (typeof routing.locales)[number];

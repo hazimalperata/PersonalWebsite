@@ -1,7 +1,10 @@
 import type {Config} from "tailwindcss";
+import typo from '@tailwindcss/typography';
+import colors from "tailwindcss/colors";
+
 
 const config: Config = {
-  darkMode: 'class',
+  darkMode: ['selector', '[data-theme="dark"]'],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -17,6 +20,11 @@ const config: Config = {
         '2xl': '1440px',
       },
       colors: {
+        black: {
+          DEFAULT: colors.black,
+          500: "#414141",
+          700: "#1C1C1E",
+        },
         darkGrey: "#121212",
 
         background: "var(--background)",
@@ -59,6 +67,6 @@ const config: Config = {
       "2xl": "1440px"
     }
   },
-  plugins: [],
+  plugins: [typo],
 };
 export default config;

@@ -20,20 +20,14 @@
   }
 }
 
-.spaceImage {
-  animation: fromBlur 4s ease-in-out forwards;
+.profileImage {
+  animation: fromBlur 2s ease-in-out forwards;
 }
 
 @keyframes fromBlur {
   from {
-    scale: 2;
-    filter: blur(20px);
+    filter: blur(8px);
     opacity: 0;
-  }
-  to {
-    scale: 1.4;
-    filter: blur(1px);
-    opacity: 1;
   }
 }
 
@@ -51,7 +45,7 @@
 }
 
 .typingTextAnimation {
-  animation: typing 3s steps(18) 3.3s, cursor .4s step-end infinite alternate;
+  animation: typing 3s linear 3.3s, cursor .4s step-end infinite alternate;
 }
 
 @keyframes cursor {
@@ -63,5 +57,24 @@
 @keyframes typing {
   from {
     width: 0;
+  }
+}
+
+.mouseWheel {
+  animation: scrollDown 1.5s ease-in infinite;
+}
+
+@keyframes scrollDown {
+  from {
+    opacity: 0.4;
+    top: 6px;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.4;
+    top: 12px;
   }
 }

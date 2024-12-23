@@ -3,8 +3,10 @@
 import clsx from "clsx"
 import styles from "./index.module.scss";
 import useOnScreen from "@/utils/useOnScreen";
+import {useTranslations} from "next-intl";
 
 export default function CtaSection() {
+  const t = useTranslations('HomePage.quickStart');
 
   const titleOnScreen = useOnScreen();
   const descriptionOnScreen = useOnScreen();
@@ -26,20 +28,21 @@ export default function CtaSection() {
             <h1 ref={titleOnScreen.ref} className={clsx("fromBlurAppear text-3xl/tight sm:text-4xl/tight md:text-5xl/tight font-bold text-blue-950 dark:text-white", {
               "atScreen": titleOnScreen.isIntersecting
             })}>
-              Quick Start your <span className="text-transparent bg-clip-text bg-gradient-to-br from-blue-600 from-20% via-indigo-400 via-30% to-teal-600">Strategic Digital</span> Marketing Campaing
+              {t.rich("title", {
+                gradient: (chunks) => <span className="text-transparent bg-clip-text bg-gradient-to-br from-blue-600 from-20% via-indigo-400 via-30% to-teal-600">{chunks}</span>
+              })}
             </h1>
             <p ref={descriptionOnScreen.ref} className={clsx("fromBlurAppear text-gray-700 dark:text-gray-300", {
               "atScreen": descriptionOnScreen.isIntersecting
             })}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente
-              delectus architecto ullam earum
+              {t('description')}
             </p>
             <div className="mx-auto max-w-md sm:max-w-xl flex justify-center">
-              <button ref={buttonOnScreen.ref} className={clsx("fromBlurAppear outline-none h-12 px-5 rounded-xl bg-blue-600 text-white flex items-center", {
+              <a href="mailto:hazimalperata@gmail.com" ref={buttonOnScreen.ref} className={clsx("fromBlurAppear outline-none h-12 px-5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white flex items-center hover:scale-105", {
                 "atScreen": buttonOnScreen.isIntersecting
               })}>
-                Get In touch
-              </button>
+                {t('getInTouch')}
+              </a>
             </div>
           </div>
         </div>

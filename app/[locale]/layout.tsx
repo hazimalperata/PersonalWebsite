@@ -18,7 +18,7 @@ export default async function LocaleLayout({children, params}: { children: React
     <html lang={locale} suppressHydrationWarning>
     <body className={clsx(inter.className, "antialiased")}>
     <NextIntlClientProvider messages={messages}>
-      <ThemeProvider attribute="class">
+      <ThemeProvider>
         {children}
         <BackToTopButton/>
       </ThemeProvider>
