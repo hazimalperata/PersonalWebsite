@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Button from "@/components/atoms/Button";
 import { AnimatePresence, motion } from "framer-motion";
 import { anim, backgroundVariant, displayVariant } from "@/constants/variants";
-import { MdVolumeUp } from "react-icons/md";
 import { getFresnelMat, getStarfield } from "@/components/threejs/Earth/utils";
 import {
   AdditiveBlending,
@@ -37,6 +35,12 @@ import {
 // @ts-expect-error There is no type file about the outputpass
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/routing";
+import { AudioLines } from "lucide-react";
+
+const ANIMATION_DURATION = 40; // Animasyon süresi (saniye)
+const EARTH_DETAIL = 12;
 
 export default function Earth() {
   const t = useTranslations("404");
@@ -68,9 +72,8 @@ export default function Earth() {
       const earthGroup = new Group();
       earthGroup.rotation.z = (-23.4 * Math.PI) / 180;
       scene.add(earthGroup);
-      const detail = 12;
       const loader = new TextureLoader();
-      const geometry = new IcosahedronGeometry(1, detail);
+      const geometry = new IcosahedronGeometry(1, EARTH_DETAIL);
       const material = new MeshPhongMaterial({
         map: loader.load("/textures/00_earthmap1k.jpg"),
         specularMap: loader.load("/textures/02_earthspec1k.jpg"),
@@ -162,12 +165,14 @@ export default function Earth() {
       }
 
       let runOnce = false;
-      const duration = 40; // Animasyon süresi 40 saniye
 
       function animate() {
         if (animationStarted && !runOnce) {
           const elapsedTime = clock.getElapsedTime() - startTime;
-          const progress = Math.min(easeInExpo(elapsedTime / duration), 1); // Easing ile dönüşüm ilerlemesi
+          const progress = Math.min(
+            easeInExpo(elapsedTime / ANIMATION_DURATION),
+            1,
+          ); // Easing ile dönüşüm ilerlemesi
 
           camera.rotation.z = MathUtils.lerp(0, Math.PI / 1.16, progress);
           camera.position.z = MathUtils.lerp(2, 100, progress);
@@ -229,24 +234,25 @@ export default function Earth() {
               {...anim(displayVariant)}
               className="ml-40 flex max-w-[450px] flex-col justify-center gap-y-5 rounded-lg bg-white bg-opacity-30 p-4"
             >
+              <h1 className="text-9xl text-center font-medium">404</h1>
               <h1 className="text-3xl font-medium">{t("title")}</h1>
               <h2>{t("description")}</h2>
               <div className="flex flex-row justify-between">
-                <Button
-                  href="/"
-                  label={t("backToMainPage")}
-                  variant="filledBlack"
-                  size="large"
-                />
+                <Button asChild size="lg">
+                  <Link href="/" className="hover:underline">
+                    {t("backToMainPage")}
+                  </Link>
+                </Button>
                 {!isAnimationEnd && (
                   <Button
                     ref={buttonRef}
-                    label={t("lookView")}
-                    variant="borderless"
-                    size="medium"
-                    icon={MdVolumeUp}
+                    variant="ghost"
+                    size="lg"
                     onClick={() => setIsClickedViewButton(true)}
-                  />
+                  >
+                    {t("lookView")}
+                    <AudioLines />
+                  </Button>
                 )}
               </div>
             </motion.div>
@@ -257,12 +263,11 @@ export default function Earth() {
             {...anim(displayVariant)}
             className="fixed bottom-5 flex max-w-[450px] flex-col justify-center gap-y-5"
           >
-            <Button
-              href="/"
-              label={t("backToMainPage")}
-              variant="filledBlack"
-              size="large"
-            />
+            <Button asChild size="lg">
+              <Link href="/" className="hover:underline">
+                {t("backToMainPage")}
+              </Link>
+            </Button>
           </motion.div>
         )}
       </AnimatePresence>

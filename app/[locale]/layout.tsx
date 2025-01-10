@@ -24,7 +24,7 @@ export default async function LocaleLayout({
     <html lang={locale} suppressHydrationWarning>
       <body className={clsx(inter.className, "antialiased")}>
         <NextIntlClientProvider messages={messages}>
-          <ThemeProvider>
+          <ThemeProvider enableSystem attribute="class" defaultTheme="system">
             {children}
             <BackToTopButton />
           </ThemeProvider>

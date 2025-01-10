@@ -21,6 +21,13 @@ export default [
   ),
   {
     rules: {
+      "prettier/prettier": [
+        "warn",
+        {
+          endOfLine: "auto",
+        },
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "warn",
     },

@@ -12,7 +12,7 @@ import {
   TailwindIcon,
 } from "@/components/icons";
 import useOnScreen from "@/utils/useOnScreen";
-import { useTranslations } from "next-intl";
+import {MessageKeys, useTranslations} from "next-intl";
 
 export default function Technologies() {
   const technologies: Tech[] = [
@@ -40,7 +40,7 @@ export default function Technologies() {
               },
             )}
           >
-            {t("technologies")}
+            {t("technologies" as MessageKeys<string, any>)}
           </h1>
         </div>
         <div

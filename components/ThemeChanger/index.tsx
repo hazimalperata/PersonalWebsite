@@ -37,16 +37,14 @@ export default function ThemeChanger() {
     [setTheme],
   );
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => setMounted(true), []);
 
   if (!mounted) {
     return <ThemeChangerLoading />;
   }
 
   return (
-    <div className="group relative ml-auto flex h-[42px] w-[42px] flex-row gap-x-1 overflow-hidden rounded-full border border-transparent transition-all hover:w-[118px] hover:border-gray-500 dark:hover:border-gray-300">
+    <div className="group/theme relative ml-auto flex h-[42px] w-[42px] flex-row gap-x-1 overflow-hidden rounded-full border border-transparent transition-all hover:w-[118px] hover:border-gray-500 dark:hover:border-gray-300">
       {themeOptions.map((option, index) => (
         <button
           key={option.value}
@@ -58,10 +56,10 @@ export default function ThemeChanger() {
             {
               "z-1 bg-gray-700 text-white dark:bg-gray-200 dark:text-gray-700":
                 theme === option.value,
-              "opacity-0 hover:bg-gray-500 hover:text-gray-200 group-hover:opacity-100 dark:hover:bg-gray-200 dark:hover:text-black":
+              "opacity-0 hover:bg-gray-500 hover:text-gray-200 group-hover:opacity-100 dark:hover:bg-gray-200 dark:hover:text-gray-900":
                 theme !== option.value,
-              "group-hover:left-[38px]": index === 1,
-              "group-hover:left-[76px]": index === 2,
+              "group-hover/theme:left-[38px]": index === 1,
+              "group-hover/theme:left-[76px]": index === 2,
             },
           )}
         >

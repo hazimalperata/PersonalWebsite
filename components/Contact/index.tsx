@@ -4,9 +4,11 @@ import clsx from "clsx";
 import styles from "./index.module.scss";
 import useOnScreen from "@/utils/useOnScreen";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { Mail } from "lucide-react";
 
 export default function CtaSection() {
-  const t = useTranslations("HomePage.quickStart");
+  const t = useTranslations("quickStart");
 
   const titleOnScreen = useOnScreen();
   const descriptionOnScreen = useOnScreen();
@@ -58,18 +60,19 @@ export default function CtaSection() {
               {t("description")}
             </p>
             <div className="mx-auto flex max-w-md justify-center sm:max-w-xl">
-              <a
-                href="mailto:hazimalperata@gmail.com"
+              <Button
+                asChild
+                size="lg"
+                variant="default"
                 ref={buttonOnScreen.ref}
-                className={clsx(
-                  "fromBlurAppear flex h-12 items-center rounded-xl bg-blue-600 px-5 text-white outline-none hover:scale-105 hover:bg-blue-700",
-                  {
-                    atScreen: buttonOnScreen.isIntersecting,
-                  },
-                )}
+                className={clsx("fromBlurAppear", {
+                  atScreen: buttonOnScreen.isIntersecting,
+                })}
               >
-                {t("getInTouch")}
-              </a>
+                <a href="mailto:hazimalperata@gmail.com">
+                  <Mail size={48} /> {t("getInTouch")}
+                </a>
+              </Button>
             </div>
           </div>
         </div>

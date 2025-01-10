@@ -17,13 +17,21 @@ export const routing = defineRouting({
   pathnames: {
     // If locales use different paths, you can
     // specify each external path per locale
-    "/deneme": {
-      en: "/trying",
-      tr: "/deneme",
+    "/": {
+      en: "/",
+      tr: "/",
     },
-    "/deneme/[slug]": {
-      en: "/trying/[slug]",
-      tr: "/deneme/[slug]",
+    "/blog": {
+      en: "/blog",
+      tr: "/blog",
+    },
+    "/blog/[slug]": {
+      en: "/blog/[slug]",
+      tr: "/blog/[slug]",
+    },
+    "/blog/[slug]/[subSlug]": {
+      en: "/blog/[slug]/[subSlug]",
+      tr: "/blog/[slug]/[subSlug]",
     },
   },
 });

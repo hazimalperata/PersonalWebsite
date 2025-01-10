@@ -22,8 +22,8 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-12 px-5 py-20 sm:px-10 md:px-12 lg:gap-16 lg:px-5">
+    <footer className="bg-secondary">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-12 px-5 py-4 sm:px-10 md:px-12 lg:gap-16 lg:px-5">
         <PersonalLogo />
         <div className="flex w-full items-center justify-end gap-3">
           {socialMedias.map((x, index) => (
@@ -45,11 +45,10 @@ export default function Footer() {
         </div>
       </div>
       <div className="mx-auto max-w-7xl px-5 sm:px-10 md:px-12 lg:px-5">
-        <div className="flex w-full justify-center border-t border-gray-200 py-3 text-gray-700 dark:border-t-gray-800 dark:text-gray-300">
+        <div className="flex w-full justify-center border-t border-gray-200 py-3 text-gray-800 dark:border-t-gray-800 dark:text-gray-300">
           <div className="flex text-center sm:min-w-max sm:text-left">
             <p>
-              {" "}
-              ©2024 | Made with <span className="text-xl">💕</span>{" "}
+              ©2025 | Made with <span className="text-xl">💕</span>
             </p>
           </div>
         </div>

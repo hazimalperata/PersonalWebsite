@@ -3,7 +3,7 @@ import typo from "@tailwindcss/typography";
 import colors from "tailwindcss/colors";
 
 const config: Config = {
-  darkMode: ["selector", '[data-theme="dark"]'],
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -20,23 +20,60 @@ const config: Config = {
       },
       colors: {
         black: {
+          "500": "#414141",
+          "700": "#1C1C1E",
           DEFAULT: colors.black,
-          500: "#414141",
-          700: "#1C1C1E",
         },
-        darkGrey: "#121212",
-
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-
-        darkblue: "#25273C",
-        lightblue: "#E4E5F1",
-        darkPrimary: "#CACDE8",
-        lightPrimary: "#D2D3DB",
-        darkSecondary: "#E4E5F1",
-        lightSecondary: "#9394A5",
-        darkThird: "#777A92",
-        lightThird: "#484B6A",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        chart: {
+          "1": "hsl(var(--chart-1))",
+          "2": "hsl(var(--chart-2))",
+          "3": "hsl(var(--chart-3))",
+          "4": "hsl(var(--chart-4))",
+          "5": "hsl(var(--chart-5))",
+        },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+        },
       },
       zIndex: {
         "1": "1",
@@ -61,11 +98,25 @@ const config: Config = {
         "7xl": "64px",
         "8xl": "96px",
       },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            a: {
+              textDecoration: "none",
+            },
+          },
+        },
+      },
     },
     screens: {
       "2xl": "1440px",
     },
   },
-  plugins: [typo],
+  plugins: [typo, require("tailwindcss-animate")],
 };
 export default config;

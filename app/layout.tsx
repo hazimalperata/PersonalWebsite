@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import "@/styles/globals.scss";
-import "@/styles/tailwind.css";
+// import "@/styles/tailwind.css";
 
 type Props = {
   children: ReactNode;

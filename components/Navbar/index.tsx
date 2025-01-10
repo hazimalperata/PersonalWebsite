@@ -25,21 +25,23 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header
-      className={clsx(
-        "absolute top-0 z-header flex w-full flex-row items-center justify-center",
-        {
-          [styles.stickyHeader]: isFixedHeader,
-          "bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300":
-            !isFixedHeader,
-        },
-      )}
-    >
-      <div className="grid w-full max-w-screen-2xl grid-cols-3 px-5 py-2">
-        <LanguageSwitcher />
-        <PersonalLogo className="mx-auto" />
-        <ThemeChanger />
-      </div>
-    </header>
+    <>
+      <span className="h-16" />
+      <header
+        className={clsx(
+          "absolute top-0 z-header flex w-full flex-row items-center justify-center",
+          {
+            [styles.stickyHeader]: isFixedHeader,
+            "bg-secondary": !isFixedHeader,
+          },
+        )}
+      >
+        <div className="grid w-full max-w-screen-2xl grid-cols-3 px-5 py-2">
+          <LanguageSwitcher />
+          <PersonalLogo className="mx-auto" />
+          <ThemeChanger />
+        </div>
+      </header>
+    </>
   );
 }

@@ -11,7 +11,7 @@ export async function POST() {
   try {
     if (!cachedAccounts) {
       // Dosya yoksa oku ve cache'e al
-      const jsonPath = path.join(process.cwd(), "public", "accounts.txt");
+      const jsonPath = path.join(process.cwd(), "public/files", "accounts.txt");
       const jsonContent = await fs.readFile(jsonPath, "utf8");
       cachedAccounts = jsonContent.split(separator);
     }

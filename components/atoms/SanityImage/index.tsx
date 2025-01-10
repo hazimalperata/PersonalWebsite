@@ -13,38 +13,21 @@ type SampleImageComponentProps = {
   };
 };
 
-// Barebones lazy-loaded image component
 export default function SampleImageComponent({
   value,
 }: SampleImageComponentProps) {
-  console.log(value);
-
   return (
     <Image
       src={urlBuilder(client)
         .image(value)
-        .width(500)
+        // .width(500)
         .fit("max")
         .auto("format")
         .url()}
       alt={value._key}
-      // style={{
-      //   // Avoid jumping around with aspect-ratio CSS property
-      //   aspectRatio: width / height,
-      // }}
-      placeholder="blur"
-      blurDataURL=""
       width={500}
       height={500}
+      className="w-full h-auto"
     />
   );
 }
-// <PortableText
-//   value={input}
-//   components={{
-//     // ...
-//     types: {
-//       image: SampleImageComponent,
-//     },
-//   }}
-// />

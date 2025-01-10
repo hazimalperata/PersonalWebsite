@@ -1,9 +1,10 @@
 "use client";
 
-import { IoIosArrowRoundUp } from "react-icons/io";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { useTranslations } from "next-intl";
+import { ArrowUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function BackToTopButton() {
   const t = useTranslations("Common");
@@ -35,18 +36,19 @@ export default function BackToTopButton() {
   }, []);
 
   return (
-    <button
+    <Button
+      variant="outline"
+      onClick={scrollToTop}
       className={clsx(
-        "fixed bottom-0 right-0 z-50 mb-[71px] flex items-center gap-2 rounded-s-full border-y border-l border-gray-300 bg-background px-4 py-2 text-sm transition-opacity duration-500 hover:bg-gray-100 dark:hover:bg-gray-700",
+        "fixed bottom-0 right-0 z-overlay mb-[71px] !rounded-r-none transition-opacity duration-500 !border-r-0",
         {
           "visible opacity-100": isVisible,
           "invisible opacity-0": !isVisible,
         },
       )}
-      onClick={scrollToTop}
     >
       {t("backToTop")}
-      <IoIosArrowRoundUp className="inline-block h-4 w-4" />
-    </button>
+      <ArrowUp className="inline-block" />
+    </Button>
   );
 }

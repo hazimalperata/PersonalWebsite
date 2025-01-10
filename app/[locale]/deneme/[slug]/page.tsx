@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import SampleImageComponent from "@/components/atoms/SanityImage";
 
-const POST_QUERY = `*[_type == "post" && slug.current == $slug && language == $language][0]`;
+const POST_QUERY = `*[_type == "post" && slug.current == $slug && locale == $locale][0]`;
 
 const { projectId, dataset } = client.config();
 const urlFor = (source: SanityImageSource) =>
@@ -23,13 +23,13 @@ export default async function PostPage({
 }: {
   params: Promise<{ slug: string; locale: string }>;
 }) {
-  const promisedParams = await params;
+  const { slug, locale } = await params;
   const post = await client.fetch<SanityDocument>(
     POST_QUERY,
-    { slug: promisedParams.slug, language: promisedParams.locale },
+    { slug: slug, locale: locale },
     options,
   );
-  console.log(post);
+
   if (post === null) return notFound();
 
   const postImageUrl = post.image
@@ -39,7 +39,7 @@ export default async function PostPage({
   return (
     <DefaultWrapper>
       <main className="container mx-auto mt-10 flex min-h-screen max-w-3xl flex-col gap-4 p-8">
-        <Link href="/deneme" className="hover:underline">
+        <Link href="/" className="hover:underline">
           ← Back to posts
         </Link>
         {postImageUrl && (

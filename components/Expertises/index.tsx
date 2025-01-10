@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import React from "react";
 import useOnScreen from "@/utils/useOnScreen";
-import { useTranslations } from "next-intl";
+import {MessageKeys, useTranslations} from "next-intl";
 import styles from "./index.module.scss";
 
 export default function Expertises() {
@@ -48,7 +48,7 @@ export default function Expertises() {
               },
             )}
           >
-            {t("expertises")}
+            {t("expertises" as MessageKeys<string, any>)}
           </h1>
         </div>
         <ul ref={listOnScreen.ref} className="list-disc columns-2 gap-40">

@@ -1,14 +1,43 @@
 {
   "Navbar": {},
+  "Blog": {
+    "welcomeTitle": "Kişisel Bloguma Hoş Geldiniz",
+    "welcomeDescription": "Bu blogda kendi klavyemden dökülen yazıları bulacaksınız. Sosyal medya butonlarıyla kolayca paylaşabilir, yorumlarınızı benimle paylaşabilirsiniz. Keyifli okumalar!",
+    "sideBar": {
+      "allArticles": "Bütün Makaleler"
+    }
+  },
   "HomePage": {
     "heroSection": {
-      "title": "Web Ön Yüz Yazılım Geliştirici"
+      "titles": {
+        "0": "Web Ön Yüz Yazılım Geliştirici",
+        "1": "Teknoloji Tutkunu",
+        "2": "Askeri Tarih ve Teknoloji Meraklısı",
+        "3": "Hedef Odaklı Vizyon",
+        "4": "Bilgiyi Derinleştirmeye Açık"
+      },
+      "bodyText": "Günümüz dünyasında başarılı bir web geliştirme, sadece iyi kod yazmaktan çok daha fazlasını gerektiriyor. Hızlı, estetik ve kullanıcı dostu arayüzler, bir işletmenin dijital kimliğini şekillendiren en önemli unsurlar arasında. Amacım, modern teknolojileri kullanarak her detayı özenle tasarlanmış, hem göz alıcı hem de işlevsel web çözümleri sunmak. Geleceğin web teknolojilerini bugünden kullanarak, fark yaratan projeler için buradayım."
     },
     "experiences": {
-      "inovathings": "Buradaki deneyimim temel atmamda çok etkili oldu. Pandemi öncesi ReactJS ve CSS'in temellerini kavradığım zamanlardı. Burada birkaç web sayfasının tasarımını tamamladım. Tasarımları web siteleerine aktardım. Çok küçük çaplı kod ve sayfa optimizasyonları da yaptım.",
-      "baykar": "Zorunlu stajımı yaptığım, çok güzel zaman geçirdiğim ve hayatımda ilk defa Teknofest'e gitmeme vesile olan bir dönem. Burada bana verilen görevleri titizlikle tamamlamaya çalıştım. Sıfırdan proje geliştirme ve köklü bir firmada çalışmanın inceliklerini öğrendim. Elde ettiğim temel deneyimler ve beraber zaman geçirdiğim bütün insanların hayatımda özel bir yeri olacak.",
-      "birlikte": "Üniversitedeyken deneyim kazanayım düşüncesiyle girdiğim, mezun olduktan sonra bile yılmadan çok çalışarak çok küçük bir ekiple yola koyulduğumuz bir e-ticaret sistemi. Startup temelinde de olsa yapmaya çalıştığı, ortaya koyduğu proje günümüz çoğu şirketinde yer almayan bir sistem bütünü. Burada 3 projenin bütün işlevlerini yürüttüm. Gerek tasarımsal gerek sistemsel bütün ihtiyaçların giderilmesinde tek başıma sorumluluk alarak yürüttüm. Mevcut deneyimlerimin çok büyük bir kısmını buradaki özverili ve azimli çalışmam ile elde ettim.",
-      "soon": "Yakında..."
+      "title": "Deneyimlerim",
+      "list": {
+        "inovathings": {
+          "title": "Inovathings",
+          "description": "Buradaki deneyimim temel atmamda çok etkili oldu. Pandemi öncesi ReactJS ve CSS'in temellerini kavradığım zamanlardı. Burada birkaç web sayfasının tasarımını tamamladım. Tasarımları web sitelerine aktardım. Çok küçük çaplı kod ve sayfa optimizasyonları da yaptım.",
+          "period": "03/2021 – 04/2021"
+        },
+        "baykar": {
+          "title": "Baykar Teknoloji",
+          "description": "Zorunlu stajımı yaptığım, çok güzel zaman geçirdiğim ve hayatımda ilk defa Teknofest'e gitmeme vesile olan bir dönem. Burada bana verilen görevleri titizlikle tamamlamaya çalıştım. Sıfırdan proje geliştirme ve köklü bir firmada çalışmanın inceliklerini öğrendim. Elde ettiğim temel deneyimler ve beraber zaman geçirdiğim bütün insanların hayatımda özel bir yeri olacak.",
+          "period": "08/2023 – 10/2023"
+        },
+        "1likte": {
+          "title": "1likte E-Ticaret Platformu",
+          "description": "Üniversitedeyken deneyim kazanayım düşüncesiyle girdiğim, mezun olduktan sonra bile yılmadan çok çalışarak çok küçük bir ekiple yola koyulduğumuz bir e-ticaret sistemi. Startup temelinde de olsa yapmaya çalıştığı, ortaya koyduğu proje günümüz çoğu şirketinde yer almayan bir sistem bütünü. Burada 3 projenin bütün işlevlerini yürüttüm. Gerek tasarımsal gerek sistemsel bütün ihtiyaçların giderilmesinde tek başıma sorumluluk alarak yürüttüm. Mevcut deneyimlerimin çok büyük bir kısmını buradaki özverili ve azimli çalışmam ile elde ettim.",
+          "period": "11/2021 – 12/2024"
+        }
+      },
+      "soon": "Çok daha fazlası yakında..."
     },
     "technologies": "Temel Teknolojilerim",
     "expertises": "Hakim Olduğum Kavramlar",
@@ -55,7 +84,7 @@
     "lookView": "Manzaranın Tadını Çıkar"
   },
   "LanguageSwitcher": {
-    "label": "Change",
+    "label": "Dil Değiştir",
     "locale": "{locale, select, tr {\uD83C\uDDF9\uD83C\uDDF7 Türkçe} en {\uD83C\uDDFA\uD83C\uDDF8 İngilizce} other {Unknown}}"
   },
   "ThemeChanger": {

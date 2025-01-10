@@ -43,7 +43,7 @@ export default async function IndexPage({
           <li className="hover:underline" key={post._id}>
             <Link
               href={{
-                pathname: "/deneme/[slug]",
+                pathname: "/blog/[slug]",
                 params: { slug: post.slug.current },
               }}
             >
