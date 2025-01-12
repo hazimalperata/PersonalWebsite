@@ -56,7 +56,7 @@ export default function ThemeChanger() {
             {
               "z-1 bg-gray-700 text-white dark:bg-gray-200 dark:text-gray-700":
                 theme === option.value,
-              "opacity-0 hover:bg-gray-500 hover:text-gray-200 group-hover:opacity-100 dark:hover:bg-gray-200 dark:hover:text-gray-900":
+              "opacity-0 hover:bg-gray-500 hover:text-gray-200 group-hover/theme:opacity-100 dark:hover:bg-gray-200 dark:hover:text-gray-900":
                 theme !== option.value,
               "group-hover/theme:left-[38px]": index === 1,
               "group-hover/theme:left-[76px]": index === 2,
