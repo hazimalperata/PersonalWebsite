@@ -43,7 +43,6 @@ export default function SideBar({ blogs }: { blogs: Blog[] }) {
 
   const getIcon = (iconName: string) => {
     const Component = LucideIcons[iconName as LucideIconKey] as FC;
-    // TODO
     return <Component />;
   };
 

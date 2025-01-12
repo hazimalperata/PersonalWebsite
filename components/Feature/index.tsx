@@ -14,7 +14,7 @@ import {
 } from "react-icons/md";
 
 export default function Services() {
-  const t = useTranslations("offerArea");
+  const t = useTranslations("HomePage.offerArea");
 
   const services: Service[] = [
     {

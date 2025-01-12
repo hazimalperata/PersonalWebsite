@@ -38,44 +38,44 @@
         }
       },
       "soon": "Much more is coming soon..."
-    }
-  },
-  "technologies": "My Core Technologies",
-  "expertises": "Concepts I Master",
-  "offerArea": {
-    "title": "How can I contribute to you?",
-    "description": "With my personality and experiences that I believe are built on a solid foundation:",
-    "areas": {
-      "1": {
-        "title": "I am a Strong Link in Teamwork",
-        "description": "I always prioritize the value of teamwork. My experiences have taught me the importance of working harmoniously with team members to achieve the best results. Communication, collaboration, and mutual support are indispensable to me."
-      },
-      "2": {
-        "title": "I am Focused on Continuous Learning and Development",
-        "description": "There is no limit to learning! I enjoy developing myself not only in my area of expertise but also in other disciplines. I remain open to technological innovations and see every new piece of knowledge as an opportunity."
-      },
-      "3": {
-        "title": "I Pay Attention to Detail",
-        "description": "I know that the perfect result is hidden in small details made with the right decisions. My priority in projects is to enrich the user experience by paying attention to these details."
-      },
-      "4": {
-        "title": "I Have a Proactive and Entrepreneurial Approach",
-        "description": "I am not afraid to generate ideas and take action. I contribute to the fast progress of projects by taking initiative in areas where needed. I am solution-oriented and do not hesitate to take steps that simplify tasks."
-      },
-      "5": {
-        "title": "I Care About Pixel-Perfect Design",
-        "description": "To bring a website's design to life exactly as it is, I pay great attention to the planning and implementation stages. I establish the perfect balance between visual appeal and functionality."
-      },
-      "6": {
-        "title": "I am Skilled in Problem Solving",
-        "description": "I see encountered problems as opportunities. Every mistake is an experience. I analyze problems deeply and provide quick and permanent solutions. My solution-oriented approach helps projects progress without interruptions."
+    },
+    "technologies": "My Core Technologies",
+    "expertises": "Concepts I Master",
+    "offerArea": {
+      "title": "How can I contribute to you?",
+      "description": "With my personality and experiences that I believe are built on a solid foundation:",
+      "areas": {
+        "1": {
+          "title": "I am a Strong Link in Teamwork",
+          "description": "I always prioritize the value of teamwork. My experiences have taught me the importance of working harmoniously with team members to achieve the best results. Communication, collaboration, and mutual support are indispensable to me."
+        },
+        "2": {
+          "title": "I am Focused on Continuous Learning and Development",
+          "description": "There is no limit to learning! I enjoy developing myself not only in my area of expertise but also in other disciplines. I remain open to technological innovations and see every new piece of knowledge as an opportunity."
+        },
+        "3": {
+          "title": "I Pay Attention to Detail",
+          "description": "I know that the perfect result is hidden in small details made with the right decisions. My priority in projects is to enrich the user experience by paying attention to these details."
+        },
+        "4": {
+          "title": "I Have a Proactive and Entrepreneurial Approach",
+          "description": "I am not afraid to generate ideas and take action. I contribute to the fast progress of projects by taking initiative in areas where needed. I am solution-oriented and do not hesitate to take steps that simplify tasks."
+        },
+        "5": {
+          "title": "I Care About Pixel-Perfect Design",
+          "description": "To bring a website's design to life exactly as it is, I pay great attention to the planning and implementation stages. I establish the perfect balance between visual appeal and functionality."
+        },
+        "6": {
+          "title": "I am Skilled in Problem Solving",
+          "description": "I see encountered problems as opportunities. Every mistake is an experience. I analyze problems deeply and provide quick and permanent solutions. My solution-oriented approach helps projects progress without interruptions."
+        }
       }
+    },
+    "quickStart": {
+      "title": "Let's Create <gradient>Great Web Systems</gradient> Together",
+      "description": "Do you have any questions? Or do you have a great idea we could work on together? Get in touch with me, and I'd be happy to assist you.",
+      "getInTouch": "Get in Touch"
     }
-  },
-  "quickStart": {
-    "title": "Let's Create <gradient>Great Web Systems</gradient> Together",
-    "description": "Do you have any questions? Or do you have a great idea we could work on together? Get in touch with me, and I'd be happy to assist you.",
-    "getInTouch": "Get in Touch"
   },
   "404": {
     "title": "Page Not Found",

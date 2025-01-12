@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
 
 export default function CtaSection() {
-  const t = useTranslations("quickStart");
+  const t = useTranslations("HomePage.quickStart");
 
   const titleOnScreen = useOnScreen();
   const descriptionOnScreen = useOnScreen();
