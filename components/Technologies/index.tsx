@@ -12,7 +12,7 @@ import {
   TailwindIcon,
 } from "@/components/icons";
 import useOnScreen from "@/utils/useOnScreen";
-import {MessageKeys, useTranslations} from "next-intl";
+import { MessageKeys, useTranslations } from "next-intl";
 
 export default function Technologies() {
   const technologies: Tech[] = [
@@ -34,7 +34,7 @@ export default function Technologies() {
           <h1
             ref={ref}
             className={clsx(
-              "fromBlurAppear text-3xl font-bold capitalize text-gray-900 dark:text-white",
+              "fromBlurAppear text-2xl lg:text-3xl font-bold capitalize text-gray-900 dark:text-white",
               {
                 atScreen: isIntersecting,
               },
@@ -45,7 +45,7 @@ export default function Technologies() {
         </div>
         <div
           className={clsx(
-            "flex w-fit flex-wrap justify-center",
+            "grid grid-rows-5 sm:grid-rows-none sm:grid-cols-5 justify-center",
             styles.technologies,
           )}
         >

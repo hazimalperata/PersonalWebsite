@@ -6,7 +6,7 @@ import { Link } from "@/i18n/routing";
 import DefaultWrapper from "@/components/wrappers/NavbarWrapper";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import SampleImageComponent from "@/components/atoms/SanityImage";
+import SampleImageComponent from "../../../../components/sanity/SanityImage";
 
 const POST_QUERY = `*[_type == "post" && slug.current == $slug && locale == $locale][0]`;
 

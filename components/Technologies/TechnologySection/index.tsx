@@ -21,16 +21,12 @@ export default function Technology({ tech }: TechnologyProps) {
     <div
       ref={ref}
       title={tech.name}
-      className={clsx(
-        "group rounded-lg px-6 py-4 transition-all",
-        styles.technology,
-        {
-          [styles.atScreen]: isIntersecting,
-        },
-      )}
+      className={clsx("px-6 py-4 transition-all", styles.technology, {
+        [styles.atScreen]: isIntersecting,
+      })}
     >
       {tech.icon({
-        className: "h-7 sm:h-10 w-auto ease-linear duration-300",
+        className: "h-10 w-auto ease-linear duration-300",
         width: 800,
         height: 250,
       })}

@@ -62,13 +62,6 @@ export async function getAllContent(locale: string) {
   return await client.fetch<Blog[]>(CONTENTS_QUERY, { locale }, options);
 }
 
-// `
-//     "_translations": *[_type == "translation.metadata" && references(^._id)].translations[_key == $locale].value->{
-//       slug,
-//       locale
-//     }
-// `;
-
 const subBlogFromSlugQuery = `
   *[_type == "subBlog" && slug.current == $slug][0] {
     _id,

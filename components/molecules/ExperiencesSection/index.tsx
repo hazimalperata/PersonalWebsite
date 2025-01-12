@@ -43,13 +43,13 @@ export default function ExperiencesSection() {
   }, [api]);
 
   return (
-    <section className="py-20">
-      <div className="mx-auto flex max-w-7xl flex-col items-center space-y-10 px-5 sm:px-10 md:px-12 lg:px-5">
+    <div className="w-full px-5">
+      <div className="mx-auto py-5 md:py-12 lg:py-14 flex max-w-screen-2xl min-w-0 flex-col items-center space-y-10">
         <div className="mx-auto max-w-2xl space-y-6 text-center">
           <h1
             ref={ref}
             className={clsx(
-              "fromBlurAppear text-3xl font-bold capitalize text-gray-900 dark:text-white",
+              "fromBlurAppear md:text-xl lg:text-3xl font-bold capitalize text-gray-900 dark:text-white",
               {
                 atScreen: isIntersecting,
               },
@@ -58,13 +58,16 @@ export default function ExperiencesSection() {
             {t("title")}
           </h1>
         </div>
-        <TreeAnimation step={current} />
-        <div className="flex flex-row gap-10">
+        <TreeAnimation step={current} className="w-full" />
+        <div className="flex flex-row gap-10 w-full">
           <Carousel setApi={setApi} className="w-full">
-            <CarouselContent className="flex ml-5">
+            <CarouselContent className="flex">
               {keys.map((pair) => (
-                <CarouselItem className="basis-[90%] pl-5" key={pair.key}>
-                  <div className="bg-accent rounded-md h-full lg:col-span-2 p-6 flex justify-between flex-row gap-x-6 min-w-0">
+                <CarouselItem
+                  className="basis-[90%] first:pl-5 last:pr-5"
+                  key={pair.key}
+                >
+                  <div className="bg-accent rounded-md h-full p-3 md:p-6 flex justify-between flex-row gap-x-2 md:gap-x-6">
                     <Image
                       src={pair.logo}
                       alt={t(
@@ -74,11 +77,11 @@ export default function ExperiencesSection() {
                       width={150}
                       height={150}
                       quality={100}
-                      className="rounded-full flex-shrink-0 h-fit"
+                      className="rounded-full flex-shrink-0 h-fit w-12 md:w-24 lg:w-32 lg:h-32"
                     />
-                    <div className="flex flex-col justify-between gap-4">
+                    <div className="flex flex-col justify-between gap-2 md:gap-4">
                       <div className="flex flex-col">
-                        <h3 className="text-xl tracking-tight">
+                        <h3 className="text-lg lg:text-xl tracking-tight">
                           {t(
                             `list.${pair.key}.title` as MessageKeys<
                               string,
@@ -86,7 +89,7 @@ export default function ExperiencesSection() {
                             >,
                           )}
                         </h3>
-                        <p className="text-muted-foreground text-base">
+                        <p className="text-muted-foreground text-sm lg:text-base">
                           {t(
                             `list.${pair.key}.description` as MessageKeys<
                               string,
@@ -95,7 +98,7 @@ export default function ExperiencesSection() {
                           )}
                         </p>
                       </div>
-                      <p className="text-muted-foreground text-base">
+                      <p className="text-muted-foreground text-sm lg:text-base">
                         {t(
                           `list.${pair.key}.period` as MessageKeys<string, any>,
                         )}
@@ -107,8 +110,8 @@ export default function ExperiencesSection() {
             </CarouselContent>
           </Carousel>
         </div>
-        <span className="text-xl">{t("soon")}</span>
+        <span className="text-lg md:text-xl">{t("soon")}</span>
       </div>
-    </section>
+    </div>
   );
 }

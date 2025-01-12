@@ -2,7 +2,7 @@
 
 import { PortableText } from "next-sanity";
 import HeadingWithIdBlock from "@/components/sanity/HeadingWithIdBlock";
-import SampleImageComponent from "@/components/atoms/SanityImage";
+import SampleImageComponent from "../SanityImage";
 import CodeBlock from "@/components/sanity/CodeBlock";
 import React from "react";
 import InternalLinkBlock from "@/components/sanity/InternalLinkBlock";

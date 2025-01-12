@@ -93,7 +93,7 @@ export default function Services() {
             <ServiceCard key={service.id} service={service} />
           ))}
           <div
-            className="absolute left-1/2 top-1/2 -z-1 h-[300px] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-2xl"
+            className="absolute left-1/2 top-1/2 -z-1 h-3/5 w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-2xl"
             style={{
               backgroundSize: "200% auto",
               backgroundImage: "linear-gradient(-45deg,red,blue)",

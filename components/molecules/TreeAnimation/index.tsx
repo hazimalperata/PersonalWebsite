@@ -2,7 +2,7 @@ import styles from "./index.module.scss";
 import clsx from "clsx";
 import { TreeAnimationProps } from "@/components/molecules/TreeAnimation/types";
 
-export default function TreeAnimation({ step }: TreeAnimationProps) {
+export default function TreeAnimation({ step, className }: TreeAnimationProps) {
   return (
     <svg
       width="294"
@@ -10,7 +10,7 @@ export default function TreeAnimation({ step }: TreeAnimationProps) {
       viewBox="0 0 1473 1270"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={clsx(styles.animatedPath, styles[`step${step}`])}
+      className={clsx(styles.animatedPath, styles[`step${step}`], className)}
     >
       <path
         d="M709 1266C709 1266 703.822 876.902 572 712C436.027 541.906 176.347 596.615 383.553 648.607C546.765 689.56 273.045 354 462 354C715.023 300.794 424.6 105 424.6 105"

@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import React from "react";
 import useOnScreen from "@/utils/useOnScreen";
-import {MessageKeys, useTranslations} from "next-intl";
+import { MessageKeys, useTranslations } from "next-intl";
 import styles from "./index.module.scss";
 
 export default function Expertises() {
@@ -42,7 +42,7 @@ export default function Expertises() {
           <h1
             ref={ref}
             className={clsx(
-              "fromBlurAppear text-3xl font-bold capitalize text-gray-900 dark:text-white",
+              "fromBlurAppear text-2xl lg:text-3xl font-bold capitalize text-gray-900 dark:text-white",
               {
                 atScreen: isIntersecting,
               },
@@ -51,7 +51,10 @@ export default function Expertises() {
             {t("expertises" as MessageKeys<string, any>)}
           </h1>
         </div>
-        <ul ref={listOnScreen.ref} className="list-disc columns-2 gap-40">
+        <ul
+          ref={listOnScreen.ref}
+          className="list-disc columns-2 px-5 gap-5 sm:gap-10 lg:gap-32 w-full max-w-4xl mx-auto"
+        >
           {expertises.map((x, index) => {
             const animationTime = 0.3;
             const totalItems = expertises.length;
@@ -65,7 +68,7 @@ export default function Expertises() {
               <li
                 key={x}
                 className={clsx(
-                  "my-2 text-lg font-medium",
+                  "my-1 sm:my-2 text-base lg:text-lg font-medium",
                   styles.animatedItem,
                   {
                     [styles.onScreen]: listOnScreen.isIntersecting,

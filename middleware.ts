@@ -7,14 +7,13 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const [, locale, ...segments] = pathname.split("/");
 
-  // Eğer "blog" path'ine ait değilse, direkt olarak intl middleware'ı çalıştır
   if (!segments.includes("blog")) {
     const handleI18nRouting = createMiddleware(routing);
     return handleI18nRouting(request);
   }
 
-  const slug = segments[1]; // İlk segment (ör. 'sapiens-hakkinda')
-  const subSlug = segments[2]; // İkinci segment (ör. 'baslangic')
+  const slug = segments[1];
+  const subSlug = segments[2];
 
   if (slug && subSlug) {
     const matchedArticle = await getArticleFromSubSlug(locale, subSlug);
@@ -34,7 +33,6 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Eğer eşleşen bir içerik yoksa, intl middleware'ı çalıştır
   const handleI18nRouting = createMiddleware(routing);
   return handleI18nRouting(request);
 }

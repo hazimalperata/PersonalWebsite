@@ -17,10 +17,10 @@ export default function ServiceCard({ service }: ServiceCardProps) {
 
   return (
     <div
-      className="overflow-hidden rounded-3xl bg-gray-100 bg-opacity-60 p-5 backdrop-blur-2xl transition-all hover:scale-110 sm:p-6 lg:p-8 dark:bg-gray-900 dark:bg-opacity-35"
+      className="overflow-hidden text-center sm:text-start rounded-3xl bg-gray-100 bg-opacity-60 p-5 backdrop-blur-2xl transition-all lg:hover:scale-110 sm:p-6 lg:p-8 dark:bg-gray-900 dark:bg-opacity-35"
       style={{ transformOrigin: transformValues }}
     >
-      <div className="w-max rounded-xl bg-gray-200 p-3 text-gray-900 dark:bg-gray-800 dark:text-white">
+      <div className="w-max mx-auto sm:m-0 rounded-xl bg-gray-200 p-3 text-gray-900 dark:bg-gray-800 dark:text-white">
         {icon({ size: 24 })}
       </div>
       <div className="mt-4 space-y-2">
