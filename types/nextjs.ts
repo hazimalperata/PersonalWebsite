@@ -1,4 +1,4 @@
-export type NextPageProps<T = unknown, K = unknown> = {
+export type NextPageProps<T = never, K = never> = {
   params: Promise<T>;
-  searchParams: Promise<K>;
+  searchParams: K;
 };

@@ -6,8 +6,13 @@ import styles from "./index.module.scss";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { PersonalLogo } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 export default function Navbar() {
+  const t = useTranslations("Navbar");
+
   const [isFixedHeader, setIsFixedHeader] = useState(false);
 
   useEffect(() => {
@@ -37,9 +42,22 @@ export default function Navbar() {
         )}
       >
         <div className="grid w-full max-w-screen-2xl grid-cols-3 px-5 py-2">
-          <LanguageSwitcher />
+          <nav className="flex flex-row items-center gap-x-2">
+            <Button asChild variant="link">
+              <Link href="/blog">Blog</Link>
+            </Button>
+            <Button asChild variant="link">
+              <Link href="/">{t("aboutMe")}</Link>
+            </Button>
+            <Button asChild variant="link">
+              <Link href="/">{t("cv")}</Link>
+            </Button>
+          </nav>
           <PersonalLogo className="mx-auto" />
-          <ThemeChanger />
+          <div className="flex flex-row items-center justify-items-end gap-x-4">
+            <ThemeChanger />
+            <LanguageSwitcher />
+          </div>
         </div>
       </header>
     </>

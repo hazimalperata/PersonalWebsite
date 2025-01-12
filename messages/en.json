@@ -1,5 +1,8 @@
 {
-  "Navbar": {},
+  "Navbar": {
+    "cv": "Course of Life",
+    "aboutMe": "About Me"
+  },
   "Blog": {
     "welcomeTitle": "Welcome to the my blog",
     "welcomeDescription": "Bu blogda kendi klavyemden dökülen yazıları bulacaksınız. Sosyal medya butonlarıyla kolayca paylaşabilir, yorumlarınızı benimle paylaşabilirsiniz. Keyifli okumalar!",

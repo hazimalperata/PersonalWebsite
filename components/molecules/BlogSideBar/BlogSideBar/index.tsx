@@ -36,7 +36,7 @@ import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import imageUrlBuilder from "@sanity/image-url";
 import Image from "next/image";
 
-export default function SideBar({ blogs }: { blogs: Blog[] }) {
+export default function BlogSideBar({ blogs }: { blogs: Blog[] }) {
   const t = useTranslations("Blog.sideBar");
 
   const { state } = useSidebar();
@@ -147,9 +147,9 @@ export default function SideBar({ blogs }: { blogs: Blog[] }) {
         <SidebarMenu>
           <SidebarMenuItem>
             {state === "expanded" && (
-              <div className="flex flex-row items-center justify-between">
-                <LanguageSwitcher />
+              <div className="flex flex-row items-center justify-items-end gap-x-2">
                 <ThemeChanger />
+                <LanguageSwitcher />
               </div>
             )}
           </SidebarMenuItem>

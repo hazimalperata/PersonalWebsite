@@ -33,7 +33,7 @@ export default async function IndexPage({
     { language: locale },
     options,
   );
-  console.log(posts);
+  // console.log(posts);
 
   return (
     <main className="container mx-auto min-h-screen max-w-3xl p-8">

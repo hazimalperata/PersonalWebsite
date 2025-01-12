@@ -11,6 +11,31 @@ div {
   cursor: default;
 }
 
+// Blog content
+.prose {
+  ul ul {
+    list-style-type: revert !important;
+  }
+
+  ol {
+    counter-reset: item;
+  }
+
+  ol > li {
+    counter-increment: item;
+  }
+
+  ol > li {
+    display: block;
+  }
+
+  ol > li:before {
+    content: counters(item, ".") ". ";
+    margin-left: -20px;
+  }
+}
+
+
 .hideScrollbar {
   &::-webkit-scrollbar {
     width: 0;

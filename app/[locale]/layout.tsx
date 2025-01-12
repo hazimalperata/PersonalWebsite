@@ -5,10 +5,17 @@ import { Inter } from "next/font/google";
 import clsx from "clsx";
 import { ThemeProvider } from "next-themes";
 import BackToTopButton from "@/components/atoms/BackToTopButton";
+import { routing } from "@/i18n/routing";
 
 const inter = Inter({
   subsets: ["latin"],
 });
+
+export async function generateStaticParams() {
+  return routing.locales.map((locale) => ({
+    locale,
+  }));
+}
 
 export default async function LocaleLayout({
   children,

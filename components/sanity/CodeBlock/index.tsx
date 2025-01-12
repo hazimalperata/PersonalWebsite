@@ -8,14 +8,23 @@ import { useTheme } from "next-themes";
 import { Check, ClipboardCopy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import writeToClipboard from "@/utils/clipboard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CodeBlock = ({ value }: CodeBlockProps) => {
   const { code, language } = value;
 
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   const [isCopied, setIsCopied] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsReady(true);
+    }
+  }, []);
+
+  if (!isReady) return null;
 
   return (
     <div className="relative group/copyCode">
@@ -34,7 +43,7 @@ const CodeBlock = ({ value }: CodeBlockProps) => {
         showLineNumbers={true}
         showInlineLineNumbers={true}
         language={language}
-        style={theme === "light" ? atomOneLight : tomorrowNightBright}
+        style={resolvedTheme === "light" ? atomOneLight : tomorrowNightBright}
         customStyle={{
           padding: "14px",
         }}

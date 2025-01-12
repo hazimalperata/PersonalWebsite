@@ -47,7 +47,7 @@ export default function LanguageSwitcher() {
           <span className="sr-only">{t("label")}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
+      <DropdownMenuContent align="end">
         {Object.values(LOCALES).map((locale: string) => (
           <DropdownMenuCheckboxItem
             key={locale}

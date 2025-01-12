@@ -19,6 +19,7 @@ export type SubBlog = {
   parentBlogTitle: string;
   parentBlogSlug: string;
   articles: Article[];
+  _translations: SanitySubBlogTranslation[];
 } & SanityCustomDocument;
 
 export type Article = {
@@ -31,6 +32,7 @@ export type Article = {
   parentSubBlogTitle: string;
   publishedAt: string;
   body: any;
+  _translations: SanityArticleTranslation[];
 } & SanityCustomDocument;
 
 export type SanityCustomDocument = {
@@ -49,6 +51,17 @@ export type SanityIcon = {
 export type SanityRef = {
   _ref: string;
 };
+
+export type SanityTranslation = {
+  slug: SanitySlug;
+  locale: string;
+};
+
+export type SanitySubBlogTranslation = SanityTranslation;
+
+export type SanityArticleTranslation = {
+  parentSubBlogSlug: string;
+} & SanityTranslation;
 
 export type SanityImage = {
   alt: string;
