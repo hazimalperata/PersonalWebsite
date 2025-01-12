@@ -1,5 +1,5 @@
 import { createClient, FilteredResponseQueryOptions } from "next-sanity";
-import {Article, Blog, SubBlog} from "@/types/sanity";
+import { Article, Blog, SubBlog } from "@/types/sanity";
 
 export const client = createClient({
   projectId: "trlbkq4k",
