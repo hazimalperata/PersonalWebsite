@@ -81,11 +81,14 @@ export default function BlogSideBar({ blogs }: { blogs: Blog[] }) {
                   <Collapsible
                     key={subBlog._id}
                     asChild
-                    defaultOpen
+                    defaultOpen={subBlog.articles.length !== 0}
                     className="group/collapsible"
                   >
                     <SidebarMenuItem>
-                      <CollapsibleTrigger asChild>
+                      <CollapsibleTrigger
+                        disabled={subBlog.articles.length === 0}
+                        asChild
+                      >
                         <SidebarMenuButton tooltip={subBlog.title}>
                           {/*{subBlog.image.asset._ref}*/}
                           {/*<Image*/}
@@ -100,7 +103,7 @@ export default function BlogSideBar({ blogs }: { blogs: Blog[] }) {
                       </CollapsibleTrigger>
                       <CollapsibleContent>
                         <SidebarMenuSub>
-                          {subBlog.articles.length && (
+                          {subBlog.articles.length !== 0 && (
                             <SidebarMenuSubItem>
                               <SidebarMenuSubButton asChild>
                                 <Link
