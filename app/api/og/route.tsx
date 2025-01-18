@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { PersonalLogo } from "@/components/icons";
 import { ImageResponse } from "next/og";
+import qs from "qs";
 
 export const runtime = "edge";
 
@@ -38,7 +39,6 @@ function toHex(arrayBuffer: ArrayBuffer) {
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-
     const id = searchParams.get("id");
     const token = searchParams.get("token");
 

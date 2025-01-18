@@ -9,14 +9,18 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { NextPageProps } from "@/types/nextjs";
+import {
+  GenerateStaticParamsProps,
+  NextPagePropsWithSearchParams,
+} from "@/types/nextjs";
 import { getAllContent, getSubBlogDetail } from "@/sanity/client";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import React from "react";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { createHmac } from "node:crypto";
+import qs from "qs";
 
 function getToken(id: string): string {
   const hmac = createHmac("sha256", "my_secret");
@@ -25,9 +29,7 @@ function getToken(id: string): string {
   return token;
 }
 
-export async function generateStaticParams(
-  props: NextPageProps<{ locale: string }>,
-) {
+export async function generateStaticParams(props: GenerateStaticParamsProps) {
   const { locale } = await props.params;
   const blogs = await getAllContent(locale);
   const subBlogs = blogs.map((x) => x.subBlogs).flat();
@@ -38,7 +40,7 @@ export async function generateStaticParams(
 }
 
 export async function generateMetadata(
-  props: NextPageProps<{ locale: string; slug: string }>,
+  props: NextPagePropsWithSearchParams<{ locale: string; slug: string }>,
 ): Promise<Metadata> {
   const { locale, slug } = await props.params;
 
@@ -46,16 +48,16 @@ export async function generateMetadata(
 
   const token = getToken(subBlog._id);
 
-  const params = new URLSearchParams({
+  const params = {
     title: subBlog.title,
     description: subBlog.description,
     image: subBlog.imageUrl,
     id: subBlog._id,
     token: token,
-  });
+  };
 
   const imageObject = {
-    url: `api/og?${params.toString()}`,
+    url: `api/og?${qs.stringify(params)}`,
     width: 1200,
     height: 630,
     alt: subBlog.imageAlt,
@@ -66,7 +68,7 @@ export async function generateMetadata(
     title: subBlog.title,
     description: subBlog.description,
     authors: [{ name: "Hazim Alper Ata" }],
-    metadataBase: new URL("https://hazimalperata.com"),
+    metadataBase: new URL(process.env.WEBSITE_URL as string),
     openGraph: {
       title: subBlog.title,
       description: subBlog.description,
@@ -89,7 +91,7 @@ export async function generateMetadata(
 }
 
 export default async function SubBlogPage(
-  props: NextPageProps<{ slug: string; locale: string }>,
+  props: NextPagePropsWithSearchParams<{ slug: string; locale: string }>,
 ) {
   const { locale, slug } = await props.params;
 

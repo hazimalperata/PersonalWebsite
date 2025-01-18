@@ -1,4 +1,10 @@
-export type NextPageProps<T = never, K = never> = {
+export type NextPagePropsWithSearchParams<T = never> = {
   params: Promise<T>;
-  searchParams: Promise<K>;
+  searchParams:
+    | Promise<{ [key: string]: string | string[] | undefined }>
+    | never;
+};
+
+export type GenerateStaticParamsProps<T = { locale: string }> = {
+  params: Promise<T>;
 };

@@ -2,7 +2,7 @@ import { FilteredResponseQueryOptions, type SanityDocument } from "next-sanity";
 
 import { client } from "@/sanity/client";
 import { Link } from "@/i18n/routing";
-import { NextPageProps } from "@/types/nextjs";
+import { NextPagePropsWithSearchParams } from "@/types/nextjs";
 import DefaultWrapper from "@/components/wrappers/NavbarWrapper";
 import BlogSideBarWrapper from "@/components/molecules/BlogSideBar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -20,7 +20,7 @@ import { getTranslations } from "next-intl/server";
 
 export default async function BlogMainPage({
   params,
-}: NextPageProps<{ locale: string }>) {
+}: NextPagePropsWithSearchParams<{ locale: string }>) {
   const { locale } = await params;
   const t = await getTranslations("Blog");
 

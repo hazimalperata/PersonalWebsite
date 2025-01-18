@@ -9,7 +9,10 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { NextPageProps } from "@/types/nextjs";
+import {
+  GenerateStaticParamsProps,
+  NextPagePropsWithSearchParams,
+} from "@/types/nextjs";
 import { getAllContent } from "@/sanity/client";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -17,9 +20,7 @@ import { Link } from "@/i18n/routing";
 import React from "react";
 import CustomPortableText from "@/components/sanity/CustomPortableText";
 
-export async function generateStaticParams(
-  props: NextPageProps<{ locale: string }>,
-) {
+export async function generateStaticParams(props: GenerateStaticParamsProps) {
   const { locale } = await props.params;
   const blogs = await getAllContent(locale);
   const articles = blogs.map((x) => x.subBlogs.map((y) => y.articles)).flat(2);
@@ -31,7 +32,11 @@ export async function generateStaticParams(
 }
 
 export default async function ArticlePage(
-  props: NextPageProps<{ slug: string; subSlug: string; locale: string }>,
+  props: NextPagePropsWithSearchParams<{
+    slug: string;
+    subSlug: string;
+    locale: string;
+  }>,
 ) {
   const { locale, slug, subSlug } = await props.params;
 
