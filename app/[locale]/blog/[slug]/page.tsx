@@ -10,11 +10,20 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { NextPageProps } from "@/types/nextjs";
-import { getAllContent } from "@/sanity/client";
+import { getAllContent, getSubBlogDetail } from "@/sanity/client";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import React from "react";
+import { Metadata, ResolvingMetadata } from "next";
+import { createHmac } from "node:crypto";
+
+function getToken(id: string): string {
+  const hmac = createHmac("sha256", "my_secret");
+  hmac.update(JSON.stringify({ id: id }));
+  const token = hmac.digest("hex");
+  return token;
+}
 
 export async function generateStaticParams(
   props: NextPageProps<{ locale: string }>,
@@ -26,6 +35,57 @@ export async function generateStaticParams(
   return subBlogs.map((subBlog) => ({
     slug: subBlog.slug.current,
   }));
+}
+
+export async function generateMetadata(
+  props: NextPageProps<{ locale: string; slug: string }>,
+): Promise<Metadata> {
+  const { locale, slug } = await props.params;
+
+  const subBlog = await getSubBlogDetail(locale, slug);
+
+  const token = getToken(subBlog._id);
+
+  const params = new URLSearchParams({
+    title: subBlog.title,
+    description: subBlog.description,
+    image: subBlog.imageUrl,
+    id: subBlog._id,
+    token: token,
+  });
+
+  const imageObject = {
+    url: `api/og?${params.toString()}`,
+    width: 1200,
+    height: 630,
+    alt: subBlog.imageAlt,
+    type: "image/png",
+  };
+
+  return {
+    title: subBlog.title,
+    description: subBlog.description,
+    authors: [{ name: "Hazim Alper Ata" }],
+    metadataBase: new URL("https://hazimalperata.com"),
+    openGraph: {
+      title: subBlog.title,
+      description: subBlog.description,
+      type: "article",
+      // publishedTime: content.publishedAt,
+      // modifiedTime: content.updatedAt,
+      url: `blog/${subBlog.slug.current}`,
+      siteName: "Hazim Alper ATA - Personal Website",
+      locale: locale,
+      images: [imageObject],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: subBlog.title,
+      description: subBlog.description,
+      images: [imageObject],
+      creator: "@hazimalperata",
+    },
+  };
 }
 
 export default async function SubBlogPage(

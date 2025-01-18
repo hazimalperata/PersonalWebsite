@@ -80,8 +80,28 @@ export async function getSubBlogFromSlug(locale: string, slug: string) {
   );
 }
 
+const subBlogDetailQuery = `
+  *[_type == "subBlog" && locale == $locale && slug.current == $slug][0]{
+    _id,
+    title,
+    slug,
+    description,
+    "imageUrl": image.asset->url,
+    "imageAlt": image.alt,
+    locale,
+  }
+`;
+
+export async function getSubBlogDetail(locale: string, slug: string) {
+  return await client.fetch<SubBlog>(
+    subBlogDetailQuery,
+    { locale, slug },
+    options,
+  );
+}
+
 const articleFromSubSlugQuery = `
- *[_type == "article" && slug.current == $subSlug][0]{
+ *[_type == "article" && locale == $locale && slug.current == $subSlug][0]{
     _id,
     "_translations": *[_type == "translation.metadata" && references(^._id)].translations[_key == $locale].value->{
       slug,
