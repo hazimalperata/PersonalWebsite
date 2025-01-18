@@ -101,7 +101,7 @@ export async function getSubBlogDetail(locale: string, slug: string) {
 }
 
 const articleFromSubSlugQuery = `
- *[_type == "article" && locale == $locale && slug.current == $subSlug][0]{
+ *[_type == "article" && slug.current == $subSlug][0]{
     _id,
     "_translations": *[_type == "translation.metadata" && references(^._id)].translations[_key == $locale].value->{
       slug,
