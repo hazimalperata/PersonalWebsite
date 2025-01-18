@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "prebuild": "yarn tailwind",
+    "v-dev": "vercel dev",
+    "v-env-pull": "vercel env pull",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
