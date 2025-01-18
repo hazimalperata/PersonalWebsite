@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "yarn tailwind",
-    "v-dev": "vercel dev",
+    "prebuild": "yarn tailwind-minify",
+    "v-dev": "yarn tailwind && vercel dev",
     "v-env-pull": "vercel env pull",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "tailwind": "npx tailwindcss build -o ./styles/tailwind.css",
+    "tailwind-minify": "npx tailwindcss build -o ./styles/tailwind.css --minify",
     "tailwind-watch": "npx tailwindcss build -o ./styles/tailwind.css --watch",
     "test": "jest"
   },
