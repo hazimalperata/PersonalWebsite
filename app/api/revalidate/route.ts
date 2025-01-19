@@ -22,12 +22,12 @@ export async function POST(req: NextRequest) {
   // console.error("Successfully Revalidated");
   console.error(req);
   console.error(req.body);
-  const temp_body = await req.json();
-  console.error(temp_body);
+  const body = await req.json();
+  console.error(body);
 
   // return NextResponse.json("Revalidated", { status: 200 });
-  const body = await readBody(req);
-  console.error(body);
+  // const body = await readBody(req);
+  // console.error(body);
 
   try {
     if (!secret) {
