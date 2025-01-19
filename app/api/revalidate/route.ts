@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { isValidSignature, SIGNATURE_HEADER_NAME } from "@sanity/webhook";
 import { revalidateTag } from "next/cache";
 import { SanityContentTag } from "@/sanity/client";
@@ -10,21 +10,21 @@ export async function POST(req: NextRequest) {
   const data = await req.json();
   if (!secret) {
     console.log("Secret Problem");
-    return new Response("Secret Error", { status: 401 });
+    return NextResponse.json("Secret Error", { status: 500 });
   }
 
   if (!signature) {
     console.log("Signature Problem");
-    return new Response("No signature.", { status: 401 });
+    return NextResponse.json("No signature.", { status: 401 });
   }
 
   if (!(await isValidSignature(data, signature, secret))) {
     console.log("Invalid Problem");
-    return new Response("Invalid signature.", { status: 401 });
+    return NextResponse.json("Invalid signature.", { status: 401 });
   }
 
   revalidateTag(SanityContentTag);
   console.log("Successfully Revalidated");
 
-  return new Response("Revalidated", { status: 200 });
+  return NextResponse.json("Revalidated", { status: 200 });
 }
