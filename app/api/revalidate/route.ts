@@ -13,7 +13,7 @@ async function readBody(readable: any) {
   return Buffer.concat(chunks).toString("utf8");
 }
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const signature = req.headers.get(SIGNATURE_HEADER_NAME);
 
   console.error(signature);
