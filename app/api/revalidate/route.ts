@@ -5,7 +5,7 @@ import { SanityContentTag } from "@/sanity/client";
 
 const secret = process.env.SANITY_REVALIDATE_SECRET;
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const signature = req.headers.get(SIGNATURE_HEADER_NAME);
   const data = await req.json();
   if (!secret) {
