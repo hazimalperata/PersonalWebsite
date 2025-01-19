@@ -25,4 +25,6 @@ export async function POST(req: NextRequest) {
 
   revalidateTag(SanityContentTag);
   console.log("Successfully Revalidated");
+
+  return new Response("Revalidated", { status: 200 });
 }
