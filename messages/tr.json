@@ -42,7 +42,21 @@
       },
       "soon": "Çok daha fazlası yakında..."
     },
-    "technologies": "Temel Teknolojilerim",
+    "techStack": {
+      "title": "Teknoloji Yığınım",
+      "programmingLanguages": "Programlama Dilleri",
+      "frameworks": "Frameworkler",
+      "styleTools": "Stil Araçları",
+      "containerization": "Konteynerleştirme",
+      "apiRequests": "API/Backend",
+      "testing": "Test & Kalite Kontrol",
+      "ides": "IDE'ler",
+      "versionControlSystem": "Versiyon Kontrol Sistemi",
+      "ai": "Yapay Zeka",
+      "libraries": "Kütüphaneler",
+      "cms": "İçerik Yönetim Sistemi",
+      "cloudPlatform": "Bulut Platformu"
+    },
     "expertises": "Hakim Olduğum Kavramlar",
     "offerArea": {
       "title": "Size nasıl katkı sağlayabilirim?",

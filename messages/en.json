@@ -42,7 +42,21 @@
       },
       "soon": "Much more is coming soon..."
     },
-    "technologies": "My Core Technologies",
+    "techStack": {
+      "title": "My Tech Stack",
+      "programmingLanguages": "Programming Languages",
+      "frameworks": "Frameworks",
+      "styleTools": "Style Tools",
+      "containerization": "Containerization",
+      "apiRequests": "API/Backend",
+      "testing": "Testing & Quality Assurance",
+      "ides": "IDE's",
+      "versionControlSystem": "Version Control System",
+      "ai": "Artificial Intelligence",
+      "libraries": "Libraries",
+      "cms": "Content Management System",
+      "cloudPlatform": "Cloud Platform"
+    },
     "expertises": "Concepts I Master",
     "offerArea": {
       "title": "How can I contribute to you?",

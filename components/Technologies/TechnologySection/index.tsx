@@ -12,15 +12,17 @@ export type Tech = {
 
 type TechnologyProps = {
   tech: Tech;
+  style?: React.CSSProperties;
 };
 
-export default function Technology({ tech }: TechnologyProps) {
+export default function Technology({ tech, style }: TechnologyProps) {
   const { ref, isIntersecting } = useOnScreen(false);
 
   return (
     <div
       ref={ref}
       title={tech.name}
+      style={style}
       className={clsx("px-6 py-4 transition-all", styles.technology, {
         [styles.atScreen]: isIntersecting,
       })}

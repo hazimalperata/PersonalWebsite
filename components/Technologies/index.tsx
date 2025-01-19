@@ -5,25 +5,238 @@ import clsx from "clsx";
 import Technology, { Tech } from "@/components/Technologies/TechnologySection";
 import React from "react";
 import {
+  AxiosIcon,
   CssIcon,
+  DockerIcon,
+  ExpressJsIcon,
+  FigmaIcon,
+  GithubIcon,
+  GitIcon,
   HtmlIcon,
+  JavascriptIcon,
+  JestIcon,
+  MotionIcon,
   NextJsIcon,
+  OllamaIcon,
+  PostmanIcon,
+  PyCharmIcon,
+  PythonIcon,
   ReactIcon,
+  ReactNativeIcon,
+  ReduxIcon,
+  SanityIcon,
+  SassIcon,
+  SwaggerIcon,
   TailwindIcon,
+  TanstackIcon,
+  TypescriptIcon,
+  VercelIcon,
+  WebstormIcon,
 } from "@/components/icons";
 import useOnScreen from "@/utils/useOnScreen";
-import { MessageKeys, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import TechnologyCategory from "@/components/Technologies/TechnologyCategory";
+
+type TechCategory = {
+  title: string;
+  technologies: Tech[];
+};
 
 export default function Technologies() {
-  const technologies: Tech[] = [
-    { icon: HtmlIcon, name: "HTML" },
-    { icon: TailwindIcon, name: "TailwindCSS" },
-    { icon: NextJsIcon, name: "NextJs" },
-    { icon: ReactIcon, name: "React" },
-    { icon: CssIcon, name: "CSS" },
-  ];
+  const t = useTranslations("HomePage.techStack");
 
-  const t = useTranslations("HomePage");
+  const allTechnologies: TechCategory[][] = [
+    [
+      {
+        title: t("programmingLanguages"),
+        technologies: [
+          {
+            icon: PythonIcon,
+            name: "Python",
+          },
+          {
+            icon: JavascriptIcon,
+            name: "Javascript",
+          },
+          {
+            icon: TypescriptIcon,
+            name: "Typescript",
+          },
+          {
+            icon: HtmlIcon,
+            name: "HTML (imposter)",
+          },
+        ],
+      },
+    ],
+    [
+      {
+        title: t("frameworks"),
+        technologies: [
+          {
+            icon: NextJsIcon,
+            name: "NextJS",
+          },
+          {
+            icon: ReactIcon,
+            name: "ReactJs",
+          },
+          {
+            icon: ReactNativeIcon,
+            name: "ReactNative",
+          },
+        ],
+      },
+    ],
+    [
+      {
+        title: t("styleTools"),
+        technologies: [
+          {
+            icon: FigmaIcon,
+            name: "Figma",
+          },
+          {
+            icon: CssIcon,
+            name: "CSS",
+          },
+          {
+            icon: SassIcon,
+            name: "SASS/SCSS",
+          },
+          {
+            icon: TailwindIcon,
+            name: "TailwindCSS",
+          },
+        ],
+      },
+    ],
+    [
+      {
+        title: t("apiRequests"),
+        technologies: [
+          {
+            icon: ExpressJsIcon,
+            name: "ExpressJS",
+          },
+          {
+            icon: NextJsIcon,
+            name: "NextJS",
+          },
+          {
+            icon: SwaggerIcon,
+            name: "Swagger",
+          },
+          {
+            icon: PostmanIcon,
+            name: "Postman",
+          },
+        ],
+      },
+    ],
+    [
+      {
+        title: t("ides"),
+        technologies: [
+          {
+            icon: WebstormIcon,
+            name: "WebStorm",
+          },
+          {
+            icon: PyCharmIcon,
+            name: "PyCharm",
+          },
+        ],
+      },
+    ],
+    [
+      {
+        title: t("libraries"),
+        technologies: [
+          {
+            icon: TanstackIcon,
+            name: "Tanstack",
+          },
+          {
+            icon: MotionIcon,
+            name: "Motion",
+          },
+          {
+            icon: AxiosIcon,
+            name: "Axios",
+          },
+          {
+            icon: ReduxIcon,
+            name: "Redux",
+          },
+        ],
+      },
+    ],
+    [
+      {
+        title: t("containerization"),
+        technologies: [
+          {
+            icon: DockerIcon,
+            name: "Docker",
+          },
+        ],
+      },
+      {
+        title: t("testing"),
+        technologies: [
+          {
+            icon: JestIcon,
+            name: "Jest",
+          },
+        ],
+      },
+    ],
+    [
+      {
+        title: t("versionControlSystem"),
+        technologies: [
+          {
+            icon: GitIcon,
+            name: "Git",
+          },
+          {
+            icon: GithubIcon,
+            name: "Github",
+          },
+        ],
+      },
+      {
+        title: t("ai"),
+        technologies: [
+          {
+            icon: OllamaIcon,
+            name: "Ollama",
+          },
+        ],
+      },
+    ],
+    [
+      {
+        title: t("cms"),
+        technologies: [
+          {
+            icon: SanityIcon,
+            name: "Sanity",
+          },
+        ],
+      },
+      {
+        title: t("cloudPlatform"),
+        technologies: [
+          {
+            icon: VercelIcon,
+            name: "Vercel",
+          },
+        ],
+      },
+    ],
+  ];
 
   const { ref, isIntersecting } = useOnScreen();
 
@@ -34,23 +247,33 @@ export default function Technologies() {
           <h1
             ref={ref}
             className={clsx(
-              "fromBlurAppear text-2xl lg:text-3xl font-bold capitalize text-gray-900 dark:text-white",
+              "fromBlurAppear text-2xl lg:text-3xl font-bold capitalize",
               {
                 atScreen: isIntersecting,
               },
             )}
           >
-            {t("technologies" as MessageKeys<string, any>)}
+            {t("title")}
           </h1>
         </div>
-        <div
-          className={clsx(
-            "grid grid-rows-5 sm:grid-rows-none sm:grid-cols-5 justify-center",
-            styles.technologies,
-          )}
-        >
-          {technologies.map((tech) => (
-            <Technology key={tech.name} tech={tech} />
+        <div className="flex flex-col gap-y-10 items-center">
+          {allTechnologies.map((technologies, index) => (
+            <div
+              key={index}
+              className="flex flex-col sm:flex-row gap-y-10 sm:gap-y-0 items-center justify-between w-full"
+            >
+              {technologies.map((technology, index) => (
+                <div
+                  key={technology.title + index}
+                  className="flex flex-col gap-y-1 items-center w-full"
+                >
+                  <div className="text-lg lg:text-xl font-medium capitalize">
+                    {technology.title}
+                  </div>
+                  <TechnologyCategory technologies={technology.technologies} />
+                </div>
+              ))}
+            </div>
           ))}
         </div>
       </div>
