@@ -19,15 +19,8 @@ import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import React from "react";
 import { Metadata } from "next";
-import { createHmac } from "node:crypto";
 import qs from "qs";
-
-function getToken(id: string): string {
-  const hmac = createHmac("sha256", "my_secret");
-  hmac.update(JSON.stringify({ id: id }));
-  const token = hmac.digest("hex");
-  return token;
-}
+import { getToken } from "@/utils/token";
 
 export async function generateStaticParams(props: GenerateStaticParamsProps) {
   const { locale } = await props.params;
@@ -72,7 +65,7 @@ export async function generateMetadata(
     openGraph: {
       title: subBlog.title,
       description: subBlog.description,
-      type: "article",
+      type: "website",
       // publishedTime: content.publishedAt,
       // modifiedTime: content.updatedAt,
       url: `blog/${subBlog.slug.current}`,
