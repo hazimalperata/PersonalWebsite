@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   // console.error("Successfully Revalidated");
   console.error(req);
   console.error(req.body);
-  const body = await req.json();
+  const body = await req.text();
   console.error(body);
 
   // return NextResponse.json("Revalidated", { status: 200 });
