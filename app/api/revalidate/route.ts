@@ -21,6 +21,7 @@ export async function GET(req: NextRequest) {
   // revalidateTag(SanityContentTag);
   // console.error("Successfully Revalidated");
   console.error(req);
+  console.error(req.body);
   const temp_body = await req.json();
   console.error(temp_body);
 
