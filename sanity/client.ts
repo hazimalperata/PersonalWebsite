@@ -1,5 +1,5 @@
 import { createClient, FilteredResponseQueryOptions } from "next-sanity";
-import { Article, Blog, SubBlog } from "@/types/sanity";
+import { Blog, SubBlog } from "@/types/sanity";
 
 export const client = createClient({
   projectId: "trlbkq4k",
@@ -54,30 +54,17 @@ const CONTENTS_QUERY = `
   }
 `;
 
+export const SanityContentTag = "sanity-content-tag";
+
 const options: FilteredResponseQueryOptions = {
   cache: "force-cache",
+  next: {
+    tags: [SanityContentTag],
+  },
 };
 
 export async function getAllContent(locale: string) {
   return await client.fetch<Blog[]>(CONTENTS_QUERY, { locale }, options);
-}
-
-const subBlogFromSlugQuery = `
-  *[_type == "subBlog" && slug.current == $slug][0] {
-    _id,
-    "_translations": *[_type == "translation.metadata" && references(^._id)].translations[_key == $locale].value->{
-      slug,
-      locale
-    }
-  }
-`;
-
-export async function getSubBlogFromSlug(locale: string, slug: string) {
-  return await client.fetch<SubBlog>(
-    subBlogFromSlugQuery,
-    { locale, slug },
-    options,
-  );
 }
 
 const subBlogDetailQuery = `
@@ -100,21 +87,39 @@ export async function getSubBlogDetail(locale: string, slug: string) {
   );
 }
 
-const articleFromSubSlugQuery = `
- *[_type == "article" && slug.current == $subSlug][0]{
-    _id,
-    "_translations": *[_type == "translation.metadata" && references(^._id)].translations[_key == $locale].value->{
-      slug,
-      locale,
-      "parentSubBlogSlug": parentSubBlog -> slug.current,
-    },
-  }
-`;
-
-export async function getArticleFromSubSlug(locale: string, subSlug: string) {
-  return await client.fetch<Article>(
-    articleFromSubSlugQuery,
-    { locale, subSlug },
-    options,
-  );
-}
+// const subBlogFromSlugQuery = `
+//   *[_type == "subBlog" && slug.current == $slug][0] {
+//     _id,
+//     "_translations": *[_type == "translation.metadata" && references(^._id)].translations[_key == $locale].value->{
+//       slug,
+//       locale
+//     }
+//   }
+// `;
+//
+// export async function getSubBlogFromSlug(locale: string, slug: string) {
+//   return await client.fetch<SubBlog>(
+//     subBlogFromSlugQuery,
+//     { locale, slug },
+//     options,
+//   );
+// }
+//
+// const articleFromSubSlugQuery = `
+//  *[_type == "article" && slug.current == $subSlug][0]{
+//     _id,
+//     "_translations": *[_type == "translation.metadata" && references(^._id)].translations[_key == $locale].value->{
+//       slug,
+//       locale,
+//       "parentSubBlogSlug": parentSubBlog -> slug.current,
+//     },
+//   }
+// `;
+//
+// export async function getArticleFromSubSlug(locale: string, subSlug: string) {
+//   return await client.fetch<Article>(
+//     articleFromSubSlugQuery,
+//     { locale, subSlug },
+//     options,
+//   );
+// }

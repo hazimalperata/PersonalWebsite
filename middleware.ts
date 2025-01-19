@@ -1,38 +1,95 @@
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import { NextRequest, NextResponse } from "next/server";
-import { getArticleFromSubSlug, getSubBlogFromSlug } from "@/sanity/client";
+import { getAllContent } from "@/sanity/client";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const [, locale, ...segments] = pathname.split("/");
 
-  if (!segments.includes("blog")) {
+  const slug = segments[1];
+  const subSlug = segments[2];
+
+  if (!segments.includes("blog") && !(slug || subSlug)) {
     const handleI18nRouting = createMiddleware(routing);
     return handleI18nRouting(request);
   }
 
-  const slug = segments[1];
-  const subSlug = segments[2];
+  const blogs = await getAllContent(locale);
 
   if (slug && subSlug) {
-    const matchedArticle = await getArticleFromSubSlug(locale, subSlug);
-    if (matchedArticle && matchedArticle._translations.length) {
-      const translatedPath = `/${locale}/blog/${matchedArticle._translations[0].parentSubBlogSlug}/${matchedArticle._translations[0].slug.current}`;
+    let redirectSubBlogPath = null;
+    let redirectArticlePath = null;
+
+    const subBlogTranslations = blogs.flatMap((blog) =>
+      blog.subBlogs.flatMap((subBlog) => subBlog._translations),
+    );
+
+    const matchedSubBlogTranslation = subBlogTranslations.find(
+      (translation) => translation.slug.current === slug,
+    );
+
+    const articleTranslations = blogs.flatMap((blog) =>
+      blog.subBlogs.flatMap((subBlog) =>
+        subBlog.articles.flatMap((article) => article._translations),
+      ),
+    );
+
+    const matchedArticleTranslation = articleTranslations.find(
+      (translation) => translation.slug.current === subSlug,
+    );
+
+    if (matchedSubBlogTranslation && matchedArticleTranslation) {
+      const findLocaleSubBlogTranslation = subBlogTranslations.find(
+        (translation) => translation.locale === locale,
+      );
+
+      const findLocaleArticleTranslation = articleTranslations.find(
+        (translation) => translation.locale === locale,
+      );
+
+      if (findLocaleSubBlogTranslation && findLocaleArticleTranslation) {
+        redirectSubBlogPath = findLocaleSubBlogTranslation.slug.current;
+        redirectArticlePath = findLocaleArticleTranslation.slug.current;
+      }
+    }
+
+    if (redirectSubBlogPath && redirectArticlePath) {
+      const translatedPath = `/${locale}/blog/${redirectSubBlogPath}/${redirectArticlePath}`;
       if (pathname !== translatedPath) {
         return NextResponse.redirect(new URL(translatedPath, request.url));
       }
     }
   } else if (slug) {
-    const matchedSubBlog = await getSubBlogFromSlug(locale, slug);
-    if (matchedSubBlog && matchedSubBlog._translations.length) {
-      const translatedPath = `/${locale}/blog/${matchedSubBlog._translations[0].slug.current}`;
+    let redirectSubBlogPath = null;
+
+    const subBlogTranslations = blogs.flatMap((blog) =>
+      blog.subBlogs.flatMap((subBlog) => subBlog._translations),
+    );
+
+    const matchedTranslation = subBlogTranslations.find(
+      (translation) => translation.slug.current === slug,
+    );
+
+    if (matchedTranslation) {
+      const findLocaleTranslation = subBlogTranslations.find(
+        (translation) => translation.locale === locale,
+      );
+
+      if (findLocaleTranslation) {
+        redirectSubBlogPath = findLocaleTranslation.slug.current;
+      }
+    }
+
+    if (redirectSubBlogPath) {
+      const translatedPath = `/${locale}/blog/${redirectSubBlogPath}`;
       if (pathname !== translatedPath) {
         return NextResponse.redirect(new URL(translatedPath, request.url));
       }
     }
   }
 
+  // Default i18n routing
   const handleI18nRouting = createMiddleware(routing);
   return handleI18nRouting(request);
 }
