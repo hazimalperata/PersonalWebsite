@@ -1,7 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import clsx from "clsx";
+
+const separator = "=========== List By TheFry ==============";
 
 export default function AccountPicker() {
   const spanRef = useRef<HTMLSpanElement>(null);
@@ -63,6 +72,48 @@ export default function AccountPicker() {
     };
     prepareAccounts();
   }, []);
+
+  const onUploadFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      const parsed = await file.text();
+      const parsedList = parsed.split(separator);
+
+      // const tried = parsedList[1].split("\r\n");
+      // const filtered = tried.filter(x => x !== "");
+      // console.log(filtered[3].split(" = ")[1]);
+
+      const applyList: string[] = [];
+
+      parsedList.forEach((x) => {
+        const pars = x.split("\r\n");
+        const filteredPars = pars.filter((x) => x !== "");
+        if (filteredPars) {
+          if (Number(filteredPars[3].split(" = ")[1]) >= 30) {
+            applyList.push(x);
+          }
+        }
+      });
+
+      // const result = applyList.join(separator + "\r\n");
+
+      const newList = applyList
+        .flatMap((e) => [e, separator + "\r"])
+        .slice(0, -1);
+
+      const blob = new Blob(newList, { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.download = "deneme.txt";
+      link.href = url;
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+
+      console.log(parsedList.length, applyList.length);
+    }
+  };
 
   return (
     <div className="flex max-w-screen-2xl flex-col gap-y-5 rounded-xl bg-slate-700 p-8 shadow-2xl">
@@ -136,7 +187,7 @@ export default function AccountPicker() {
         </button>
       </div>
       <span ref={spanRef} className="rounded-lg bg-gray-400 px-4 py-2"></span>
-      {/*<input type="file" accept="text/plain" onChange={onUploadFile}/>*/}
+      {/*<input type="file" accept="text/plain" onChange={onUploadFile} />*/}
     </div>
   );
 }

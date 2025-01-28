@@ -1,6 +1,4 @@
-import { unstable_noStore as noStore } from "next/cache";
-
-import { NextResponse } from "next/server";
+import { NextResponse, connection } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 
@@ -29,7 +27,7 @@ export async function POST() {
 export const revalidate = 0; // Her istekte dosya yeniden okunmaz
 
 export async function GET() {
-  noStore();
+  await connection();
 
   try {
     if (cachedAccounts) {
