@@ -6,6 +6,7 @@ import Technology, { Tech } from "@/components/Technologies/TechnologySection";
 import React from "react";
 import {
   AxiosIcon,
+  CSharpIcon,
   CssIcon,
   DockerIcon,
   ExpressJsIcon,
@@ -16,6 +17,7 @@ import {
   JavascriptIcon,
   JestIcon,
   MotionIcon,
+  MySqlIcon,
   NextJsIcon,
   OllamaIcon,
   PostmanIcon,
@@ -65,6 +67,10 @@ export default function Technologies() {
           {
             icon: HtmlIcon,
             name: "HTML (imposter)",
+          },
+          {
+            icon: CSharpIcon,
+            name: "C#",
           },
         ],
       },
@@ -232,6 +238,17 @@ export default function Technologies() {
           {
             icon: VercelIcon,
             name: "Vercel",
+          },
+        ],
+      },
+    ],
+    [
+      {
+        title: t("database"),
+        technologies: [
+          {
+            icon: MySqlIcon,
+            name: "MySQL",
           },
         ],
       },

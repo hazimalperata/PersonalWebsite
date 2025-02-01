@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isValidSignature, SIGNATURE_HEADER_NAME } from "@sanity/webhook";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { SanityContentTag } from "@/sanity/client";
+import { Article, SubBlog } from "@/types/sanity";
 
 const secret = process.env.SANITY_REVALIDATE_SECRET;
 
@@ -12,7 +13,7 @@ export async function POST(req: NextRequest) {
 
   try {
     if (!secret) {
-      return NextResponse.json("Secret Error", { status: 500 });
+      return NextResponse.json("Secret error!", { status: 500 });
     }
 
     if (!signature) {
@@ -23,10 +24,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json("Invalid signature.", { status: 401 });
     }
 
+    const jsonBody: Article | SubBlog = await req.json();
+    console.log(jsonBody);
+
+    if ("parentSubBlogSlug" in jsonBody) {
+      revalidatePath(
+        `/blog/${jsonBody.parentSubBlogSlug}/${jsonBody.slug.current}`,
+      );
+    } else {
+      revalidatePath(`/blog/${jsonBody.slug.current}`);
+    }
+
     revalidateTag(SanityContentTag);
 
     return NextResponse.json("Revalidated", { status: 200 });
   } catch (e) {
-    return NextResponse.json(`Secret Error ${e}`, { status: 500 });
+    return NextResponse.json(`Server Error: ${e}`, { status: 500 });
   }
 }

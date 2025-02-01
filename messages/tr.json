@@ -55,7 +55,8 @@
       "ai": "Yapay Zeka",
       "libraries": "Kütüphaneler",
       "cms": "İçerik Yönetim Sistemi",
-      "cloudPlatform": "Bulut Platformu"
+      "cloudPlatform": "Bulut Platformu",
+      "database": "Veri Tabanı"
     },
     "expertises": "Hakim Olduğum Kavramlar",
     "offerArea": {
