@@ -11,6 +11,9 @@ export async function POST(req: NextRequest) {
 
   const body = await req.text();
 
+  const jsonBody: Article | SubBlog = await req.json();
+  console.log(jsonBody);
+
   try {
     if (!secret) {
       return NextResponse.json("Secret error!", { status: 500 });
