@@ -11,8 +11,9 @@ export async function POST(req: NextRequest) {
 
   const body = await req.text();
 
-  const jsonBody: Article | SubBlog = await req.json();
-  console.log(jsonBody);
+  // const jsonBody: Article | SubBlog = await req.json();
+  // console.log(jsonBody);
+  console.log("BODY:",body);
 
   try {
     if (!secret) {
@@ -27,13 +28,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json("Invalid signature.", { status: 401 });
     }
 
-    if ("parentSubBlogSlug" in jsonBody) {
-      revalidatePath(
-        `/blog/${jsonBody.parentSubBlogSlug}/${jsonBody.slug.current}`,
-      );
-    } else {
-      revalidatePath(`/blog/${jsonBody.slug.current}`);
-    }
+    // if ("parentSubBlogSlug" in jsonBody) {
+    //   revalidatePath(
+    //     `/blog/${jsonBody.parentSubBlogSlug}/${jsonBody.slug.current}`,
+    //   );
+    // } else {
+    //   revalidatePath(`/blog/${jsonBody.slug.current}`);
+    // }
 
     revalidatePath("[locale]/blog/[slug]/[subSlug]");
     revalidateTag(SanityContentTag);
