@@ -27,9 +27,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json("Invalid signature.", { status: 401 });
     }
 
-    const jsonBody: Article | SubBlog = await req.json();
-    console.log(jsonBody);
-
     if ("parentSubBlogSlug" in jsonBody) {
       revalidatePath(
         `/blog/${jsonBody.parentSubBlogSlug}/${jsonBody.slug.current}`,
@@ -38,6 +35,7 @@ export async function POST(req: NextRequest) {
       revalidatePath(`/blog/${jsonBody.slug.current}`);
     }
 
+    revalidatePath("[locale]/blog/[slug]/[subSlug]");
     revalidateTag(SanityContentTag);
 
     return NextResponse.json("Revalidated", { status: 200 });
