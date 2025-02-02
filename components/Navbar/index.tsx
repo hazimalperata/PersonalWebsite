@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import * as React from "react";
+import NativeLink from "next/link";
 
 export default function Navbar() {
   // TODO
@@ -47,6 +48,15 @@ export default function Navbar() {
           <nav className="flex flex-row items-center gap-x-2">
             <Button asChild size="lg" variant="link">
               <Link href="/blog">Blog</Link>
+            </Button>
+            <Button asChild size="lg" variant="link">
+              <NativeLink
+                download
+                href="/files/Hazim_Alper_Ata-TR-CV.pdf"
+                target="_blank"
+              >
+                CV
+              </NativeLink>
             </Button>
           </nav>
           <PersonalLogo className="mx-auto" />
