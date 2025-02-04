@@ -44,6 +44,9 @@ export async function updateSession(request: NextRequest, locale: Locale) {
     !user &&
     !request.nextUrl.pathname.startsWith(
       `/${locale}${routing.pathnames["/login"][locale]}`,
+    ) &&
+    request.nextUrl.pathname.startsWith(
+      `/${locale}${routing.pathnames["/picker"][locale]}`,
     )
   ) {
     const url = request.nextUrl.clone();

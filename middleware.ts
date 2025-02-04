@@ -9,6 +9,7 @@ const protectedRoutes = ["picker", "login"];
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const [, locale, ...segments] = pathname.split("/");
+
   if (routing.locales.includes(locale as Locale)) {
     const supaResponse = await updateSession(request, locale as Locale);
 
