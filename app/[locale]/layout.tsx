@@ -6,6 +6,8 @@ import clsx from "clsx";
 import { ThemeProvider } from "next-themes";
 import BackToTopButton from "@/components/atoms/BackToTopButton";
 import { routing } from "@/i18n/routing";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,6 +38,8 @@ export default async function LocaleLayout({
             <BackToTopButton />
           </ThemeProvider>
         </NextIntlClientProvider>
+        <Toaster />
+        <ReactQueryDevtools initialIsOpen={false} />
       </body>
     </html>
   );

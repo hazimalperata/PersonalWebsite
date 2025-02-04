@@ -1,11 +1,21 @@
 import createMiddleware from "next-intl/middleware";
-import { routing } from "./i18n/routing";
+import { Locale, routing } from "./i18n/routing";
 import { NextRequest, NextResponse } from "next/server";
 import { getAllContent } from "@/sanity/client";
+import { updateSession } from "@/utils/supabase/middleware";
+
+const protectedRoutes = ["picker", "login"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const [, locale, ...segments] = pathname.split("/");
+  if (routing.locales.includes(locale as Locale)) {
+    const supaResponse = await updateSession(request, locale as Locale);
+
+    if (supaResponse.cookies.has("supaFirst")) {
+      return supaResponse;
+    }
+  }
 
   const slug = segments[1];
   const subSlug = segments[2];

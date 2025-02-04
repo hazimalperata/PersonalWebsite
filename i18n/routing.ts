@@ -21,6 +21,14 @@ export const routing = defineRouting({
       en: "/",
       tr: "/",
     },
+    "/login": {
+      en: "/login",
+      tr: "/giris",
+    },
+    "/picker": {
+      en: "/picker",
+      tr: "/picker",
+    },
     "/blog": {
       en: "/blog",
       tr: "/blog",
