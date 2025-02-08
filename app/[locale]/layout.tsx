@@ -1,5 +1,5 @@
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import {getMessages, getTranslations} from "next-intl/server";
 import React from "react";
 import { Inter } from "next/font/google";
 import clsx from "clsx";
@@ -8,6 +8,7 @@ import BackToTopButton from "@/components/atoms/BackToTopButton";
 import { routing } from "@/i18n/routing";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "@/components/ui/toaster";
+import {Metadata} from "next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,6 +18,15 @@ export async function generateStaticParams() {
   return routing.locales.map((locale) => ({
     locale,
   }));
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Blog");
+
+  return {
+    title: t("seoTitle"),
+    description: t("seoDescription"),
+  };
 }
 
 export default async function LocaleLayout({

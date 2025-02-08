@@ -10,6 +10,16 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ContentIllustration } from "@/components/icons";
 import { getTranslations } from "next-intl/server";
+import { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("Blog");
+
+  return {
+    title: t("seoTitle"),
+    description: t("seoDescription"),
+  };
+}
 
 export default async function BlogMainPage({
   params,

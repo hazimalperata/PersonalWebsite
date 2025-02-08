@@ -4,6 +4,8 @@
     "aboutMe": "About Me"
   },
   "Blog": {
+    "seoTitle": "Hazim Alper Ata - Blog",
+    "seoDescription": "Articles on technology, software development, and interesting topics. Check out my blog for new posts and updates.",
     "welcomeTitle": "Welcome to the my blog",
     "welcomeDescription": "Here you will find blog posts on various topics that have recently been written on my own keyboard. Currently under construction.",
     "sideBar": {
@@ -11,6 +13,8 @@
     }
   },
   "HomePage": {
+    "seoTitle": "Home",
+    "seoDescription": "Welcome to my personal website, where I share content about software development, technology, and my personal projects.",
     "heroSection": {
       "titles": {
         "0": "Frontend Web Developer",

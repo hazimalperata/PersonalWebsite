@@ -4,6 +4,8 @@
     "aboutMe": "Hakkımda"
   },
   "Blog": {
+    "seoTitle": "Hazim Alper Ata - Blog",
+    "seoDescription": "Teknoloji, yazılım geliştirme ve ilgi çekici konular üzerine yazılar. Yeni makaleler ve içeriklerle güncellenen bloguma göz atın.",
     "welcomeTitle": "Kişisel Bloguma Hoş Geldiniz",
     "welcomeDescription": "Yakın zamanda burada kendi klavyemden dökülen, çeşitli konularda yazılmış blog yazıları bulacaksınız. Şu an yapım aşamasında.",
     "sideBar": {
@@ -11,6 +13,8 @@
     }
   },
   "HomePage": {
+    "seoTitle": "Anasayfa",
+    "seoDescription": "Yazılım geliştirme, teknoloji ve kişisel projelerim hakkında içerikler paylaştığım kişisel web siteme hoş geldiniz.",
     "heroSection": {
       "titles": {
         "0": "Web Ön Yüz Yazılım Geliştirici",
