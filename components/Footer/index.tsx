@@ -48,7 +48,7 @@ export default function Footer() {
         <div className="flex w-full justify-center border-t border-gray-200 py-3 text-gray-800 dark:border-t-gray-800 dark:text-gray-300">
           <div className="flex text-center sm:min-w-max sm:text-left">
             <p>
-              ©2025 | Made with <span className="text-xl">💕</span>
+              ©2025 | Made with <span className="text-xl">🧠💪</span>
             </p>
           </div>
         </div>
