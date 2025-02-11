@@ -4,8 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAllContent } from "@/sanity/client";
 import { updateSession } from "@/utils/supabase/middleware";
 
-const protectedRoutes = ["picker", "login"];
-
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const [, locale, ...segments] = pathname.split("/");
@@ -117,6 +115,6 @@ export const config = {
 
     // Enable redirects that add missing locales
     // (e.g. `/pathnames` -> `/en/pathnames`)
-    "/((?!_next|_vercel|public|files|api|textures|sounds|favicon.*\\..*).*)",
+    "/((?!_next|_vercel|public|files|robots|sitemap|api|textures|sounds|favicon.*\\..*).*)",
   ],
 };
