@@ -58,7 +58,7 @@ export default function ExperiencesSection() {
             {t("title")}
           </h1>
         </div>
-        <TreeAnimation step={current} className="w-full" />
+        {/*<TreeAnimation step={current} className="w-full" />*/}
         <div className="flex flex-row gap-10 w-full">
           <Carousel setApi={setApi} className="w-full">
             <CarouselContent className="flex">
