@@ -51,7 +51,7 @@
     "embla-carousel-react": "^8.5.1",
     "framer-motion": "^12.0.1",
     "lucide-react": "^0.473.0",
-    "next": "15.1.5",
+    "next": "15.4.7",
     "next-intl": "^3.26.3",
     "next-sanity": "^9.8.38",
     "next-sitemap": "^4.2.3",
@@ -99,5 +99,6 @@
     "tar": "^6.2.1",
     "undici": "^5.28.5",
     "esbuild": "^0.25.0"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
