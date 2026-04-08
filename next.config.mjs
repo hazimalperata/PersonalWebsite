@@ -11,11 +11,6 @@ const nextConfig = {
   transpilePackages: ["next-mdx-remote"],
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "www.google.com",
-        pathname: "**",
-      },
     ],
   },
   sassOptions: {
