@@ -9,7 +9,7 @@ import {routes, display, person, about, work, gallery} from "@/resources";
 import {ThemeToggle} from "./ThemeToggle";
 import styles from "./Header.module.scss";
 import Image from "next/image";
-import LogoImage from "../../public/images/logo.png";
+import Logo from "@/resources/logo";
 
 type TimeDisplayProps = {
   timeZone: string;
@@ -75,7 +75,9 @@ export const Header = () => {
         }}
       >
         <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s">
-          <Row s={{hide: true}}><Image src={LogoImage} alt="logo" width={40} height={40}/></Row>
+          <Row s={{hide: true}}>
+            <Logo width={40} height={40}/>
+          </Row>
         </Row>
         <Row fillWidth horizontal="center">
           <Row

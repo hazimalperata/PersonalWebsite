@@ -1,6 +1,7 @@
 import {Row, IconButton, Text} from "@once-ui-system/core";
 import {person, social} from "@/resources";
 import styles from "./Footer.module.scss";
+import Logo from "@/resources/logo";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -20,9 +21,14 @@ export const Footer = () => {
           horizontal: "center",
         }}
       >
-        <Text variant="body-default-s" onBackground="neutral-strong">
+        <Text
+          variant="body-default-s"
+          onBackground="neutral-strong"
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}
+        >
           <Text onBackground="neutral-weak">© {currentYear} /</Text>
-          <Text paddingX="4">{person.name}</Text>
+          <Text>{person.name} /</Text>
+          <Logo width={16} height={16} />
         </Text>
         <Row gap="16">
           {social.map(
