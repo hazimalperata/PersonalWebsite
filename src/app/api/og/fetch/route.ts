@@ -2,6 +2,61 @@ import { NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 
+function isPrivateOrLocalHostname(hostname: string): boolean {
+  const host = hostname.trim().toLowerCase();
+
+  if (!host) return true;
+  if (host === 'localhost') return true;
+  if (host === '::1') return true;
+  if (host === '[::1]') return true;
+
+  const ipv4Match = host.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  if (ipv4Match) {
+    const octets = ipv4Match.slice(1).map(Number);
+    if (octets.some((o) => o < 0 || o > 255)) return true;
+
+    const [a, b] = octets;
+    if (a === 10) return true; // 10.0.0.0/8
+    if (a === 127) return true; // 127.0.0.0/8 loopback
+    if (a === 169 && b === 254) return true; // 169.254.0.0/16 link-local
+    if (a === 172 && b >= 16 && b <= 31) return true; // 172.16.0.0/12
+    if (a === 192 && b === 168) return true; // 192.168.0.0/16
+    if (a === 0) return true; // 0.0.0.0/8
+  }
+
+  const normalizedV6 = host.replace(/^\[|\]$/g, '');
+  if (normalizedV6.includes(':')) {
+    if (normalizedV6 === '::1') return true; // loopback
+    if (normalizedV6.startsWith('fe80:')) return true; // link-local
+    if (normalizedV6.startsWith('fc') || normalizedV6.startsWith('fd')) return true; // unique local
+  }
+
+  return false;
+}
+
+function validateAndNormalizeTargetUrl(input: string): string {
+  let parsed: URL;
+  try {
+    parsed = new URL(input);
+  } catch {
+    throw new Error('Invalid URL');
+  }
+
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+    throw new Error('Only HTTP(S) URLs are allowed');
+  }
+
+  if (parsed.username || parsed.password) {
+    throw new Error('URLs with credentials are not allowed');
+  }
+
+  if (isPrivateOrLocalHostname(parsed.hostname)) {
+    throw new Error('Target host is not allowed');
+  }
+
+  return parsed.toString();
+}
+
 function decodeHTMLEntities(text: string): string {
   return text.replace(/&(#?[a-zA-Z0-9]+);/g, (match, entity) => {
     const entities: { [key: string]: string } = {
@@ -73,8 +128,18 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'URL is required' }, { status: 400 });
   }
 
+  let validatedUrl: string;
   try {
-    const response = await fetchWithTimeout(url);
+    validatedUrl = validateAndNormalizeTargetUrl(url);
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Invalid URL' },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const response = await fetchWithTimeout(validatedUrl);
     
     if (!response.ok) {
       throw new Error(`Failed to fetch URL: ${response.status}`);
@@ -85,7 +150,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       ...metadata,
-      url,
+      url: validatedUrl,
     });
   } catch (error) {
     console.error('Error fetching metadata:', error instanceof Error ? error.message : String(error));
