@@ -1,3 +1,8 @@
+#badge > span {
+  color: currentColor !important;
+}
+
+
 /* :root {
   /*
   /* Override default variables here */

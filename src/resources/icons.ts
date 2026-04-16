@@ -1,4 +1,4 @@
-import {IconType} from "react-icons";
+import { IconType } from 'react-icons';
 
 import {
   HiArrowUpRight,
@@ -11,23 +11,29 @@ import {
   HiOutlineEyeSlash,
   HiOutlineDocument,
   HiOutlineGlobeAsiaAustralia,
-  HiOutlineRocketLaunch, HiRectangleStack,
-} from "react-icons/hi2";
+  HiOutlineRocketLaunch,
+  HiRectangleStack,
+  HiCheckBadge,
+} from 'react-icons/hi2';
 
 import {
   PiHouseDuotone,
   PiUserCircleDuotone,
   PiGridFourDuotone,
   PiBookBookmarkDuotone,
-  PiImageDuotone, PiLightning,
-} from "react-icons/pi";
+  PiImageDuotone,
+  PiLightning,
+} from 'react-icons/pi';
 
 import {
   SiJavascript,
   SiNextdotjs,
   SiFigma,
-  SiSupabase, SiTailwindcss, SiExpo, SiReactquery,
-} from "react-icons/si";
+  SiSupabase,
+  SiTailwindcss,
+  SiExpo,
+  SiReactquery,
+} from 'react-icons/si';
 
 import {
   FaDiscord,
@@ -41,12 +47,14 @@ import {
   FaPinterest,
   FaWhatsapp,
   FaReddit,
-  FaTelegram, FaGolang,
-} from "react-icons/fa6";
-import {FaNodeJs, FaReact} from "react-icons/fa";
-import {BsTypescript} from "react-icons/bs";
-import {DiMysql} from "react-icons/di";
-import {MdStorage} from "react-icons/md";
+  FaTelegram,
+  FaGolang,
+} from 'react-icons/fa6';
+import { FaNodeJs, FaReact } from 'react-icons/fa';
+import { BsTypescript } from 'react-icons/bs';
+import { DiMysql } from 'react-icons/di';
+import { MdStorage } from 'react-icons/md';
+import { TbProgress } from 'react-icons/tb';
 
 export const iconLibrary: Record<string, IconType> = {
   arrowUpRight: HiArrowUpRight,
@@ -90,7 +98,9 @@ export const iconLibrary: Record<string, IconType> = {
   golang: FaGolang,
   tanstack: SiReactquery,
   speed: PiLightning,
-  storage: MdStorage
+  storage: MdStorage,
+  completed: HiCheckBadge,
+  inProgress: TbProgress,
 };
 
 export type IconLibrary = typeof iconLibrary;

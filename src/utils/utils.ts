@@ -1,6 +1,9 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { notFound } from "next/navigation";
+
+export type Status = "Completed" | "InProgress" | "Planned";
 
 type Team = {
   name: string;
@@ -19,9 +22,18 @@ type Metadata = {
   tag?: string;
   team: Team[];
   link?: string;
+  status: Status;
 };
 
-import { notFound } from "next/navigation";
+function parseStatus(status: any): Status {
+  const allowed: Status[] = ["Completed", "InProgress", "Planned"];
+
+  if (allowed.includes(status)) {
+    return status;
+  }
+
+  return "Completed"
+}
 
 function getMDXFiles(dir: string) {
   if (!fs.existsSync(dir)) {
@@ -49,6 +61,7 @@ function readMDXFile(filePath: string) {
     tag: data.tag || [],
     team: data.team || [],
     link: data.link || "",
+    status: parseStatus(data.status),
   };
 
   return { metadata, content };

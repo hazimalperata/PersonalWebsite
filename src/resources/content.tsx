@@ -51,7 +51,7 @@ const social: Social = [
 
 const home: Home = {
   path: "/",
-  image: "/images/og/home.jpg",
+  image: "/images/og/home.png",
   label: "Home",
   title: `${person.name} – Frontend & Mobile Developer`,
   description: `I build scalable web and mobile applications using React, Next.js and React Native.`,
