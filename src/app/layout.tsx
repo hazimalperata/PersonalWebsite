@@ -1,8 +1,9 @@
-import "@once-ui-system/core/css/styles.css";
-import "@once-ui-system/core/css/tokens.css";
-import "@/resources/custom.css";
+import '@once-ui-system/core/css/styles.css';
+import '@once-ui-system/core/css/tokens.css';
+import '@/resources/custom.css';
+import { Analytics } from '@vercel/analytics/next';
 
-import classNames from "classnames";
+import classNames from 'classnames';
 
 import {
   Background,
@@ -12,11 +13,11 @@ import {
   opacity,
   RevealFx,
   SpacingToken,
-} from "@once-ui-system/core";
-import {Footer, Header, Providers} from "@/components";
-import {baseURL, effects, fonts, style, dataStyle, home} from "@/resources";
-import {Metadata} from "next";
-import React from "react";
+} from '@once-ui-system/core';
+import { Footer, Header, Providers } from '@/components';
+import { baseURL, effects, fonts, style, dataStyle, home } from '@/resources';
+import { Metadata } from 'next';
+import React from 'react';
 
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
@@ -25,12 +26,16 @@ export async function generateMetadata(): Promise<Metadata> {
     baseURL: baseURL,
     path: home.path,
     image: home.image,
+    author: {
+      name: 'Hazim Alper ATA',
+    },
+    publishedTime: '2026-04-16',
   });
 }
 
 export default async function RootLayout({
-                                           children,
-                                         }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
@@ -59,17 +64,17 @@ export default async function RootLayout({
                   
                   // Set defaults from config
                   const config = ${JSON.stringify({
-              brand: style.brand,
-              accent: style.accent,
-              neutral: style.neutral,
-              solid: style.solid,
-              "solid-style": style.solidStyle,
-              border: style.border,
-              surface: style.surface,
-              transition: style.transition,
-              scaling: style.scaling,
-              "viz-style": dataStyle.variant,
-            })};
+                    brand: style.brand,
+                    accent: style.accent,
+                    neutral: style.neutral,
+                    solid: style.solid,
+                    'solid-style': style.solidStyle,
+                    border: style.border,
+                    surface: style.surface,
+                    transition: style.transition,
+                    scaling: style.scaling,
+                    'viz-style': dataStyle.variant,
+                  })};
                   
                   // Apply default values
                   Object.entries(config).forEach(([key, value]) => {
@@ -111,7 +116,7 @@ export default async function RootLayout({
           as="body"
           background="page"
           fillWidth
-          style={{minHeight: "100vh"}}
+          style={{ minHeight: '100vh' }}
           margin="0"
           padding="0"
           horizontal="center"
@@ -158,14 +163,15 @@ export default async function RootLayout({
               }}
             />
           </RevealFx>
-          <Flex fillWidth minHeight="16" s={{hide: true}}/>
-          <Header/>
+          <Flex fillWidth minHeight="16" s={{ hide: true }} />
+          <Header />
           <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
             <Flex horizontal="center" fillWidth minHeight="0">
               {children}
             </Flex>
           </Flex>
-          <Footer/>
+          <Footer />
+          <Analytics />
         </Column>
       </Providers>
     </Flex>

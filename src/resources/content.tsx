@@ -55,7 +55,6 @@ const home: Home = {
   label: "Home",
   title: `${person.name} – Frontend & Mobile Developer`,
   description: `I build scalable web and mobile applications using React, Next.js and React Native.`,
-
   headline: <>Building scalable products from idea to production</>,
 
   subline: (

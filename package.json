@@ -16,6 +16,7 @@
     "@mdx-js/loader": "^3.1.0",
     "@next/mdx": "^16.0.10",
     "@once-ui-system/core": "^1.6.4",
+    "@vercel/analytics": "^2.0.1",
     "classnames": "^2.5.1",
     "cookie": "^1.0.2",
     "gray-matter": "^4.0.3",
@@ -30,6 +31,7 @@
     "transliteration": "^2.3.5"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.99.0",
     "@types/cookie": "^0.6.0",
     "@types/node": "^20.17.30",
     "@types/react": "^19.2.4",
@@ -37,7 +39,6 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.4",
     "eslint-plugin-prettier": "^5.5.5",
-    "@tanstack/eslint-plugin-query": "^5.99.0",
     "typescript": "^5.8.3",
     "tzdata": "^1.0.44"
   },
