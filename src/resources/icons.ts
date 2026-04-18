@@ -55,6 +55,7 @@ import { BsTypescript } from 'react-icons/bs';
 import { DiMysql } from 'react-icons/di';
 import { MdStorage } from 'react-icons/md';
 import { TbProgress } from 'react-icons/tb';
+import { GrDocumentUser } from 'react-icons/gr';
 
 export const iconLibrary: Record<string, IconType> = {
   arrowUpRight: HiArrowUpRight,
@@ -101,6 +102,7 @@ export const iconLibrary: Record<string, IconType> = {
   storage: MdStorage,
   completed: HiCheckBadge,
   inProgress: TbProgress,
+  cv: GrDocumentUser,
 };
 
 export type IconLibrary = typeof iconLibrary;

@@ -1,7 +1,14 @@
-import {Column, Heading, Meta, Schema} from "@once-ui-system/core";
-import {baseURL, about, person, work} from "@/resources";
-import {Projects} from "@/components/work/Projects";
-import {Metadata} from "next";
+import {
+  Badge,
+  Column,
+  Heading,
+  Meta,
+  Schema,
+  Text,
+} from '@once-ui-system/core';
+import { baseURL, about, person, work } from '@/resources';
+import { Projects } from '@/components/work/Projects';
+import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
@@ -29,10 +36,25 @@ export default function Work() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <Heading marginBottom="l" variant="heading-strong-xl" align="center">
-        {work.title}
-      </Heading>
-      <Projects/>
+      <Column
+        fillWidth
+        minHeight="160"
+        horizontal="center"
+        marginBottom="32"
+      >
+        <Heading marginBottom="s" variant="heading-strong-xl" align="center">
+          {work.title}
+        </Heading>
+
+        <Badge
+          icon="cv"
+          padding="s"
+          title="CV"
+          href="/Hazim_Alper_Ata-CV.pdf"
+        />
+      </Column>
+
+      <Projects />
     </Column>
   );
 }
