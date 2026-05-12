@@ -363,7 +363,7 @@ export default function EarthScene() {
     }
 
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key.toLowerCase() === "d") {
+      if (e.key.toLowerCase() === "d" && process.env.NODE_ENV === "development") {
         setIsDebug(prev => {
           const next = !prev;
           if (next) updateDebugValues();
@@ -396,6 +396,12 @@ export default function EarthScene() {
       animFrameId = requestAnimationFrame(animate);
 
       const isAutoRotating = SECTIONS[step].autoRotate;
+      const time = Date.now() * 0.001;
+
+      // Update star twinkling
+      if (stars.material.uniforms) {
+        stars.material.uniforms.uTime.value = time;
+      }
 
       if (isAutoRotating) {
         earthMesh.rotation.y += 0.002;
@@ -404,8 +410,8 @@ export default function EarthScene() {
         glowMesh.rotation.y += 0.002;
       } else {
         // Subtle floating/breathing effect
-        const time = Date.now() * 0.0005;
-        earthGroup.position.y = SECTIONS[step].earthPositionX ? (Math.sin(time) * 0.02) : (Math.sin(time) * 0.02);
+        const floatTime = Date.now() * 0.0005;
+        earthGroup.position.y = SECTIONS[step].earthPositionX ? (Math.sin(floatTime) * 0.02) : (Math.sin(floatTime) * 0.02);
         // Slowly drift clouds even when idle
         cloudsMesh.rotation.y += 0.0001;
       }
@@ -464,15 +470,15 @@ export default function EarthScene() {
         />
 
         {/* Audio Control */}
-        <button 
+        <button
           className={styles.audioToggle}
           onClick={() => setIsMuted(!isMuted)}
           aria-label="Toggle Audio"
         >
           {isMuted ? (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6" /></svg>
           ) : (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" /></svg>
           )}
         </button>
 
@@ -482,7 +488,7 @@ export default function EarthScene() {
         {/* Final Outro Text */}
         <AnimatePresence>
           {showFinalText && (
-            <motion.div 
+            <motion.div
               className={styles.finalOverlay}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -491,7 +497,7 @@ export default function EarthScene() {
             >
               <div className={styles.blurBackground} />
               <div className={styles.finalContent}>
-                <motion.h1 
+                <motion.h1
                   className={styles.finalTitle}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -516,14 +522,14 @@ export default function EarthScene() {
                   ))}
                 </div>
 
-                <motion.div 
+                <motion.div
                   className={styles.finalQuote}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 2, delay: 8 }} // Reveal after typewriter finishes mostly
                 >
-                  "Whatever you're going through, remember the scale of it all.<br/>
-                  In the vastness of space, we are a small but beautiful miracle.<br/>
+                  "Whatever you're going through, remember the scale of it all.<br />
+                  In the vastness of space, we are a small but beautiful miracle.<br />
                   Take a breath. This too shall pass."
                 </motion.div>
               </div>

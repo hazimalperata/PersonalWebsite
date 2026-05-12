@@ -1,0 +1,59 @@
+---
+title: "The Pale Blue Dot"
+publishedAt: "2026-05-12"
+summary: "A cinematic 3D journey through space, blending astrophysics with philosophy to recreate Carl Sagan's iconic 'Pale Blue Dot' experience using advanced WebGL techniques."
+images:
+  - "/images/projects/earth/earth.png"
+team:
+  - name: "Hazim Alper Ata"
+    role: "Developer & Designer"
+    avatar: "/images/avatar.jpeg"
+link: "https://hazimalperata.com/earth"
+status: "Completed"
+---
+
+## The Vision
+
+"Look again at that dot. That's here. That's home. That's us." This project is a tribute to Carl Sagan's profound reflection on our place in the universe. The goal was to create a digital experience that forces a moment of pause—a transition from a standard portfolio view to an existential observation of our shared home.
+
+## Technical Deep Dive
+
+### 1. Earth's Atmospheric Multi-Layering
+To achieve a realistic look, I implemented a complex layering system for the globe:
+- **Surface Layer**: Utilizes 10k high-resolution diffuse, bump, and specular maps for detailed terrain and ocean reflections.
+- **Night Lights**: A separate mesh with an additive material that reveals city lights on the "dark side" of the planet.
+- **Cloud System**: A floating sphere layer with 8k textures that drifts independently from the surface, creating parallax depth.
+- **Fresnel Atmosphere**: A custom GLSL shader that simulates atmospheric scattering (the blue rim glow) based on the camera's viewing angle.
+
+### 2. Procedural Starfield & Custom Shaders
+The universe isn't just a static background; it's a procedurally generated starfield of 15,000 points.
+- **Stellar Classification**: Stars are color-coded based on real stellar temperatures (O-type blue, G-type yellow, M-type red).
+- **Shader-Based Twinkling**: Instead of updating every point via CPU, I wrote a vertex shader that uses each star's coordinates as a seed for a sine-wave opacity oscillation, creating a performance-efficient "twinkling" effect.
+- **Radial Glow**: To avoid "square pixels," a fragment shader renders soft radial gradients with power-function falloffs for each star.
+
+### 3. Orchestrated Cinematics with GSAP
+The experience is structured as a series of "Steps." I built a custom scroll-jacking engine that:
+- Intercepts `wheel` and `touch` events to trigger discrete transitions.
+- Uses **GSAP** to animate the `earthGroup` rotation, position, and the `PerspectiveCamera` zoom simultaneously.
+- Locks interactions during animations to ensure the user doesn't break the cinematic flow.
+
+### 4. Audio-Visual Narrative
+As the user reaches the "Outro," the experience shifts gears:
+- **Spatial Audio**: Ambient music fades in, enhancing the sense of isolation and wonder.
+- **Typewriter Narrative**: A custom Framer Motion implementation slowly reveals Sagan's words, synchronized with the camera's slow drift into the deep void.
+
+## Technologies Used
+
+- **Three.js & WebGL**: Core 3D rendering and scene management.
+- **GLSL Shaders**: Custom atmospheric Fresnel and starfield GPU programs.
+- **GSAP (GreenSock)**: Orchestration of complex, multi-variable animations.
+- **Framer Motion**: UI transitions and narrative text animations.
+- **AgX Tone Mapping**: Used for filmic color reproduction and handling high-dynamic-range light.
+
+## Challenges and Learnings
+
+The most significant challenge was the **Perspective Transition**. Moving the camera from a close-up of a specific city to a distant view where the Earth is just a "pixel" required careful handling of the camera's `near` and `far` planes and field of view. Additionally, ensuring smooth performance on mobile devices while rendering 10k textures and thousands of shader-driven particles pushed my understanding of GPU memory management and texture anisotropy.
+
+## Final Reflection
+
+This project stands as the intersection of my technical skills as a developer and my creative vision as a designer. It demonstrates that the web can be more than just functional interfaces—it can be a medium for storytelling and emotional impact.

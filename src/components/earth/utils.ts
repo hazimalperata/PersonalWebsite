@@ -4,8 +4,8 @@ import * as THREE from "three";
 
 export function getStarfield({ numStars = 15000 } = {}) {
   function randomSpherePoint() {
-    const minRadius = 75;
-    const maxRadius = 500;
+    const minRadius = 150;
+    const maxRadius = 800;
     const radius = Math.random() * (maxRadius - minRadius) + minRadius;
     const u = Math.random();
     const v = Math.random();
@@ -14,30 +14,81 @@ export function getStarfield({ numStars = 15000 } = {}) {
     const x = radius * Math.sin(phi) * Math.cos(theta);
     const y = radius * Math.sin(phi) * Math.sin(theta);
     const z = radius * Math.cos(phi);
-    return { pos: new THREE.Vector3(x, y, z), hue: 0.6, minDist: radius };
+    
+    // Random star color distribution
+    const rand = Math.random();
+    let col = new THREE.Color();
+    if (rand > 0.95) col.setHSL(0.6, 0.8, 0.9); // Blue
+    else if (rand > 0.8) col.setHSL(0.1, 0.5, 0.9); // Orange/Warm
+    else if (rand > 0.7) col.setHSL(0.16, 0.6, 0.9); // Yellowish
+    else col.setHSL(0, 0, 1); // White
+
+    return { 
+      pos: new THREE.Vector3(x, y, z), 
+      color: col,
+      size: Math.random() * 2.5 + 0.5 // Varied sizes
+    };
   }
 
   const verts: number[] = [];
   const colors: number[] = [];
-  let col: THREE.Color;
+  const sizes: number[] = [];
 
   for (let i = 0; i < numStars; i++) {
     const p = randomSpherePoint();
-    const { pos, hue } = p;
-    col = new THREE.Color().setHSL(hue, 0.2, Math.random());
-    verts.push(pos.x, pos.y, pos.z);
-    colors.push(col.r, col.g, col.b);
+    verts.push(p.pos.x, p.pos.y, p.pos.z);
+    colors.push(p.color.r, p.color.g, p.color.b);
+    sizes.push(p.size);
   }
 
   const geo = new THREE.BufferGeometry();
   geo.setAttribute("position", new THREE.Float32BufferAttribute(verts, 3));
   geo.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+  geo.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
 
-  const mat = new THREE.PointsMaterial({
-    size: 0.2,
-    vertexColors: true,
-    map: new THREE.TextureLoader().load("/textures/space/star.png"),
+  const mat = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 },
+    },
+    vertexShader: /* glsl */ `
+      attribute vec3 color;
+      attribute float size;
+      varying vec3 vColor;
+      varying float vTwinkle;
+      uniform float uTime;
+
+      void main() {
+        vColor = color;
+        // Unique seed for each star's twinkling based on its position
+        float seed = position.x + position.y + position.z;
+        vTwinkle = sin(uTime * 1.5 + seed) * 0.5 + 0.5;
+        
+        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        gl_PointSize = size * (300.0 / -mvPosition.z);
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    `,
+    fragmentShader: /* glsl */ `
+      varying vec3 vColor;
+      varying float vTwinkle;
+
+      void main() {
+        float r = distance(gl_PointCoord, vec2(0.5));
+        if (r > 0.5) discard;
+        
+        // Soft radial glow
+        float strength = 1.0 - (r * 2.0);
+        strength = pow(strength, 3.0);
+        
+        // Twinkling effect: 70% base brightness + 30% pulse
+        float finalAlpha = strength * (0.5 + vTwinkle * 0.5);
+        
+        gl_FragColor = vec4(vColor, finalAlpha);
+      }
+    `,
     transparent: true,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
   });
 
   return new THREE.Points(geo, mat);
@@ -128,7 +179,7 @@ export const SECTIONS: Section[] = [
   {
     id: "turkey",
     title: "My Perspective",
-    subtitle: "🇹🇷 Istanbul, Turkey",
+    subtitle: "Bursa, Türkiye",
     description: "This is where I breathe, where I code, and where I look up at the same stars as you do.",
     align: "right",
     earthRotationX: 0.780,
@@ -142,48 +193,56 @@ export const SECTIONS: Section[] = [
   {
     id: "north-america",
     title: "Across the Ocean",
-    subtitle: "🌎 Western Hemisphere",
+    subtitle: "Western Hemisphere",
     description: "You might be here, or somewhere else across these vast waters, living a life as complex as my own.",
     align: "left",
-    earthRotationY: -Math.PI * 0.75,
-    earthPositionX: 0.5,
-    cameraZ: 2.5,
+    earthRotationX: 0.580,
+    earthRotationY: 0.114,
+    earthRotationZ: 0.220,
+    earthPositionX: 0.210,
+    cameraZ: 1.400,
     duration: 1.2,
     autoRotate: false,
   },
   {
     id: "asia",
     title: "Shared Horizons",
-    subtitle: "🌏 Eastern Hemisphere",
+    subtitle: "Eastern Hemisphere",
     description: "Thousands of miles apart, yet we are separated only by borders we've drawn on a map that has none.",
     align: "right",
-    earthRotationY: Math.PI * 0.25,
-    earthPositionX: -0.5,
-    cameraZ: 2.5,
+    earthRotationX: 0.660,
+    earthRotationY: -2.975,
+    earthRotationZ: 0.000,
+    earthPositionX: -0.150,
+    cameraZ: 1.400,
     duration: 1.2,
     autoRotate: false,
   },
   {
     id: "africa",
     title: "The Cradle of Life",
-    subtitle: "🌍 African Continent",
+    subtitle: "African Continent",
     description: "Our roots run deep here, connecting us all to the same origin in this vast, spinning home.",
     align: "left",
-    earthRotationY: 0.15,
-    earthPositionX: 0.5,
-    cameraZ: 2.5,
+    earthRotationX: 0.260,
+    earthRotationY: -2.070,
+    earthRotationZ: 0.080,
+    earthPositionX: 0.300,
+    cameraZ: 1.500,
     duration: 1.2,
     autoRotate: false,
   },
   {
     id: "south-america",
     title: "The Breathing Planet",
-    subtitle: "🌎 South American Treasures",
+    subtitle: "South American Treasures",
     description: "A testament to the fragility and beauty of our ecosystem, shared by every person on this globe.",
     align: "right",
-    earthRotationY: -Math.PI * 0.85,
-    earthPositionX: -0.5,
-    cameraZ: 2.5,
+    earthRotationX: -0.230,
+    earthRotationY: -0.360,
+    earthRotationZ: 0.000,
+    earthPositionX: -0.260,
+    cameraZ: 1.500,
     duration: 1.2,
     autoRotate: false,
   },
