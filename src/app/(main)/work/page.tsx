@@ -3,8 +3,8 @@ import {
   Column,
   Heading,
   Meta,
+  Row,
   Schema,
-  Text,
 } from '@once-ui-system/core';
 import { baseURL, about, person, work } from '@/resources';
 import { Projects } from '@/components/work/Projects';
@@ -36,22 +36,27 @@ export default function Work() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <Column
-        fillWidth
-        minHeight="160"
-        horizontal="center"
-        marginBottom="32"
-      >
+      <Column fillWidth minHeight="160" horizontal="center" marginBottom="32">
         <Heading marginBottom="s" variant="heading-strong-xl" align="center">
           {work.title}
         </Heading>
 
-        <Badge
-          icon="cv"
-          padding="s"
-          title="CV"
-          href="/Hazim_Alper_Ata-CV.pdf"
-        />
+        <Row vertical="center" gap="16">
+          <Badge
+            id="en"
+            icon="cv"
+            padding="s"
+            title="CV (English)"
+            href="/Hazim_Alper_Ata-EN-CV.pdf"
+          />
+          <Badge
+            id="tr"
+            icon="cv"
+            padding="s"
+            title="CV (Türkçe)"
+            href="/Hazim_Alper_Ata-TR-CV.pdf"
+          />
+        </Row>
       </Column>
 
       <Projects />

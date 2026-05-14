@@ -50,18 +50,19 @@ const social: Social = [
 ];
 
 const home: Home = {
-  path: "/",
-  image: "/images/og/home.png",
-  label: "Home",
+  path: '/',
+  image: '/images/og/home.png',
+  label: 'Home',
   title: `${person.name} – Frontend & Mobile Developer`,
   description: `I build scalable web and mobile applications using React, Next.js and React Native.`,
   headline: <>Building scalable products from idea to production</>,
 
   subline: (
     <>
-      I'm a frontend and mobile developer specializing in <strong>React, Next.js and React Native</strong>.
-      I design and build complete products — from UI to production-ready systems — with a focus on performance,
-      scalability and user experience.
+      I'm a frontend and mobile developer specializing in{' '}
+      <strong>React, Next.js and React Native</strong>. I design and build
+      complete products — from UI to production-ready systems — with a focus on
+      performance, scalability and user experience.
     </>
   ),
 
@@ -69,14 +70,14 @@ const home: Home = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">1likte</strong>
-        <Line background="brand-alpha-strong" vert height="20"/>
+        <strong className="ml-4">LinkedIn</strong>
+        <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
-          Current Main Project
+          Open To Work
         </Text>
       </Row>
     ),
-    href: "/work",
+    href: 'https://www.linkedin.com/in/hazim-alper-ata/',
   },
 };
 
