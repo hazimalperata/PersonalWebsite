@@ -71,7 +71,18 @@ export const labFacts = {
       { step: "Independent review", line: "Each task is checked against the spec and for quality by a separate reviewer, and I make the final call." },
       { step: "Gates, not trust", line: "Type checks, lint, unit and end-to-end tests have to pass before anything is merged or shipped." },
     ],
-    proof: "This site was rebuilt that way: 14 planned tasks, each reviewed, backed by 92 unit tests and 33 end-to-end tests.",
+    /** The Claude Code setup he built and keeps refining on real projects. */
+    system: {
+      title: "The system I built around it",
+      intro: "I don't just prompt an assistant. I built my own Claude Code setup and keep training it on real projects.",
+      parts: [
+        { name: "My own skills", line: "Skills that encode how I work: handing a session over and picking it up again, choosing the right model and budget for each agent, motion rules for every interface, verifying before anything is reported." },
+        { name: "Rules from real incidents", line: "When something fails silently, like a piped exit code that hides a failure or a script that matches itself, it becomes a written rule every agent reads at the start of a session." },
+        { name: "Tools I wrote for it", line: "A click-to-inspect picker for web and mobile so I can point at the exact element, a verifier agent that runs the quality gate, a launcher that boots the emulator and the app, a handoff script." },
+        { name: "How I direct it", line: "Agents work like a team I lead: clear briefs, the cheapest model that can do the job well, independent reviewers, and a plain report of what was verified and what was not." },
+        { name: "What I watch for", line: "No internal detail leaking into what users see, no production change without asking first, and nothing called verified until I have read the actual output." },
+      ],
+    },
   },
   experience: [
     { company: "1likte", role: "CTO", from: "2021", to: "present", line: "Built the social e-commerce platform from scratch: seller and admin panels, mobile app, landing, link shortener; leads its modernisation." },
