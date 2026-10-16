@@ -15,6 +15,8 @@ export function pipelineEdge(xs: readonly number[], p: number): number {
 }
 
 /** How lit each node and its card is for an edge at `edge`: 0 (not reached) to 1 (passed), cumulative. */
-export function pipelineEmphasis(xs: readonly number[], edge: number): number[] {
-  return xs.map((x) => clamp01((edge - x) / SOFT + 0.5));
+export function pipelineEmphasis<T extends number[] | Float32Array = number[]>(xs: readonly number[], edge: number, out?: T): T {
+  const res = (out ?? new Array<number>(xs.length)) as T;
+  for (let i = 0; i < xs.length; i++) res[i] = clamp01((edge - xs[i]) / SOFT + 0.5);
+  return res;
 }

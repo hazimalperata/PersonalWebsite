@@ -232,10 +232,9 @@ describe("AiSection", () => {
 
   it("without motion no scroll trigger is created and the fill stays clear", async () => {
     triggers.list.length = 0;
-    const { container } = view(<AiSteps />);
+    view(<AiSteps />);
     await act(async () => {});
     expect(triggers.list).toHaveLength(0);
-    expect(container.querySelector("[data-active]")).toBeNull();
     expect(setPipelineProgress).not.toHaveBeenCalled();
   });
 

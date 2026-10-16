@@ -112,7 +112,12 @@ describe("pipeline layout", () => {
     expect(getLayout(390, 844, true, { step: row }).pipe.size).toBe(54);
   });
   it("falls back to the prototype formula without anchors", () => {
-    expect(getLayout(1440, 900, false).pipe.size).toBeLessThanOrEqual(96);
-    expect(getLayout(390, 844, true).pipe.size).toBeLessThanOrEqual(54);
+    // desktop: min(96, colW * 0.36), colW = (vw - 2 * pad - 3 * 18) / 4 with pad = min(72, max(18, vw * 0.05))
+    const colD = (1440 - 2 * 72 - 3 * 18) / 4;
+    expect(getLayout(1440, 900, false).pipe.size).toBeCloseTo(Math.min(96, colD * 0.36), 6);
+    expect(getLayout(1000, 800, false).pipe.size).toBeCloseTo(Math.min(96, ((1000 - 2 * 50 - 54) / 4) * 0.36), 6);
+    // mobile: min(54, colW * 0.7), colW = (vw - 36) / 4
+    expect(getLayout(390, 844, true).pipe.size).toBeCloseTo(Math.min(54, ((390 - 36) / 4) * 0.7), 6);
+    expect(getLayout(200, 400, true).pipe.size).toBeCloseTo(Math.min(54, ((200 - 36) / 4) * 0.7), 6);
   });
 });

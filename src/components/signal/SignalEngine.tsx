@@ -181,7 +181,9 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
       pres: { tl: 0, axis: 0, illus: 0 },
       sent: { tl: -1, axis: -1, illus: -1 },
       pipeP: 1,
-      pipeOn: "",
+      pipeRun: null as HTMLElement | null,
+      pipeOn: new Float32Array(4).fill(-1),
+      pipeBuf: new Float32Array(4),
     };
 
     const setMeta = (A: StateMeta, B: StateMeta) => {
@@ -354,19 +356,34 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
 
       // the pipeline fills left to right with the runway's scroll progress (no progress = every node lit);
       // the cards read the same edge as --on0..3 on the runway element
-      if (S.L) {
-        const target = signalStore.get().pipelineProgress ?? 1;
-        S.pipeP += (target - S.pipeP) * (1 - Math.exp(-dt * 6));
+      // Only while a progress is set (the workflow section is mounted); otherwise nothing is eased or written.
+      const progress = signalStore.get().pipelineProgress;
+      if (progress === null) {
+        if (S.pipeP !== 1) {
+          S.pipeP = 1;
+          u.uPipeX.value = 1e5;
+        }
+        S.pipeRun = null;
+        S.pipeOn.fill(-1);
+      } else if (S.L) {
+        S.pipeP += (progress - S.pipeP) * (1 - Math.exp(-dt * 6));
         const xs = S.L.pipe.xs;
         const edge = pipelineEdge(xs, S.pipeP);
         u.uPipeX.value = edge - S.L.vw / 2;
-        const on = pipelineEmphasis(xs, edge)
-          .map((v) => v.toFixed(2))
-          .join(",");
-        if (on !== S.pipeOn) {
-          S.pipeOn = on;
-          const run = document.querySelector<HTMLElement>(signalSelector("pipeRun"));
-          if (run) on.split(",").forEach((v, n) => run.style.setProperty(`--on${n}`, v));
+        const on = pipelineEmphasis(xs, edge, S.pipeBuf);
+        // the runway element is resolved once and re-queried only when it leaves the document
+        if (!S.pipeRun?.isConnected) {
+          S.pipeRun = document.querySelector<HTMLElement>(signalSelector("pipeRun"));
+          S.pipeOn.fill(-1);
+        }
+        const run = S.pipeRun;
+        if (run) {
+          for (let n = 0; n < 4; n++) {
+            if (Math.abs(on[n] - S.pipeOn[n]) >= 0.005) {
+              S.pipeOn[n] = on[n];
+              run.style.setProperty(`--on${n}`, on[n].toFixed(2));
+            }
+          }
         }
       }
 
