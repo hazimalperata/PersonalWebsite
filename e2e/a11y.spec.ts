@@ -1,26 +1,33 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
-const THEME_KEY = "theme"; // same key as src/lib/theme.ts
+// Serious and critical only. Run with the particle canvas live (swiftshader) and with reduced motion (static
+// timeline), since the two draw different DOM.
+const PATHS = ["/", "/tr", "/work/dremly", "/gallery", "/xyz"];
 
-for (const theme of ["dark", "light"]) {
-  for (const path of ["/", "/tr"]) {
-    test(`no serious a11y violations on ${path} (${theme})`, async ({ page }) => {
+async function audit(page: Page) {
+  await page.waitForLoadState("networkidle");
+  const { violations } = await new AxeBuilder({ page }).analyze();
+  const bad = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
+  expect(bad.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(" | ")}`)).toEqual([]);
+}
+
+for (const path of PATHS) {
+  test(`no serious a11y violations on ${path}`, async ({ page }) => {
+    await page.goto(path);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await audit(page);
+  });
+}
+
+test.describe("reduced motion", () => {
+  test.use({ reducedMotion: "reduce" });
+  for (const path of PATHS) {
+    test(`no serious a11y violations on ${path} (static timeline)`, async ({ page }) => {
       await page.goto(path);
-      await page.evaluate(([key, value]) => localStorage.setItem(key, value), [THEME_KEY, theme]);
-      await page.reload();
-      await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
-      await page.locator("h1").waitFor();
-      // Wait for the hero reveal to settle: contrast is measured on the final positions.
-      await page.waitForFunction(() =>
-        [...document.querySelectorAll(".split-line")].every((el) => {
-          const t = getComputedStyle(el).transform;
-          return t === "none" || /matrix\(1, 0, 0, 1, 0, -?0(\.\d+)?\)/.test(t);
-        }),
-      );
-      const { violations } = await new AxeBuilder({ page }).analyze();
-      const bad = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
-      expect(bad.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(" | ")}`)).toEqual([]);
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      await expect(page.locator("[data-signal-static]")).toBeVisible();
+      await audit(page);
     });
   }
-}
+});
