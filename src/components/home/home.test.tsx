@@ -141,6 +141,31 @@ describe("MoreWork", () => {
   });
 });
 
+describe("MoreWork language marks", () => {
+  it("marks English-only projects lang=en on the Turkish list and leaves translated ones unmarked", () => {
+    const base = projects.find((p) => !p.featured) as ProjectMeta;
+    const en = { ...base, slug: "only-en", title: "Only English", summary: "English summary.", fallback: true, locale: "en" as const };
+    const tr = { ...base, slug: "has-tr", title: "Çeviri var", summary: "Türkçe özet.", fallback: false, locale: "tr" as const };
+    view(<MoreWork projects={[en, tr]} />, "tr");
+    expect(screen.getByText("Only English").closest("[lang]")?.getAttribute("lang")).toBe("en");
+    expect(screen.getByText("English summary.").closest("[lang]")?.getAttribute("lang")).toBe("en");
+    expect(screen.getByText("Çeviri var").closest("[lang]")).toBeNull();
+    expect(screen.getByText("Türkçe özet.").closest("[lang]")).toBeNull();
+  });
+});
+
+describe("Contact CV", () => {
+  it("links the English CV on both locales and keeps the localized label", () => {
+    for (const locale of ["en", "tr"] as const) {
+      const { container } = view(<Contact />, locale);
+      const a = container.querySelector("a[download]");
+      expect(a?.getAttribute("href")).toBe("/Hazim_Alper_Ata-EN-CV.pdf");
+      expect(a?.textContent).toBe(messages[locale].home.contact.cv);
+      cleanup();
+    }
+  });
+});
+
 describe("TimelineSection", () => {
   it("links lanes that have a case page and leaves the rest as plain text", () => {
     view(<TimelineSection />);
@@ -280,6 +305,11 @@ describe("copy rules", () => {
 
   it("keeps the hero headline as plain server-rendered text", () => {
     const { container } = view(<Hero apps={3} />);
-    expect(container.querySelector("h1")?.textContent).toBe("Built to thehighest standard.");
+    expect(container.querySelector("h1")?.textContent).toBe("Built to the highest standard.");
+  });
+
+  it("keeps a space between the two headline lines in Turkish too", () => {
+    const { container } = view(<Hero apps={3} />, "tr");
+    expect(container.querySelector("h1")?.textContent).toBe(`${trHome.hero.line1} ${trHome.hero.line2}`);
   });
 });

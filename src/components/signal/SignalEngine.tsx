@@ -440,7 +440,7 @@ export default function SignalEngine({ coarse, onLost }: { coarse: boolean; onLo
         dpr={[1, coarse ? 1 : 1.5]}
         frameloop="never"
         style={{ pointerEvents: "none" }}
-        gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
+        gl={{ antialias: false, alpha: true, powerPreference: "default" }}
       >
         <Field coarse={coarse} onLost={onLost} />
       </Canvas>

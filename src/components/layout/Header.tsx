@@ -5,7 +5,6 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { cn } from "@/lib/cn";
 import { Link, usePathname } from "@/i18n/navigation";
 import { Container } from "@/components/ui/Container";
-import { useMotionEnabled } from "@/components/signal";
 import { LocaleSwitch } from "./LocaleSwitch";
 
 const sections = ["work", "about", "ai", "contact"] as const;
@@ -28,7 +27,6 @@ export function Header() {
   const a11y = useTranslations("a11y");
   const pathname = usePathname();
   const onHome = pathname === "/";
-  const motion = useMotionEnabled();
   const scrolled = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [open, setOpen] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
@@ -60,8 +58,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-40 transition-[background-color,height,backdrop-filter] duration-300 ease-out motion-reduce:transition-none",
-        scrolled && motion ? "h-14" : "h-16",
+        "fixed inset-x-0 top-0 z-40 transition-[background-color,backdrop-filter] duration-300 ease-out motion-reduce:transition-none h-16",
         (scrolled || open) && "bg-bg/80 backdrop-blur-md",
       )}
     >

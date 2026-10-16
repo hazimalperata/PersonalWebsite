@@ -137,7 +137,7 @@
   color: var(--color-accent);
   min-width: 4.6ch;
 }
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
   .counterPending {
     opacity: 0;
   }
@@ -955,7 +955,47 @@ a.legendItem:hover {
   }
 }
 
-/* Reduced motion: the field is a still, so nothing needs a tall scroll runway. */
+/* Reduced motion, or no WebGL (the engine sets html[data-signal-static-mode]): the field is a still, so nothing
+   needs a tall scroll runway. The two blocks below carry the same rules. */
+:global(html[data-signal-static-mode]) .tl {
+  height: 100svh;
+}
+:global(html[data-signal-static-mode]) .tlSticky {
+  position: relative;
+}
+:global(html[data-signal-static-mode]) .hero {
+  min-height: auto;
+  padding-bottom: 80px;
+}
+:global(html[data-signal-static-mode]) .cue {
+  display: none;
+}
+:global(html[data-signal-static-mode]) .proofStep {
+  min-height: auto;
+  padding-top: 3svh;
+  padding-bottom: 3svh;
+}
+:global(html[data-signal-static-mode]) .proofCopy {
+  margin-left: 0;
+}
+:global(html[data-signal-static-mode]) .work,
+:global(html[data-signal-static-mode]) .workRight {
+  min-height: auto;
+  padding-top: 6svh;
+  padding-bottom: 6svh;
+  grid-template-columns: minmax(0, 1fr);
+}
+:global(html[data-signal-static-mode]) .stage {
+  display: none;
+}
+:global(html[data-signal-static-mode]) .aiRun {
+  min-height: auto;
+}
+:global(html[data-signal-static-mode]) .contact {
+  min-height: 60svh;
+  padding-top: 8svh;
+  padding-bottom: 8svh;
+}
 @media (prefers-reduced-motion: reduce) {
   .tl {
     height: 100svh;

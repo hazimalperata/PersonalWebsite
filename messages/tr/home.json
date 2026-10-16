@@ -9,7 +9,6 @@
     "seeWork": "İşlere bak",
     "contact": "İletişime geç",
     "counter": "commit, {lanes} projede ({first}–{last})",
-    "counterLabel": "{count} commit",
     "scroll": "Kaydır"
   },
   "timeline": {

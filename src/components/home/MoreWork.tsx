@@ -19,11 +19,14 @@ export function MoreWork({ projects }: { projects: ProjectMeta[] }) {
           {projects.map((p) => (
             <li key={p.slug}>
               <Link href={`/work/${p.slug}`}>
-                <span className={css.t}>
+                {/* EN-only projects keep their English copy on /tr; mark it so assistive tech reads it right */}
+                <span className={css.t} lang={p.fallback ? "en" : undefined}>
                   {p.title}
                   {p.status !== "completed" && <span className={css.s}>{status(p.status)}</span>}
                 </span>
-                <span className={css.d}>{p.summary}</span>
+                <span className={css.d} lang={p.fallback ? "en" : undefined}>
+                  {p.summary}
+                </span>
               </Link>
             </li>
           ))}

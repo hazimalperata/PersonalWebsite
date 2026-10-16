@@ -55,6 +55,19 @@ describe("getProofFacts", () => {
   });
 });
 
+describe("years proof", () => {
+  afterEach(() => vi.useRealTimers());
+  const years = () => getProofFacts([], ["2020-04"]).find((f) => f.id === "years")?.value;
+
+  it("counts full years from the start month, not calendar years", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-02-10T12:00:00Z"));
+    expect(years()).toBe(5);
+    vi.setSystemTime(new Date("2026-04-10T12:00:00Z"));
+    expect(years()).toBe(6);
+  });
+});
+
 describe("formatProof", () => {
   it("groups thousands per locale", () => {
     expect(formatProof(1700, "en")).toBe("1,700");

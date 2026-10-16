@@ -2,6 +2,7 @@ import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations, getLocale } from "next-intl/server";
 import { SignalProvider } from "@/components/signal";
+import { SIGNAL_ATTR } from "@/components/signal/dom";
 import { plexMono, sora } from "@/components/signal/fonts";
 import { cn } from "@/lib/cn";
 import type { Metadata } from "next";
@@ -32,7 +33,7 @@ export default async function GlobalNotFound() {
               <p className="max-w-md text-lg text-fg-2">{t("lead")}</p>
               <a
                 href={locale === "en" ? "/" : `/${locale}`}
-                data-signal-target=""
+                {...{ [SIGNAL_ATTR.target]: "" }}
                 className="mt-8 rounded-full border border-fg/30 px-6 py-3 text-fg hover:border-fg focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent"
               >
                 {t("home")}

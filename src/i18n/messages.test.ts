@@ -73,7 +73,7 @@ describe("messages", () => {
   it("carries the keys the Signal engine reads", () => {
     for (const locale of ["en", "tr"]) {
       const s = load(locale, "signal");
-      for (const k of ["staticLabel", "pointRatio", "illustration"]) expect(s[k], k).toBeTruthy();
+      for (const k of ["pointRatio", "illustration"]) expect(s[k], k).toBeTruthy();
     }
   });
 });

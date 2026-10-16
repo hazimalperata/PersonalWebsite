@@ -91,6 +91,12 @@ describe("ProjectHeader", () => {
     const note = screen.getByText(trProject.englishOnly);
     expect(note).toBeTruthy();
     expect(screen.getByRole("heading", { level: 1 }).closest("[lang]")?.getAttribute("lang")).toBe("en");
+    // the Turkish note, labels and status are not inside any English-marked element
+    expect(note.closest("[lang]")).toBeNull();
+    expect(screen.getByText(trProject.role).closest("[lang]")).toBeNull();
+    expect(screen.getByText(trProject.completed).closest("[lang]")).toBeNull();
+    // and the English copy from the EN file is
+    expect(screen.getByText(base.summary).closest("[lang]")?.getAttribute("lang")).toBe("en");
   });
 
   it("opens store links in a new tab with the hidden hint", async () => {

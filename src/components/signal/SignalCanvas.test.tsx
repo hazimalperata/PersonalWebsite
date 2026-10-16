@@ -33,19 +33,27 @@ describe("SignalCanvas fallbacks", () => {
     vi.restoreAllMocks();
   });
 
-  it("renders the static timeline (role img, named from signal.staticLabel) when WebGL is absent", async () => {
+  const staticEl = () => document.querySelector("[data-signal-static]");
+  const modeFlag = () => document.documentElement.hasAttribute("data-signal-static-mode");
+
+  it("renders the static timeline (aria-hidden, flagging <html>) when WebGL is absent", async () => {
     vi.stubGlobal("WebGLRenderingContext", undefined);
     expect(() => render(<SignalCanvas coarse={false} />)).not.toThrow();
-    const img = await screen.findByRole("img", { name: "signal.staticLabel" });
-    expect(img).toBeTruthy();
+    await waitFor(() => expect(staticEl()).toBeTruthy());
+    expect(staticEl()?.querySelector("canvas")?.getAttribute("aria-hidden")).toBe("true");
+    expect(screen.queryByRole("img")).toBeNull();
+    expect(modeFlag()).toBe(true);
     expect(screen.queryByTestId("engine")).toBeNull();
+    cleanup();
+    expect(modeFlag()).toBe(false);
   });
 
   it("falls back when the context cannot be created", async () => {
     vi.stubGlobal("WebGLRenderingContext", function WebGLRenderingContext() {});
     vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(() => null);
     render(<SignalCanvas coarse={false} />);
-    expect(await screen.findByRole("img", { name: "signal.staticLabel" })).toBeTruthy();
+    await waitFor(() => expect(staticEl()).toBeTruthy());
+    expect(modeFlag()).toBe(true);
   });
 
   it("mounts the engine when WebGL works, and drops to the static timeline when the context is lost", async () => {
@@ -55,10 +63,12 @@ describe("SignalCanvas fallbacks", () => {
     );
     render(<SignalCanvas coarse={false} />);
     await waitFor(() => expect(screen.getByTestId("engine")).toBeTruthy());
-    expect(screen.queryByRole("img")).toBeNull();
+    expect(staticEl()).toBeNull();
+    expect(modeFlag()).toBe(false);
     vi.restoreAllMocks();
     act(() => lose?.());
-    expect(await screen.findByRole("img", { name: "signal.staticLabel" })).toBeTruthy();
+    await waitFor(() => expect(staticEl()).toBeTruthy());
+    expect(modeFlag()).toBe(true);
     expect(screen.queryByTestId("engine")).toBeNull();
   });
 });

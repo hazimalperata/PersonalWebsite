@@ -9,14 +9,13 @@ import css from "./home.module.css";
 export function Hero({ apps }: { apps: number }) {
   const t = useTranslations("home");
   const locale = useLocale() === "tr" ? "tr" : "en";
-  const total = totalCommits.toLocaleString(locale === "tr" ? "tr-TR" : "en-US");
   return (
     <SignalSection id="top" state="nebula">
       <div className={css.hero}>
         <div className={css.heroInner}>
           <span className={css.tag}>{t("hero.tag")}</span>
           <h1>
-            <span>{t("hero.line1")}</span>
+            <span>{t("hero.line1")}</span>{" "}
             <span>{t("hero.line2")}</span>
           </h1>
           <p className={css.msg}>{t("hero.message")}</p>
@@ -33,7 +32,7 @@ export function Hero({ apps }: { apps: number }) {
             </a>
           </div>
           <div className={css.counter}>
-            <Counter value={totalCommits} locale={locale} label={t("hero.counterLabel", { count: total })} />
+            <Counter value={totalCommits} locale={locale} />
             <span className={css.counterL}>
               {t("hero.counter", {
                 lanes: lanes.length,

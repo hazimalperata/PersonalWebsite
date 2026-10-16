@@ -119,6 +119,12 @@ describe("Living Signal content model", () => {
     for (const f of readdirSync(dir).filter((x) => x.endsWith(".mdx"))) {
       const text = readFileSync(path.join(dir, f), "utf8");
       expect(text, f).not.toMatch(/\bGPA\b|\bNDA\b/);
+      // "Rommer" is the client: only "Movement analysis for Rommer" / "Rommer International" (and the TR title) may use it
+      const rest = text
+        .replace(/Movement analysis for Rommer/g, "")
+        .replace(/Rommer için hareket analizi/g, "")
+        .replace(/Rommer International/g, "");
+      expect(rest, f).not.toMatch(/Rommer/);
     }
   });
 });

@@ -32,8 +32,11 @@ export function getProofFacts(projects: ProjectMeta[], experienceStarts: string[
     const stores = new Set(p.storeLinks.map((l) => l.store));
     return stores.has("appStore") && stores.has("googlePlay");
   }).length;
-  const earliest = Math.min(...experienceStarts.map((s) => Number(s.slice(0, 4))));
-  const years = new Date().getFullYear() - earliest;
+  const now = new Date();
+  const nowMonths = now.getFullYear() * 12 + now.getMonth();
+  // full years since the earliest start month ("YYYY-MM"), so January-March does not read one year too high
+  const earliest = Math.min(...experienceStarts.map((s) => Number(s.slice(0, 4)) * 12 + Number(s.slice(5, 7)) - 1));
+  const years = Math.max(0, Math.floor((nowMonths - earliest) / 12));
   return [
     { id: "apps", value: apps, suffix: "" },
     commitFact("seller"),

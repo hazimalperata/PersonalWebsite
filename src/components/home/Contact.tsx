@@ -1,4 +1,4 @@
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { SignalSection } from "@/components/signal";
 import { NewTabHint } from "@/components/ui/NewTabHint";
 import { profile } from "@/data/profile";
@@ -6,7 +6,6 @@ import css from "./home.module.css";
 
 export function Contact() {
   const t = useTranslations("home.contact");
-  const locale = useLocale() === "tr" ? "tr" : "en";
   const elsewhere = profile.social.filter((s) => s.icon !== "email");
   return (
     <SignalSection id="contact" state="contact">
@@ -18,7 +17,7 @@ export function Contact() {
             {profile.email}
           </a>
           <div className={css.btns}>
-            <a className={`${css.btn} ${css.btnPrimary}`} href={profile.cv[locale]} download>
+            <a className={`${css.btn} ${css.btnPrimary}`} href={profile.cv.en} download>
               {t("cv")}
             </a>
           </div>

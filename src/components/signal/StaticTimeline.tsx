@@ -8,19 +8,27 @@ import { SignalOverlay, useBox } from "./SignalOverlay";
 import css from "./signal.module.css";
 import { buildCalmState, buildProjectState, getLayout, timelineState, toScreen } from "./states";
 import { signalStore } from "./store";
-import { useSignalText } from "./useSignalText";
+
+/** Set on <html> while the still timeline is shown (reduced motion, no WebGL, lost context). */
+export const STATIC_MODE_ATTR = "data-signal-static-mode";
 
 /**
  * The honest fallback (reduced motion, no WebGL, lost context): the same data drawn once into a 2D canvas, no
  * animation. Home shows the whole timeline, a case page shows its own lane, other scenes a faint still.
  */
 export function StaticTimeline() {
-  const t = useSignalText();
   const [ref, box] = useBox<HTMLDivElement>();
   const canvas = useRef<HTMLCanvasElement>(null);
   const snap = useSyncExternalStore(signalStore.subscribe, signalStore.get, signalStore.get);
   const pts = useMemo(() => buildPoints(1), []);
   const mobile = !!box && box.w < 720;
+
+  // The page collapses its scroll runways while the still timeline is what the visitor gets.
+  useEffect(() => {
+    const root = document.documentElement;
+    root.setAttribute(STATIC_MODE_ATTR, "");
+    return () => root.removeAttribute(STATIC_MODE_ATTR);
+  }, []);
 
   useEffect(() => {
     const c = canvas.current;
@@ -64,7 +72,7 @@ export function StaticTimeline() {
   return (
     <>
       <div ref={ref} className={css.static} {...{ [SIGNAL_ATTR.static]: "" }}>
-        <canvas ref={canvas} role="img" aria-label={t("staticLabel")} />
+        <canvas ref={canvas} aria-hidden="true" />
       </div>
       <SignalOverlay coarse={false} fixed />
     </>

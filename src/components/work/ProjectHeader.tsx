@@ -20,6 +20,8 @@ export async function ProjectHeader({ meta, locale }: { meta: ProjectMeta; local
   const laneLine =
     lane && range && total > 0 ? `${t("commits", { count: total })} · ${formatLaneRange(range, locale)}` : null;
 
+  // Only text that comes from the EN content file is marked English; the labels around it follow the page locale.
+  const en = meta.fallback ? "en" : undefined;
   const storeHrefs = new Set(meta.storeLinks.map((s) => s.href));
   const visit = meta.link && !storeHrefs.has(meta.link) ? meta.link : null;
   const links = [
@@ -30,21 +32,22 @@ export async function ProjectHeader({ meta, locale }: { meta: ProjectMeta; local
   return (
     <header className="mt-6 flex flex-col md:flex-row md:items-stretch md:gap-8">
       <div
-        lang={meta.fallback ? "en" : undefined}
         className="rounded-2xl border border-fg/10 bg-bg/80 p-6 backdrop-blur-md md:w-[min(48rem,58%)] md:shrink-0 md:p-9"
       >
         <p className="text-sm text-fg/80">{[t(`kind.${meta.kind}`), meta.year, ...meta.platforms].join(" · ")}</p>
-        <h1 className="mt-3 max-w-[20ch] font-display text-4xl font-semibold md:text-5xl">{meta.title}</h1>
+        <h1 lang={en} className="mt-3 max-w-[20ch] font-display text-4xl font-semibold md:text-5xl">{meta.title}</h1>
         {laneLine ? (
           <p data-testid="lane-line" className="mt-3 font-mono text-sm text-fg/80">
             {laneLine}
           </p>
         ) : null}
-        <p className="mt-5 max-w-[62ch] text-lg text-fg/85">{meta.summary}</p>
+        <p lang={en} className="mt-5 max-w-[62ch] text-lg text-fg/85">{meta.summary}</p>
         <dl className="mt-7 grid gap-5 text-sm sm:grid-cols-2">
           <div>
             <dt className="text-fg/70">{t("role")}</dt>
-            <dd className="mt-1">{meta.role}</dd>
+            <dd lang={en} className="mt-1">
+              {meta.role}
+            </dd>
           </div>
           <div>
             <dt className="text-fg/70">{t("status")}</dt>
@@ -53,7 +56,7 @@ export async function ProjectHeader({ meta, locale }: { meta: ProjectMeta; local
           {meta.stack.length > 0 ? (
             <div className="sm:col-span-2">
               <dt className="text-fg/70">{t("stack")}</dt>
-              <dd className="mt-1 font-mono text-[0.9rem]">{meta.stack.join(" · ")}</dd>
+              <dd lang={en} className="mt-1 font-mono text-[0.9rem]">{meta.stack.join(" · ")}</dd>
             </div>
           ) : null}
         </dl>

@@ -9,7 +9,6 @@
     "seeWork": "See the work",
     "contact": "Get in touch",
     "counter": "commits across {lanes} projects, {first}–{last}",
-    "counterLabel": "{count} commits",
     "scroll": "Scroll"
   },
   "timeline": {
