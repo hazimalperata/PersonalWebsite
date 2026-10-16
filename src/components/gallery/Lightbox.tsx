@@ -138,7 +138,6 @@ export function Lightbox({ items, index, onClose, onIndex }: LightboxProps) {
           className="relative h-[80vh] w-[90vw] max-w-6xl"
           initial={{ scale: 1.02 }}
           animate={{ scale: 1 }}
-          exit={{ scale: 1.02 }}
           transition={FADE}
         >
           <Image key={item.src} src={item.src} alt={item.alt} fill sizes="100vw" className="object-contain" loading="eager" />
