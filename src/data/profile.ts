@@ -23,11 +23,6 @@ export interface EducationItem {
   description: L;
 }
 
-export interface SkillGroup {
-  title: L;
-  items: string[];
-}
-
 const email = "hazimalperata@gmail.com";
 
 export const profile = {
@@ -185,25 +180,6 @@ export const profile = {
       },
     },
   ] satisfies EducationItem[],
-
-  skills: [
-    {
-      title: { en: "Frontend", tr: "Frontend" },
-      items: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-    },
-    {
-      title: { en: "Mobile", tr: "Mobil" },
-      items: ["React Native", "Expo"],
-    },
-    {
-      title: { en: "Backend & systems", tr: "Backend ve sistemler" },
-      items: ["Go", "Node.js", "Express", "MySQL", "REST API"],
-    },
-    {
-      title: { en: "Performance & optimization", tr: "Performans ve optimizasyon" },
-      items: ["SEO", "LCP", "Caching", "TanStack", "Zustand"],
-    },
-  ] satisfies SkillGroup[],
 };
 
 export type Profile = typeof profile;

@@ -1,3 +1,119 @@
 {
-  "name": "Hazim Alper Ata"
+  "name": "Hazim Alper Ata",
+  "hero": {
+    "tag": "Frontend & mobile engineer · Bursa, Türkiye",
+    "line1": "Built to the",
+    "line2": "highest standard.",
+    "message": "Whatever I take on, I build it to the highest standard: serious, real, and done the way modern technology says it should be done.",
+    "apps": "{count, plural, one {# app is} other {# apps are}} live on the App Store and Google Play",
+    "seeWork": "See the work",
+    "contact": "Get in touch",
+    "counter": "commits across {lanes} projects, {first}–{last}",
+    "counterLabel": "{count} commits",
+    "scroll": "Scroll"
+  },
+  "timeline": {
+    "title": "One point, one commit.",
+    "caption": "Every point is a commit I made, counted from git.",
+    "legend": "Projects on the timeline",
+    "commits": "{count} commits"
+  },
+  "proof": {
+    "heading": "In numbers",
+    "apps": "apps live on the App Store and Google Play",
+    "seller": "commits on the 1likte seller panel since {year}",
+    "mobile": "commits on the 1likte mobile app",
+    "years": "years shipping production software"
+  },
+  "work": {
+    "heading": "Selected work",
+    "caseStudy": "Case study",
+    "commits": "{count} commits",
+    "screenshot": "{title} app screenshot {n}",
+    "screenshotWide": "{title} screenshot",
+    "clientNote": "Client project · screens not public yet",
+    "illustrationCaption": "Illustration · system overview, not a screenshot",
+    "illustrationAlt": "Phone app, API and staff panel connected in a row",
+    "illustration": {
+      "app": "Mobile app",
+      "appNote": "pose on device",
+      "api": "API",
+      "apiNote": "NestJS · Postgres",
+      "panel": "Staff panel",
+      "panelNote": "Next.js"
+    },
+    "stackLabel": "Stack",
+    "kind": {
+      "product": "Product",
+      "client": "Client",
+      "startup": "Startup",
+      "personal": "Personal"
+    },
+    "store": {
+      "appStore": "App Store",
+      "googlePlay": "Google Play"
+    }
+  },
+  "more": {
+    "tag": "More work",
+    "title": "Also built.",
+    "galleryTitle": "Photo gallery",
+    "galleryLine": "A set of photographs."
+  },
+  "ai": {
+    "tag": "AI",
+    "title": "How I use AI",
+    "intro": "AI is part of how I build and part of what I build. It makes me faster; it does not lower the bar.",
+    "productsLabel": "AI in my products",
+    "products": {
+      "dremly": {
+        "name": "Dremly",
+        "line": "Interprets a dream from text or voice, then turns it into an image or a short video."
+      },
+      "posme": {
+        "name": "Posme",
+        "line": "Reads a single camera frame and designs a pose for that scene; live coaching runs on the phone."
+      },
+      "rommer": {
+        "name": "Movement analysis for Rommer",
+        "line": "Pose is analysed on the device in real time while the patient exercises."
+      }
+    },
+    "lead": "I don't just prompt an assistant. I built my own Claude Code setup and keep training it on real projects.",
+    "stepsLabel": "How I work with AI",
+    "steps": {
+      "spec": {
+        "title": "Spec first",
+        "line": "Every feature starts as a written spec and a task plan before any code is written.",
+        "detail": "My own Claude Code skills encode how I work: planning, handing a session over and picking it up again, motion rules for every interface."
+      },
+      "agents": {
+        "title": "Agents as a team",
+        "line": "Coding agents build independent tasks in parallel, each in its own isolated branch.",
+        "detail": "I lead them like a team: clear briefs, the cheapest model that can do the job well, and a plain report of what was verified and what was not."
+      },
+      "review": {
+        "title": "Independent review",
+        "line": "Each task is checked against the spec and for quality by a separate reviewer, and I make the final call.",
+        "detail": "Tools I wrote help me check: a click-to-inspect picker for web and mobile to point at the exact element, a verifier agent that runs the quality gate, a launcher that boots the emulator and the app."
+      },
+      "gates": {
+        "title": "Gates, not trust",
+        "line": "Type checks, lint, unit and end-to-end tests have to pass before anything is merged or shipped.",
+        "detail": "When something fails silently, it becomes a written rule every agent reads. No internal detail reaches users, no production change happens without asking, and nothing is called verified until I have read the actual output."
+      }
+    }
+  },
+  "experience": {
+    "tag": "Experience",
+    "title": "Where it was built.",
+    "present": "Present",
+    "timelineLabel": "Years of experience"
+  },
+  "contact": {
+    "tag": "Contact",
+    "title": "Let's build it properly.",
+    "cv": "Download CV",
+    "elsewhere": "Elsewhere"
+  }
 }
