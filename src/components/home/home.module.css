@@ -1,0 +1,981 @@
+/* Home page. Dark only; tokens come from globals.css (--color-*), fonts from the signal provider. */
+.home {
+  --pad: clamp(18px, 5vw, 72px);
+  --soft: color-mix(in oklab, var(--color-fg) 82%, transparent);
+  --line: rgb(232 234 240 / 0.12);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  /* above the field's decorative labels (z 1), below the header */
+  z-index: 2;
+  overflow-x: clip;
+}
+
+.mono {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.tag {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  color: var(--color-fg-2);
+}
+.panel {
+  background: color-mix(in oklab, var(--color-bg) 66%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgb(232 234 240 / 0.08);
+  border-radius: 20px;
+}
+.h2 {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.7rem, 3.6vw, 2.8rem);
+  margin: 14px 0 28px;
+}
+
+/* reveal on scroll: starts visible in the HTML, armed by the client only when motion is allowed */
+.reveal[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.reveal[data-reveal="shown"] {
+  transition:
+    opacity 0.8s var(--ease),
+    transform 0.8s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+
+/* ---------- buttons and links ---------- */
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  border: 1px solid var(--line);
+  background: color-mix(in oklab, var(--color-bg) 50%, transparent);
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s var(--ease),
+    background-color 0.25s ease;
+}
+.btn:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+.btnPrimary {
+  background: var(--color-fg);
+  color: var(--color-bg);
+  border-color: var(--color-fg);
+  font-weight: 600;
+}
+.btnPrimary:hover {
+  background: #fff;
+}
+
+/* ---------- hero ---------- */
+.hero {
+  min-height: 112svh;
+  padding: 120px var(--pad) 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.heroInner {
+  max-width: 54rem;
+}
+.hero h1 {
+  font-weight: 600;
+  font-size: clamp(2.4rem, 5.6vw, 5.2rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  margin: 18px 0 22px;
+}
+.hero h1 span {
+  display: block;
+}
+.msg {
+  color: var(--soft);
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  line-height: 1.6;
+  max-width: 36rem;
+  margin: 0 0 28px;
+}
+.who {
+  font-size: 0.875rem;
+  color: var(--color-fg-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.who b {
+  color: var(--color-fg);
+  font-weight: 500;
+}
+.counter {
+  margin-top: 40px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.counterN {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+  min-width: 4.6ch;
+}
+.counterL {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.875rem;
+  color: var(--color-fg-2);
+  max-width: 24rem;
+  line-height: 1.5;
+}
+.cue {
+  position: absolute;
+  left: var(--pad);
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  color: var(--color-fg-2);
+}
+.cueLine {
+  position: relative;
+  width: 1px;
+  height: 34px;
+  overflow: hidden;
+  background: rgb(232 234 240 / 0.14);
+}
+.cueDot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 12px;
+  background: var(--color-fg);
+  transform: translateY(-100%);
+}
+.cueOn .cueDot {
+  animation: cue 2.2s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+@keyframes cue {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0.2;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(300%);
+    opacity: 0;
+  }
+}
+
+/* ---------- timeline ---------- */
+.tl {
+  height: 190svh;
+  position: relative;
+}
+.tlSticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: 84px var(--pad) 0;
+  pointer-events: none;
+}
+.tlSticky h2 {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  margin: 0;
+}
+.tlFoot {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: clamp(14px, 4svh, 40px);
+  display: grid;
+  gap: 12px;
+}
+.tlCaption {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.875rem;
+  color: var(--color-fg);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+.tlDot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
+}
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  pointer-events: auto;
+}
+.legend li {
+  display: flex;
+}
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  color: var(--color-fg-2);
+  background: color-mix(in oklab, var(--color-bg) 72%, transparent);
+  transition: color 0.2s ease;
+}
+a.legendItem:hover {
+  color: var(--color-fg);
+}
+.legendItem i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.legendItem small {
+  font-size: inherit;
+  opacity: 0.7;
+}
+
+/* The still timeline (reduced motion, no WebGL) is fixed behind the whole page. Keep it, and its labels, out of the
+   way of the text except while the timeline section is in the middle of the screen. */
+:global(html:not([data-home-timeline]):has([data-signal-static])) :global([data-signal-static]),
+:global(html:not([data-home-timeline]):has([data-signal-static])) :global([data-signal-overlay]) {
+  opacity: 0 !important;
+}
+:global([data-signal-static]),
+:global([data-signal-overlay]) {
+  transition: opacity 0.35s ease;
+}
+
+/* ---------- proof ---------- */
+.proofStep {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--pad);
+}
+.proofCopy {
+  margin-left: auto;
+  width: min(32rem, 100%);
+  padding: 26px 28px;
+}
+.proofIdx {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  color: var(--color-fg-2);
+}
+.proofBig {
+  font-size: clamp(2.6rem, 5.2vw, 4rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin: 10px 0 0;
+}
+.proofLbl {
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  margin: 12px 0 0;
+}
+
+/* ---------- selected work ---------- */
+.work {
+  min-height: 100svh;
+  padding: 12svh var(--pad);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: 32px;
+  align-items: center;
+}
+.workRight {
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+}
+.workRight .stage {
+  order: 2;
+}
+.stage {
+  align-self: stretch;
+  min-height: 40svh;
+}
+.workCard {
+  padding: clamp(20px, 2.4vw, 34px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+.workCardPhones {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+.meta {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  color: var(--color-fg-2);
+  display: flex;
+  gap: 6px 14px;
+  flex-wrap: wrap;
+}
+.meta .sw {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.meta .sw i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.workCard h3 {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.9rem, 3.6vw, 3rem);
+  line-height: 1.05;
+  margin: 12px 0;
+}
+.workCard p {
+  margin: 0 0 12px;
+  color: var(--soft);
+  line-height: 1.6;
+  font-size: 0.9375rem;
+}
+.workCard .role {
+  color: var(--color-fg-2);
+  font-size: 0.875rem;
+}
+.note {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  color: #6ee7b7;
+  margin: 0 0 4px;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 14px 0 18px;
+  padding: 0;
+  list-style: none;
+}
+.chips li {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--soft);
+}
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  font-size: 0.875rem;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease;
+}
+.links a:hover {
+  border-color: var(--color-accent);
+  background: rgb(127 178 255 / 0.08);
+}
+.links a.main,
+.links .main {
+  background: var(--color-fg);
+  color: var(--color-bg);
+  border-color: var(--color-fg);
+  font-weight: 600;
+}
+.phones {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.shot {
+  position: relative;
+  margin: 0;
+  width: clamp(112px, 12vw, 176px);
+  aspect-ratio: 0.47;
+}
+.shot:nth-child(2) {
+  margin-top: 36px;
+}
+.shot img {
+  object-fit: contain;
+}
+.browser {
+  margin: 0;
+  border-radius: 12px;
+  background: #0c0e15;
+  border: 1px solid rgb(232 234 240 / 0.14);
+  overflow: hidden;
+}
+.browserBar {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+  border-bottom: 1px solid rgb(232 234 240 / 0.1);
+}
+.browserBar i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgb(232 234 240 / 0.22);
+}
+.wide {
+  position: relative;
+  aspect-ratio: 2.2;
+}
+.wide img {
+  object-fit: cover;
+  object-position: top left;
+}
+.illus {
+  border: 1px dashed rgb(110 231 183 / 0.4);
+  border-radius: 12px;
+  padding: 14px;
+}
+.illusCap {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  color: #6ee7b7;
+  margin: 0 0 10px;
+  display: block;
+}
+.illus svg {
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  display: block;
+}
+
+/* ---------- more work ---------- */
+.band {
+  padding: 12svh var(--pad);
+}
+.moreList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 62rem;
+}
+.moreList a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  gap: 6px 18px;
+  align-items: baseline;
+  padding: 18px 8px;
+  border-top: 1px solid var(--line);
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s var(--ease);
+}
+.moreList li:last-child a {
+  border-bottom: 1px solid var(--line);
+}
+.moreList a:hover {
+  background: rgb(232 234 240 / 0.04);
+  transform: translateX(8px);
+}
+.moreList .t {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.moreList .d {
+  color: var(--color-fg-2);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.moreList .s {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  color: var(--color-accent);
+  margin-left: 10px;
+}
+
+/* ---------- AI ---------- */
+.aiIntro {
+  max-width: 40rem;
+  color: var(--soft);
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.6;
+  margin: -10px 0 30px;
+}
+.aiProd {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 70rem;
+}
+.aiProd li {
+  padding: 22px;
+}
+.aiProd h3 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: 1.15rem;
+  margin: 0 0 10px;
+}
+.aiProd p {
+  margin: 0;
+  color: var(--soft);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+.aiRun {
+  min-height: 100svh;
+  padding: 10svh var(--pad);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+}
+.aiLead {
+  max-width: 44rem;
+  margin: 0;
+  font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.step {
+  position: relative;
+  /* no blur here: the field draws a crisp pipeline node in the slot behind each card */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: transparent;
+  padding: 16px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.25s ease;
+}
+.stepOpen {
+  border-color: rgb(127 178 255 / 0.45);
+}
+.node {
+  width: 100%;
+  height: 120px;
+}
+.stepIdx {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  color: var(--color-accent);
+}
+.step h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.stepBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+/* the whole card is the hit area */
+.stepBtn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+}
+.stepBtn:focus-visible {
+  outline: none;
+}
+.stepBtn:focus-visible::after {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+.chev {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-right: 1.5px solid var(--color-fg-2);
+  border-bottom: 1.5px solid var(--color-fg-2);
+  transform: rotate(45deg);
+  transition: transform 0.25s var(--ease);
+}
+.stepOpen .chev {
+  transform: rotate(-135deg);
+}
+.stepLine {
+  margin: 0;
+  color: var(--soft);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+.stepOpen .detail {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.detail > div {
+  overflow: hidden;
+}
+.detail p {
+  margin: 0;
+  padding-top: 2px;
+  color: var(--color-fg-2);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+.stepsAnimated .detail {
+  transition:
+    grid-template-rows 0.3s var(--ease),
+    opacity 0.25s ease;
+}
+.stepsInstant .detail,
+.stepsInstant .chev {
+  transition-duration: 0.01s;
+}
+
+/* ---------- experience ---------- */
+.xp {
+  max-width: 70rem;
+  padding: 26px 26px 12px;
+}
+.xpAxis {
+  position: relative;
+  height: 22px;
+  margin: 0 0 4px;
+}
+.xpAxis span {
+  position: absolute;
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  color: var(--color-fg-2);
+  transform: translateX(-50%);
+}
+.xpList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.xpRow {
+  padding: 18px 0 20px;
+  border-top: 1px solid rgb(232 234 240 / 0.07);
+}
+.xpHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  align-items: baseline;
+}
+.xpCo {
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.xpYr {
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  color: var(--color-fg-2);
+}
+.xpBarWrap {
+  margin: 12px 0 12px;
+}
+.xpBar {
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #3e8bff, #5cc8ff);
+}
+.xpPoints {
+  margin: 0;
+  padding: 0 0 0 1.1em;
+  color: var(--soft);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  max-width: 48rem;
+  display: grid;
+  gap: 6px;
+}
+
+/* ---------- contact ---------- */
+.contact {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* the ring is fixed to the viewport centre; the footer (~100px) takes the lower edge at the page end, so push the
+     content down by twice its height to sit in the middle of the ring */
+  padding: 200px var(--pad) 0;
+  text-align: center;
+}
+.contactIn {
+  width: min(34rem, 100%);
+}
+.contact h2 {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.8rem, 3.8vw, 2.9rem);
+  margin: 14px 0 20px;
+}
+.mail {
+  display: inline-block;
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: clamp(0.95rem, 2vw, 1.4rem);
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--color-accent);
+  overflow-wrap: anywhere;
+  transition: color 0.25s ease;
+}
+.mail:hover {
+  color: var(--color-accent);
+}
+.contact .btns {
+  justify-content: center;
+}
+.social {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  font-family: var(--font-plex), ui-monospace, monospace;
+  font-size: 0.875rem;
+  color: var(--color-fg-2);
+}
+.social a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  transition: color 0.2s ease;
+}
+.social a:hover {
+  color: var(--color-fg);
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 1100px) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 900px) {
+  .work,
+  .workRight {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    padding: 84px var(--pad) 8svh;
+    gap: 16px;
+  }
+  .workRight .stage {
+    order: 0;
+  }
+  .stage {
+    min-height: 40svh;
+  }
+  .workCard,
+  .workCardPhones {
+    grid-template-columns: minmax(0, 1fr);
+    background: color-mix(in oklab, var(--color-bg) 84%, transparent);
+  }
+  .phones {
+    justify-content: center;
+  }
+  .shot {
+    width: min(34vw, 150px);
+  }
+  .proofStep {
+    align-items: flex-end;
+    padding-bottom: 9svh;
+  }
+  .proofCopy {
+    margin: 0;
+    width: 100%;
+  }
+  .hero {
+    justify-content: flex-start;
+    padding-top: 96px;
+    min-height: 118svh;
+  }
+  .aiProd {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .moreList a {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  /* the nebula sits behind the lower half of the hero on a phone: a soft halo keeps the small lines readable */
+  .who,
+  .counterL {
+    text-shadow: 0 0 6px var(--color-bg), 0 0 14px var(--color-bg), 0 0 22px var(--color-bg);
+  }
+  /* the chart fills the screen on a phone: one scrollable row of project links, caption for screen readers only */
+  .tlCaption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .legend {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 0 calc(var(--pad) * -1);
+    padding: 0 var(--pad);
+    scrollbar-width: none;
+  }
+  .legendItem {
+    white-space: nowrap;
+  }
+  .legendItem small {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}
+@media (max-width: 640px) {
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    column-gap: 14px;
+    row-gap: 6px;
+    padding: 12px 14px;
+    background: color-mix(in oklab, var(--color-bg) 84%, transparent);
+  }
+  .node {
+    grid-row: 1 / span 4;
+    width: 56px;
+    height: 56px;
+  }
+  .aiRun {
+    padding: 84px var(--pad) 6svh;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+  .aiLead {
+    font-size: 1.1rem;
+  }
+  .stepLine {
+    font-size: 0.875rem;
+  }
+}
+
+/* Reduced motion: the field is a still, so nothing needs a tall scroll runway. */
+@media (prefers-reduced-motion: reduce) {
+  .tl {
+    height: 100svh;
+  }
+  .tlSticky {
+    position: relative;
+  }
+  .hero {
+    min-height: auto;
+    padding-bottom: 80px;
+  }
+  .cue {
+    display: none;
+  }
+  .proofStep {
+    min-height: auto;
+    padding-top: 3svh;
+    padding-bottom: 3svh;
+  }
+  .proofCopy {
+    margin-left: 0;
+  }
+  .work,
+  .workRight {
+    min-height: auto;
+    padding-top: 6svh;
+    padding-bottom: 6svh;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .stage {
+    display: none;
+  }
+  .aiRun {
+    min-height: auto;
+  }
+  .contact {
+    min-height: 60svh;
+    padding-top: 8svh;
+    padding-bottom: 8svh;
+  }
+  .btn,
+  .links a,
+  .moreList a {
+    transition: none;
+  }
+}

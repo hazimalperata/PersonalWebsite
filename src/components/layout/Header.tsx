@@ -67,7 +67,7 @@ export function Header() {
         </Link>
 
         <nav aria-label={a11y("mainNav")} className="hidden min-w-0 flex-1 items-center justify-center md:flex">
-          {sections.map((key) => sectionLink(key, linkClass))}
+          {sections.filter((key) => key !== "contact").map((key) => sectionLink(key, linkClass))}
           <Link href="/gallery" className={linkClass}>
             {t("gallery")}
           </Link>
