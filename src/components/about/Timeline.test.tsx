@@ -11,9 +11,10 @@ describe('Timeline', () => {
     render(
       <Timeline items={profile.experience} locale="en" presentLabel="Present" />,
     );
-    expect(screen.getAllByRole('heading', { level: 4 })).toHaveLength(3);
-    for (const n of ['01', '02', '03']) {
-      expect(screen.getByText(n)).toBeTruthy();
+    const count = profile.experience.length;
+    expect(screen.getAllByRole('heading', { level: 4 })).toHaveLength(count);
+    for (let i = 1; i <= count; i++) {
+      expect(screen.getByText(String(i).padStart(2, '0'))).toBeTruthy();
     }
   });
 

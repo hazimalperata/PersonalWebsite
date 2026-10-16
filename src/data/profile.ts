@@ -64,8 +64,28 @@ export const profile = {
 
   experience: [
     {
+      company: "Tersane Dijital",
+      role: { en: "Mobile & Web Engineer", tr: "Mobil ve Web Geliştirici" },
+      from: "2026-07",
+      to: null,
+      points: [
+        {
+          en: "Build and ship mobile apps for Rulead: Dremly (Expo, React Native) and Posme (Flutter), both live on the App Store and Google Play.",
+          tr: "Rulead için mobil uygulamalar geliştirip yayınlıyorum: Dremly (Expo, React Native) ve Posme (Flutter), ikisi de App Store ve Google Play'de yayında.",
+        },
+        {
+          en: "Built a movement-analysis platform for Rommer International, a hospital: on-device pose analysis in the mobile app, a staff web panel and the backend.",
+          tr: "Rommer International hastanesi için bir hareket analizi platformu kurdum: mobil uygulamada cihaz üzerinde poz analizi, personel web paneli ve backend.",
+        },
+        {
+          en: "Maintain the mobile app template and admin kit that the company's new products start from.",
+          tr: "Şirketin yeni ürünlerinin başladığı mobil uygulama şablonunu ve admin kitini geliştiriyorum.",
+        },
+      ],
+    },
+    {
       company: "1likte",
-      role: { en: "Frontend Lead", tr: "Frontend Lideri" },
+      role: { en: "CTO", tr: "CTO" },
       from: "2021-11",
       to: null,
       points: [
@@ -160,8 +180,8 @@ export const profile = {
         tr: "İzmir Yüksek Teknoloji Enstitüsü - IZTECH",
       },
       description: {
-        en: "BSc in Computer Engineering (GPA: 2.98 / 4.00)",
-        tr: "Bilgisayar Mühendisliği Lisans (GNO: 2,98 / 4,00)",
+        en: "BSc in Computer Engineering",
+        tr: "Bilgisayar Mühendisliği Lisans",
       },
     },
   ] satisfies EducationItem[],

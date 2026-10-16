@@ -1,14 +1,19 @@
+import { readdirSync } from "node:fs";
 import { rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { getProject, getProjectSlugs, getProjects } from "./content";
+
+const ENGLISH_PROJECT_COUNT = readdirSync(path.join(process.cwd(), "content", "projects")).filter((f) =>
+  f.endsWith(".en.mdx"),
+).length;
 
 describe("content", () => {
   it("lists featured projects first by order", async () => {
     const list = await getProjects("en");
     const featured = list.filter((p) => p.featured).map((p) => p.order);
     expect(featured).toEqual([...featured].sort((a, b) => a - b));
-    expect(list.length).toBe(11);
+    expect(list.length).toBe(ENGLISH_PROJECT_COUNT);
     // featured block comes before every non-featured project
     const firstRest = list.findIndex((p) => !p.featured);
     expect(list.slice(firstRest).every((p) => !p.featured)).toBe(true);
@@ -46,8 +51,8 @@ describe("content", () => {
 
   it("lists every slug once", async () => {
     const slugs = await getProjectSlugs();
-    expect(slugs.length).toBe(11);
-    expect(new Set(slugs).size).toBe(11);
+    expect(slugs.length).toBe(ENGLISH_PROJECT_COUNT);
+    expect(new Set(slugs).size).toBe(ENGLISH_PROJECT_COUNT);
   });
 
   it("ignores a slug that only has a Turkish file", async () => {
