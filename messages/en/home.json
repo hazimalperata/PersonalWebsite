@@ -83,23 +83,19 @@
     "steps": {
       "spec": {
         "title": "Spec first",
-        "line": "Every feature starts as a written spec and a task plan before any code is written.",
-        "detail": "My own Claude Code skills encode how I work: planning, handing a session over and picking it up again, motion rules for every interface."
+        "line": "Every feature starts as a written spec and a task plan before any code is written."
       },
       "agents": {
         "title": "Agents as a team",
-        "line": "Coding agents build independent tasks in parallel, each in its own isolated branch.",
-        "detail": "I lead them like a team: clear briefs, the cheapest model that can do the job well, and a plain report of what was verified and what was not."
+        "line": "Coding agents build independent tasks in parallel, each in its own isolated branch."
       },
       "review": {
         "title": "Independent review",
-        "line": "Each task is checked against the spec and for quality by a separate reviewer, and I make the final call.",
-        "detail": "Tools I wrote help me check: a click-to-inspect picker for web and mobile to point at the exact element, a verifier agent that runs the quality gate, a launcher that boots the emulator and the app."
+        "line": "Each task is checked against the spec and for quality by a separate reviewer, and I make the final call."
       },
       "gates": {
         "title": "Gates, not trust",
-        "line": "Type checks, lint, unit and end-to-end tests have to pass before anything is merged or shipped.",
-        "detail": "When something fails silently, it becomes a written rule every agent reads. No internal detail reaches users, no production change happens without asking, and nothing is called verified until I have read the actual output."
+        "line": "Type checks, lint, unit and end-to-end tests have to pass before anything is merged or shipped."
       }
     }
   },

@@ -573,9 +573,17 @@ a.legendItem:hover {
   font-size: 0.9375rem;
   line-height: 1.55;
 }
+/* The workflow runway: a tall box holding a sticky one-screen panel. Scroll progress through the runway (a
+   ScrollTrigger on the page's one ticker) picks the active step; the others dim. */
 .aiRun {
-  min-height: 100svh;
-  padding: 10svh var(--pad);
+  height: 210svh;
+  position: relative;
+}
+.aiSticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: 96px var(--pad) 4svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -608,7 +616,13 @@ a.legendItem:hover {
   flex-direction: column;
   gap: 10px;
 }
-.stepOpen {
+/* emphasis is opacity only */
+.stepsPinned .step {
+  opacity: 0.68;
+  transition: opacity 0.35s ease;
+}
+.stepsPinned .step[data-active="true"] {
+  opacity: 1;
   border-color: rgb(127 178 255 / 0.45);
 }
 .node {
@@ -626,75 +640,11 @@ a.legendItem:hover {
   font-weight: 600;
   letter-spacing: -0.02em;
 }
-.stepBtn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-  padding: 0;
-  text-align: left;
-  color: inherit;
-  font: inherit;
-  letter-spacing: inherit;
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-/* the whole card is the hit area */
-.stepBtn::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 20px;
-}
-.stepBtn:focus-visible {
-  outline: none;
-}
-.stepBtn:focus-visible::after {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
-}
-.chev {
-  flex: none;
-  width: 10px;
-  height: 10px;
-  border-right: 1.5px solid var(--color-fg-2);
-  border-bottom: 1.5px solid var(--color-fg-2);
-  transform: rotate(45deg);
-  transition: transform 0.25s var(--ease);
-}
-.stepOpen .chev {
-  transform: rotate(-135deg);
-}
 .stepLine {
   margin: 0;
   color: var(--soft);
   font-size: 0.9375rem;
   line-height: 1.5;
-}
-/* A closed detail carries the hidden attribute (out of layout and the accessibility tree). An open one takes its
-   space at once; only its text fades and slides in, and only when motion is on. */
-.detail p {
-  margin: 0;
-  padding-top: 2px;
-  color: var(--color-fg-2);
-  font-size: 0.875rem;
-  line-height: 1.55;
-}
-.stepsAnimated .stepOpen .detail p {
-  animation: detailIn 0.3s var(--ease) both;
-}
-.stepsInstant .detail p,
-.stepsInstant .chev {
-  animation: none;
-  transition-duration: 0.01s;
-}
-@keyframes detailIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
 }
 
 /* ---------- experience ---------- */
@@ -938,20 +888,34 @@ a.legendItem:hover {
     background: color-mix(in oklab, var(--color-bg) 84%, transparent);
   }
   .node {
-    grid-row: 1 / span 4;
+    grid-row: 1 / span 2;
     width: 56px;
     height: 56px;
   }
-  .aiRun {
-    padding: 84px var(--pad) 6svh;
+  /* the index sits in the card's corner so the steps stay short enough to fit a 360 x 640 screen in any language */
+  .stepIdx {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+  }
+  .aiSticky {
+    padding: 80px var(--pad) 2svh;
     justify-content: flex-start;
-    gap: 16px;
+    gap: 12px;
   }
   .aiLead {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+  }
+  .step {
+    padding: 8px 12px;
+    row-gap: 2px;
+  }
+  .step h3 {
+    font-size: 0.95rem;
   }
   .stepLine {
-    font-size: 0.875rem;
+    font-size: 0.78rem;
+    line-height: 1.4;
   }
 }
 
@@ -989,7 +953,16 @@ a.legendItem:hover {
   display: none;
 }
 :global(html[data-signal-static-mode]) .aiRun {
-  min-height: auto;
+  height: auto;
+}
+:global(html[data-signal-static-mode]) .aiSticky {
+  position: relative;
+  height: auto;
+  padding-top: 10svh;
+  padding-bottom: 6svh;
+}
+:global(html[data-signal-static-mode]) .stepsPinned .step {
+  opacity: 1;
 }
 :global(html[data-signal-static-mode]) .contact {
   min-height: 60svh;
@@ -1029,7 +1002,16 @@ a.legendItem:hover {
     display: none;
   }
   .aiRun {
-    min-height: auto;
+    height: auto;
+  }
+  .aiSticky {
+    position: relative;
+    height: auto;
+    padding-top: 10svh;
+    padding-bottom: 6svh;
+  }
+  .stepsPinned .step {
+    opacity: 1;
   }
   .contact {
     min-height: 60svh;

@@ -43,29 +43,64 @@ test("locale switch goes from /tr to the unprefixed home", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
 });
 
-test("AI steps toggle aria-expanded with Enter and Space", async ({ page }) => {
+test("AI workflow is a pinned runway: scroll picks the active step", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop", "scroll-driven emphasis is checked on the desktop project");
   await page.goto("/");
-  const buttons = page.locator("#ai-workflow button[aria-expanded]");
-  await expect(buttons).toHaveCount(4);
-  for (let i = 0; i < 4; i++) {
-    const b = buttons.nth(i);
-    await b.focus();
-    const start = (await b.getAttribute("aria-expanded")) === "true";
-    await page.keyboard.press("Enter");
-    await expect(b).toHaveAttribute("aria-expanded", String(!start));
-    await page.keyboard.press("Space");
-    await expect(b).toHaveAttribute("aria-expanded", String(start));
-  }
+  const steps = page.locator("#ai-workflow li");
+  await expect(steps).toHaveCount(4);
+  // no disclosure controls any more, and every line is in the DOM and readable
+  await expect(page.locator("#ai-workflow button, #ai-workflow [aria-expanded]")).toHaveCount(0);
+  for (let i = 0; i < 4; i++) await expect(steps.nth(i).locator("p")).toBeVisible();
+
+  const runway = await page.evaluate(() => {
+    const r = document.querySelector("#ai-workflow ol")!.parentElement!.parentElement!;
+    const box = r.getBoundingClientRect();
+    return { top: box.top + window.scrollY, height: box.height, vh: window.innerHeight };
+  });
+  expect(runway.height).toBeGreaterThan(runway.vh * 1.5);
+  const scrollTo = (p: number) =>
+    page.evaluate((y) => window.scrollTo(0, y), Math.round(runway.top + (runway.height - runway.vh) * p));
+  const opacity = (i: number) => steps.nth(i).evaluate((el) => Number(getComputedStyle(el).opacity));
+
+  await scrollTo(0.05);
+  await expect(steps.nth(0)).toHaveAttribute("data-active", "true");
+  await expect.poll(() => opacity(0)).toBeGreaterThan(0.95);
+  await expect.poll(() => opacity(3)).toBeLessThan(0.8);
+
+  await scrollTo(0.55);
+  await expect(steps.nth(2)).toHaveAttribute("data-active", "true");
+  await expect(steps.nth(0)).toHaveAttribute("data-active", "false");
+  await expect.poll(() => opacity(2)).toBeGreaterThan(0.95);
+  await expect.poll(() => opacity(0)).toBeLessThan(0.8);
+
+  await scrollTo(0.97);
+  await expect(steps.nth(3)).toHaveAttribute("data-active", "true");
+  await expect.poll(() => opacity(3)).toBeGreaterThan(0.95);
 });
 
-test("opening one AI step closes the previous one", async ({ page }) => {
-  await page.goto("/");
-  const buttons = page.locator("#ai-workflow button[aria-expanded]");
-  await expect(buttons.nth(0)).toHaveAttribute("aria-expanded", "true");
-  await buttons.nth(1).focus();
-  await page.keyboard.press("Enter");
-  await expect(buttons.nth(1)).toHaveAttribute("aria-expanded", "true");
-  await expect(buttons.nth(0)).toHaveAttribute("aria-expanded", "false");
+test.describe("reduced motion", () => {
+  test.use({ reducedMotion: "reduce" });
+  test("AI workflow is a plain list: all four lines visible, nothing pinned, no tall runway", async ({ page }) => {
+    await page.goto("/");
+    const steps = page.locator("#ai-workflow li");
+    await expect(steps).toHaveCount(4);
+    for (let i = 0; i < 4; i++) {
+      await expect(steps.nth(i).locator("p")).toBeVisible();
+      await expect.poll(() => steps.nth(i).evaluate((el) => Number(getComputedStyle(el).opacity))).toBe(1);
+      await expect(steps.nth(i)).not.toHaveAttribute("data-active", /.*/);
+    }
+    const layout = await page.evaluate(() => {
+      const sticky = document.querySelector("#ai-workflow ol")!.parentElement!;
+      const runway = sticky.parentElement!;
+      return {
+        position: getComputedStyle(sticky).position,
+        runway: runway.getBoundingClientRect().height,
+        vh: window.innerHeight,
+      };
+    });
+    expect(layout.position).not.toBe("sticky");
+    expect(layout.runway).toBeLessThan(layout.vh * 1.6);
+  });
 });
 
 test("mobile menu: Escape closes it and returns focus to the toggle", async ({ page }, testInfo) => {

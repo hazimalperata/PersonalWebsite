@@ -83,23 +83,19 @@
     "steps": {
       "spec": {
         "title": "Önce spesifikasyon",
-        "line": "Her özellik, tek satır kod yazılmadan önce yazılı bir spesifikasyon ve görev planıyla başlar.",
-        "detail": "Kendi Claude Code skill'lerim nasıl çalıştığımı kodluyor: planlama, bir oturumu devretme ve kaldığı yerden sürdürme, her arayüz için hareket kuralları."
+        "line": "Her özellik, tek satır kod yazılmadan önce yazılı bir spesifikasyon ve görev planıyla başlar."
       },
       "agents": {
         "title": "Ekip gibi ajanlar",
-        "line": "Kodlama ajanları birbirinden bağımsız görevleri paralel yapar, her biri kendi izole dalında.",
-        "detail": "Onları bir ekip gibi yönetirim: net görev tanımları, işi iyi yapabilen en ucuz model ve neyin doğrulandığını, neyin doğrulanmadığını sade biçimde anlatan bir rapor."
+        "line": "Kodlama ajanları birbirinden bağımsız görevleri paralel yapar, her biri kendi izole dalında."
       },
       "review": {
         "title": "Bağımsız inceleme",
-        "line": "Her görev, ayrı bir inceleyici tarafından hem spesifikasyona hem kaliteye göre kontrol edilir; son kararı ben veririm.",
-        "detail": "Yazdığım araçlar kontrol etmeme yardım ediyor: web ve mobilde tam elemanı göstermemi sağlayan tıkla-incele seçici, kalite kapısını çalıştıran bir doğrulayıcı ajan, emülatörü ve uygulamayı açan bir başlatıcı."
+        "line": "Her görev, ayrı bir inceleyici tarafından hem spesifikasyona hem kaliteye göre kontrol edilir; son kararı ben veririm."
       },
       "gates": {
         "title": "Güven değil, kapı",
-        "line": "Tip denetimi, lint, birim ve uçtan uca testler geçmeden hiçbir şey birleştirilmez ya da yayınlanmaz.",
-        "detail": "Bir şey sessizce bozulduğunda, her ajanın okuduğu yazılı bir kurala dönüşür. Kullanıcıya iç bilgi sızmaz, sormadan canlıda değişiklik yapılmaz ve gerçek çıktıyı okumadan hiçbir şeye doğrulandı denmez."
+        "line": "Tip denetimi, lint, birim ve uçtan uca testler geçmeden hiçbir şey birleştirilmez ya da yayınlanmaz."
       }
     }
   },

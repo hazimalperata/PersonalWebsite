@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import type { ReactElement, ReactNode } from "react";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, cleanup, render, screen, within } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import enA11y from "../../../messages/en/a11y.json";
 import enHome from "../../../messages/en/home.json";
@@ -11,6 +11,20 @@ import trHome from "../../../messages/tr/home.json";
 import trProject from "../../../messages/tr/project.json";
 
 const setPipelineFocus = vi.fn();
+const motionOn = vi.hoisted(() => ({ value: false }));
+type TriggerConfig = { onUpdate?: (self: { progress: number }) => void; onToggle?: (self: { isActive: boolean }) => void };
+const triggers = vi.hoisted(() => ({ list: [] as Array<{ config: TriggerConfig; kill: () => void }> }));
+vi.mock("@/lib/motion", () => ({
+  registerGsap: () => {},
+  gsap: {},
+  ScrollTrigger: {
+    create: (config: TriggerConfig) => {
+      const t = { config, kill: vi.fn() };
+      triggers.list.push(t);
+      return t;
+    },
+  },
+}));
 
 vi.mock("next/image", () => ({
   // eslint-disable-next-line @next/next/no-img-element
@@ -35,13 +49,14 @@ vi.mock("@/components/signal", () => ({
     </section>
   ),
   useSignal: () => ({ setPipelineFocus, coarse: false, motion: false }),
-  useMotionEnabled: () => false,
+  useMotionEnabled: () => motionOn.value,
   useSignalScene: () => {},
 }));
 
 import { getProjects, type ProjectMeta } from "@/lib/content";
 import type { ProofFact } from "@/lib/proof";
 import { AiSection } from "./AiSection";
+import { stepForProgress } from "./aiProgress";
 import { AiSteps } from "./AiSteps";
 import { Contact } from "./Contact";
 import { Experience } from "./Experience";
@@ -177,72 +192,90 @@ describe("TimelineSection", () => {
 });
 
 describe("AiSection", () => {
-  it("is a disclosure: one step open at a time, and the open step lights its node", async () => {
-    vi.stubGlobal(
-      "IntersectionObserver",
-      class {
-        constructor(private cb: IntersectionObserverCallback) {
-          queueMicrotask(() => this.cb([{ isIntersecting: true } as IntersectionObserverEntry], this as never));
-        }
-        observe() {}
-        disconnect() {}
-        unobserve() {}
-      },
-    );
+  const STEP_TITLES = ["Spec first", "Agents as a team", "Independent review", "Gates, not trust"];
+
+  it("lists the four steps with index, title and line, and has no buttons or expanders", () => {
     const { container } = view(
       <>
         <AiSection />
         <AiSteps />
       </>,
     );
-    await act(async () => {});
     expect(container.querySelector("#ai")).toBeTruthy();
+    const items = within(screen.getByRole("list", { name: "How I work with AI" })).getAllByRole("listitem");
+    expect(items).toHaveLength(4);
+    items.forEach((li, i) => {
+      expect(within(li).getByRole("heading", { name: STEP_TITLES[i] })).toBeTruthy();
+      expect(li.textContent).toContain(`0${i + 1}`);
+      expect(li.hidden).toBe(false);
+      expect(li.getAttribute("aria-hidden")).toBeNull();
+    });
     expect(container.querySelectorAll("[data-signal-step]")).toHaveLength(4);
-    const buttons = screen.getAllByRole("button");
-    expect(buttons).toHaveLength(4);
-    expect(buttons.map((b) => b.getAttribute("aria-expanded"))).toEqual(["true", "false", "false", "false"]);
-    fireEvent.click(buttons[2]);
-    expect(buttons.map((b) => b.getAttribute("aria-expanded"))).toEqual(["false", "false", "true", "false"]);
-    expect(setPipelineFocus).toHaveBeenLastCalledWith(2);
-    fireEvent.click(buttons[2]);
-    expect(buttons[2].getAttribute("aria-expanded")).toBe("false");
+    expect(screen.queryAllByRole("button")).toHaveLength(0);
+    expect(container.querySelector("[aria-expanded]")).toBeNull();
+  });
+
+  it("carries no expanded-detail copy in either language", () => {
+    for (const [name, json] of [["en", enHome], ["tr", trHome]] as const) {
+      for (const step of Object.values(json.ai.steps)) expect(Object.keys(step).sort(), name).toEqual(["line", "title"]);
+    }
+    const { container } = view(<AiSteps />);
+    expect(container.textContent).not.toMatch(/handing a session over|click-to-inspect|written rule every agent/);
+  });
+
+  it("without motion no scroll trigger is created and no step is dimmed", async () => {
+    triggers.list.length = 0;
+    const { container } = view(<AiSteps />);
+    await act(async () => {});
+    expect(triggers.list).toHaveLength(0);
+    expect(container.querySelector("[data-active]")).toBeNull();
     expect(setPipelineFocus).toHaveBeenLastCalledWith(null);
   });
 
-  it("keeps closed step details out of the accessibility tree", async () => {
-    view(<AiSteps />);
-    await act(async () => {});
-    const buttons = screen.getAllByRole("button");
-    const detail = (i: number) => document.getElementById(buttons[i].getAttribute("aria-controls") ?? "") as HTMLElement;
-    expect(detail(0).hidden).toBe(false);
-    expect(within(detail(0)).getByText(/handing a session over/)).toBeTruthy();
-    for (const i of [1, 2, 3]) expect(detail(i).hidden).toBe(true);
-    fireEvent.click(buttons[1]);
-    expect(detail(0).hidden).toBe(true);
-    expect(detail(1).hidden).toBe(false);
-  });
+  describe("with motion", () => {
+    beforeAll(() => {
+      motionOn.value = true;
+    });
+    afterEach(() => {
+      motionOn.value = false;
+      triggers.list.length = 0;
+    });
 
-  it("does not light a node while the section is off screen", async () => {
-    vi.stubGlobal(
-      "IntersectionObserver",
-      class {
-        constructor(private cb: IntersectionObserverCallback) {
-          queueMicrotask(() => this.cb([{ isIntersecting: false } as IntersectionObserverEntry], this as never));
-        }
-        observe() {}
-        disconnect() {}
-        unobserve() {}
-      },
-    );
-    view(
-      <>
-        <AiSection />
-        <AiSteps />
-      </>,
-    );
-    await act(async () => {});
-    fireEvent.click(screen.getAllByRole("button")[1]);
-    expect(setPipelineFocus).not.toHaveBeenCalledWith(1);
+    it("follows scroll progress, lights the active node and clears the focus off screen", async () => {
+      triggers.list.length = 0;
+      motionOn.value = true;
+      const { container, unmount } = view(<AiSteps />);
+      await act(async () => {});
+      expect(triggers.list).toHaveLength(2);
+      const [progress, onScreen] = triggers.list;
+      const active = () => [...container.querySelectorAll("li")].map((li) => li.getAttribute("data-active"));
+      expect(active()).toEqual(["true", "false", "false", "false"]);
+      act(() => onScreen.config.onToggle?.({ isActive: true }));
+      expect(setPipelineFocus).toHaveBeenLastCalledWith(0);
+      act(() => progress.config.onUpdate?.({ progress: 0.6 }));
+      expect(active()).toEqual(["false", "false", "true", "false"]);
+      expect(setPipelineFocus).toHaveBeenLastCalledWith(2);
+      act(() => progress.config.onUpdate?.({ progress: 1 }));
+      expect(setPipelineFocus).toHaveBeenLastCalledWith(3);
+      act(() => onScreen.config.onToggle?.({ isActive: false }));
+      expect(setPipelineFocus).toHaveBeenLastCalledWith(null);
+      unmount();
+      expect(progress.kill).toHaveBeenCalled();
+    });
+  });
+});
+
+describe("stepForProgress", () => {
+  it("maps runway progress to a step, clamped", () => {
+    expect(stepForProgress(0, 4)).toBe(0);
+    expect(stepForProgress(0.24, 4)).toBe(0);
+    expect(stepForProgress(0.25, 4)).toBe(1);
+    expect(stepForProgress(0.5, 4)).toBe(2);
+    expect(stepForProgress(0.99, 4)).toBe(3);
+    expect(stepForProgress(1, 4)).toBe(3);
+    expect(stepForProgress(-0.3, 4)).toBe(0);
+    expect(stepForProgress(7, 4)).toBe(3);
+    expect(stepForProgress(Number.NaN, 4)).toBe(0);
   });
 });
 

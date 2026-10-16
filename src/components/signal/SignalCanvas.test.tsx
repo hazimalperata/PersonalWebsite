@@ -22,9 +22,18 @@ class FakeResizeObserver {
   unobserve() {}
 }
 
+// jsdom has no canvas: the static timeline paints into a 2D context, so give it one that ignores everything.
+const noop2d = new Proxy({}, { get: () => () => {}, set: () => true });
+/** 2D contexts work (as a no-op); the "webgl" context is whatever the test passes, null for "unsupported". */
+function stubContexts(webgl: unknown = null) {
+  vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(((kind: string) =>
+    kind === "2d" ? noop2d : webgl) as never);
+}
+
 describe("SignalCanvas fallbacks", () => {
   beforeEach(() => {
     vi.stubGlobal("ResizeObserver", FakeResizeObserver);
+    stubContexts();
     lose = null;
   });
   afterEach(() => {
@@ -50,7 +59,7 @@ describe("SignalCanvas fallbacks", () => {
 
   it("falls back when the context cannot be created", async () => {
     vi.stubGlobal("WebGLRenderingContext", function WebGLRenderingContext() {});
-    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(() => null);
+    stubContexts(null);
     render(<SignalCanvas coarse={false} />);
     await waitFor(() => expect(staticEl()).toBeTruthy());
     expect(modeFlag()).toBe(true);
@@ -58,14 +67,13 @@ describe("SignalCanvas fallbacks", () => {
 
   it("mounts the engine when WebGL works, and drops to the static timeline when the context is lost", async () => {
     vi.stubGlobal("WebGLRenderingContext", function WebGLRenderingContext() {});
-    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockImplementation(
-      () => ({ getExtension: () => ({ loseContext: () => {} }) }) as unknown as RenderingContext,
-    );
+    stubContexts({ getExtension: () => ({ loseContext: () => {} }) });
     render(<SignalCanvas coarse={false} />);
     await waitFor(() => expect(screen.getByTestId("engine")).toBeTruthy());
     expect(staticEl()).toBeNull();
     expect(modeFlag()).toBe(false);
     vi.restoreAllMocks();
+    stubContexts();
     act(() => lose?.());
     await waitFor(() => expect(staticEl()).toBeTruthy());
     expect(modeFlag()).toBe(true);
