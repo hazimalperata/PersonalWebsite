@@ -55,6 +55,11 @@ const project: ProjectMeta = {
   stack: ['Next.js', 'React', 'TypeScript', 'Redux'],
   featured: true,
   order: 1,
+  kind: 'startup',
+  platforms: ['Web'],
+  storeLinks: [],
+  portraitImages: false,
+  signal: null,
 };
 
 function stubPointer(fine: boolean) {

@@ -3,8 +3,16 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import type { AppLocale } from "@/i18n/routing";
+import { lanes, type LaneId } from "@/lib/signal/data";
 
 export type ProjectStatus = "completed" | "inProgress" | "planned";
+
+export type ProjectKind = "product" | "client" | "startup" | "personal";
+export type StoreId = "appStore" | "googlePlay";
+export interface StoreLink {
+  store: StoreId;
+  href: string;
+}
 
 export interface ProjectMeta {
   slug: string;
@@ -22,11 +30,18 @@ export interface ProjectMeta {
   stack: string[];
   featured: boolean;
   order: number;
+  kind: ProjectKind;
+  platforms: string[];
+  storeLinks: StoreLink[];
+  portraitImages: boolean;
+  signal: LaneId | null;
 }
 
 const FALLBACK_LOCALE: AppLocale = "en";
 const SLUG_PATTERN = /^[a-z0-9-]+$/i;
 const STATUSES: ProjectStatus[] = ["completed", "inProgress", "planned"];
+const KINDS: ProjectKind[] = ["product", "client", "startup", "personal"];
+const STORES: StoreId[] = ["appStore", "googlePlay"];
 
 function projectsDir() {
   return path.join(process.cwd(), "content", "projects");
@@ -47,6 +62,26 @@ async function readIfExists(file: string): Promise<string | null> {
 
 function toStatus(value: unknown): ProjectStatus {
   return STATUSES.includes(value as ProjectStatus) ? (value as ProjectStatus) : "completed";
+}
+
+function toKind(value: unknown): ProjectKind {
+  return KINDS.includes(value as ProjectKind) ? (value as ProjectKind) : "personal";
+}
+
+function toSignal(value: unknown): LaneId | null {
+  return lanes.some((l) => l.id === value) ? (value as LaneId) : null;
+}
+
+function toStoreLinks(value: unknown): StoreLink[] {
+  if (!Array.isArray(value)) return [];
+  const links: StoreLink[] = [];
+  for (const item of value) {
+    const { store, href } = (item ?? {}) as Record<string, unknown>;
+    if (STORES.includes(store as StoreId) && typeof href === "string" && href) {
+      links.push({ store: store as StoreId, href });
+    }
+  }
+  return links;
 }
 
 function toMeta(
@@ -73,6 +108,11 @@ function toMeta(
     stack: Array.isArray(data.stack) ? data.stack.map(String) : [],
     featured: data.featured === true,
     order: typeof data.order === "number" ? data.order : 99,
+    kind: toKind(data.kind),
+    platforms: Array.isArray(data.platforms) ? data.platforms.map(String) : [],
+    storeLinks: toStoreLinks(data.storeLinks),
+    portraitImages: data.portraitImages === true,
+    signal: toSignal(data.signal),
   };
 }
 
