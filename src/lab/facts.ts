@@ -56,9 +56,26 @@ export const labFacts = {
     { title: "Motion & 3D", items: ["GSAP", "Motion", "Three.js / R3F", "WebGL shaders"] },
     { title: "Platform", items: ["NestJS", "Prisma", "PostgreSQL", "CI/CD", "Zero-downtime deploys", "E2E testing"] },
   ],
+  /** "How I use AI" section: placed between capabilities and experience. Draft wording, owner to confirm. */
+  ai: {
+    title: "How I use AI",
+    intro: "AI is part of how I build and part of what I build. It makes me faster; it does not lower the bar.",
+    inProducts: [
+      { product: "Dremly", line: "Interprets a dream from text or voice, then turns it into an image or a short video." },
+      { product: "Posme", line: "Reads a single camera frame and designs a pose for that scene; live coaching runs on the phone." },
+      { product: "Movement analysis for Rommer", line: "Pose is analysed on the device in real time while the patient exercises." },
+    ],
+    workflow: [
+      { step: "Spec first", line: "Every feature starts as a written spec and a task plan before any code is written." },
+      { step: "Agents in parallel", line: "Coding agents build independent tasks at the same time, each in its own isolated branch." },
+      { step: "Independent review", line: "Each task is checked against the spec and for quality by a separate reviewer, and I make the final call." },
+      { step: "Gates, not trust", line: "Type checks, lint, unit and end-to-end tests have to pass before anything is merged or shipped." },
+    ],
+    proof: "This site was rebuilt that way: 14 planned tasks, each reviewed, backed by 92 unit tests and 33 end-to-end tests.",
+  },
   experience: [
     { company: "1likte", role: "CTO", from: "2021", to: "present", line: "Built the social e-commerce platform from scratch: seller and admin panels, mobile app, landing, link shortener; leads its modernisation." },
-    { company: "Tersane Dijital", role: "Mobile & Web Engineer", from: "2026", to: "present", line: "Builds and ships mobile apps and platforms for Rulead and agency clients: Dremly, Posme, Rommer." },
+    { company: "Tersane Dijital", role: "Mobile & Web Engineer", from: "2026", to: "present", line: "Builds and ships mobile apps and platforms for Rulead and agency clients: Dremly, Posme, and a movement-analysis platform for Rommer International." },
     { company: "Baykar", role: "Web Software Intern", from: "2023", to: "2023", line: "Built an online education platform from scratch." },
     { company: "Inovathings", role: "Frontend Developer", from: "2020", to: "2021", line: "Responsive React interfaces and performance work." },
   ],
@@ -99,9 +116,10 @@ export const labFacts = {
     },
     {
       slug: "rommer",
-      title: "Rommer",
+      // The app has no public name yet; Rommer International is the client (a hospital), not the product.
+      title: "Movement analysis for Rommer",
       kind: "Client",
-      summary: "A movement-analysis platform for a hospital: patients exercise in front of the phone camera, pose is analysed on the device, and staff follow progress in a web panel.",
+      summary: "A movement-analysis platform for Rommer International, a hospital: patients exercise in front of the phone camera, pose is analysed on the device, and staff follow progress in a web panel.",
       role: "Sole engineer: mobile app, staff panel and backend",
       stack: ["React Native", "Vision Camera", "Skia", "Next.js", "NestJS", "PostgreSQL"],
       year: "2026",
