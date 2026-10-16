@@ -10,7 +10,7 @@ import { gsap, useGSAP } from "./gsap";
 
 const works = labFacts.work as LabWork[];
 
-/** Phone-shaped or wide screenshot in a frame; Rommer (no images) gets a red type card labelled as an illustration. */
+/** Phone-shaped or wide screenshot in a frame; the Rommer movement-analysis item (no images) gets a red type card labelled as an illustration. */
 function Shot({ work, index = 0, sizes }: { work: LabWork; index?: number; sizes: string }) {
   if (work.images.length === 0) return <RommerCard />;
   const src = work.images[index] ?? work.images[0];
@@ -151,12 +151,12 @@ export function Work({ onOpen }: { onOpen: (slug: string, trigger: HTMLElement) 
               onBlur={() => setHover(null)}
             >
               <span className="label col-span-2 self-start pt-3 md:col-span-1">{String(i + 1).padStart(2, "0")}</span>
-              <span data-skew className="disp col-span-12 -order-1 text-[clamp(34px,9vw,170px)] md:order-none md:col-span-8" style={{ lineHeight: 0.95 }}>
-                <span className="row-title" data-flip-id={`t-${w.slug}`}>
+              <span data-skew className={`disp col-span-12 -order-1 md:order-none md:col-span-8 ${w.title.length > 16 ? "text-[clamp(30px,5.6vw,104px)]" : "text-[clamp(34px,9vw,170px)]"}`} style={{ lineHeight: 0.95 }}>
+                <span className={`row-title ${w.title.length > 16 ? "whitespace-normal" : ""}`} data-flip-id={`t-${w.slug}`}>
                   {w.title}
                 </span>
               </span>
-              <span className="label col-span-10 flex flex-col gap-1 md:col-span-3 md:items-end md:text-right">
+              <span className="label col-span-10 flex flex-col gap-1 md:col-span-3 md:col-start-10 md:items-end md:text-right">
                 <span>
                   {w.kind} · {w.year}
                 </span>

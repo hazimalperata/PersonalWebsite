@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { labFacts } from "@/lab/facts";
 import { useMotionEnabled } from "@/lab/useMotionEnabled";
+import { AiSection } from "./AiSection";
 import { Contact } from "./Contact";
 import { Hero } from "./Hero";
 import { Marquee } from "./Marquee";
@@ -102,6 +103,7 @@ export function Kinetic() {
           <MoreWork />
           <Marquee items={STACK_2} bg="var(--red)" fg="var(--paper)" dir={-1} />
           <Capabilities />
+          <AiSection />
           <Experience />
         </main>
         <Contact />

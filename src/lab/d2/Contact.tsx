@@ -93,7 +93,7 @@ export function Contact() {
       className="relative flex min-h-svh flex-col justify-between bg-[var(--ink)] pt-24 text-[var(--paper)]"
     >
       <div className="label flex justify-between px-[var(--gut)]">
-        <span>(07) Contact</span>
+        <span>(08) Contact</span>
         <span>Open to work</span>
       </div>
 

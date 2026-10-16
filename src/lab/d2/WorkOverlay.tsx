@@ -140,7 +140,7 @@ export function WorkOverlay({ slug, onClose }: { slug: string; onClose: () => vo
           id="work-dialog-title"
           ref={title}
           data-flip-id={`t-${slug}`}
-          className="disp mt-6 inline-block whitespace-nowrap text-[clamp(40px,9vw,170px)]"
+          className={`disp mt-6 inline-block ${work.title.length > 16 ? "max-w-[min(100%,62vw)] text-[clamp(30px,5.6vw,104px)]" : "whitespace-nowrap text-[clamp(40px,9vw,170px)]"}`}
           style={{ lineHeight: 0.95 }}
         >
           {work.title}

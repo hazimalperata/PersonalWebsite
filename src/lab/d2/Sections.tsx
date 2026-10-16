@@ -94,7 +94,7 @@ export function Experience() {
   useDrawRules(root, motion);
   return (
     <section ref={root} id="experience" aria-labelledby="exp-h" className="pt-24 pb-28">
-      <SectionBar n="06" title="Experience" />
+      <SectionBar n="07" title="Experience" />
       <div className="px-[var(--gut)] pt-6 pb-14">
         <DisplayHeading id="exp-h" className="text-[clamp(56px,15vw,260px)]">
           Experience
