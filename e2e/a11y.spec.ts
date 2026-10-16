@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { expectStaticTimelineShownOnHome, waitForHeroSettled } from "./helpers";
 
 // Serious and critical only. Run with the particle canvas live (swiftshader) and with reduced motion (static
 // timeline), since the two draw different DOM.
@@ -7,6 +8,7 @@ const PATHS = ["/", "/tr", "/work/dremly", "/gallery", "/xyz"];
 
 async function audit(page: Page) {
   await page.waitForLoadState("networkidle");
+  await waitForHeroSettled(page); // no scan mid-reveal: colours would be sampled half-faded
   const { violations } = await new AxeBuilder({ page }).analyze();
   const bad = violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""));
   expect(bad.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(" | ")}`)).toEqual([]);
@@ -27,6 +29,7 @@ test.describe("reduced motion", () => {
       await page.goto(path);
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       await expect(page.locator("[data-signal-static]")).toBeVisible();
+      if (path === "/") await expectStaticTimelineShownOnHome(page);
       await audit(page);
     });
   }

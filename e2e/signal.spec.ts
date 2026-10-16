@@ -1,4 +1,5 @@
 import { chromium, expect, test, type Page } from "@playwright/test";
+import { expectStaticTimelineShownOnHome } from "./helpers";
 
 /** True when the 2D fallback canvas has at least one painted pixel. */
 const staticIsPainted = (page: Page) =>
@@ -28,8 +29,10 @@ test.describe("reduced motion", () => {
       await page.goto(path);
       await expect(page.locator("[data-signal-static]")).toBeVisible();
       await expect(page.locator("[data-signal-canvas]")).toHaveCount(0);
-      await expect(page.getByRole("img", { name: /commit/i })).toBeVisible();
       await expect.poll(() => staticIsPainted(page)).toBe(true);
+      // the still timeline is decorative: hidden from assistive tech (its data is repeated in text)
+      await expect(page.locator("[data-signal-static] canvas")).toHaveAttribute("aria-hidden", "true");
+      if (path === "/") await expectStaticTimelineShownOnHome(page);
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     });
   }
@@ -62,6 +65,14 @@ test.describe("WebGL blocked", () => {
         await expect(page.locator("[data-signal-static]")).toBeVisible({ timeout: 20_000 });
         await expect(page.locator("[data-signal-canvas]")).toHaveCount(0);
         await expect.poll(() => staticIsPainted(page)).toBe(true);
+        await expect(page.locator("html")).toHaveAttribute("data-signal-static-mode", "");
+        if (path === "/") {
+          await expectStaticTimelineShownOnHome(page);
+          // no empty scroll runway when there is no field to scroll through
+          const vh = page.viewportSize()!.height;
+          const box = await page.locator("#timeline").boundingBox();
+          expect(box!.height).toBeLessThanOrEqual(vh * 1.2);
+        }
       }
       await page.goto("/");
       for (const id of ["work", "about", "ai", "contact"]) await expect(page.locator(`#${id}`)).toBeVisible();
