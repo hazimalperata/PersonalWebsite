@@ -6,7 +6,7 @@ const root = path.join(process.cwd(), "messages");
 const NAMESPACES = ["a11y", "footer", "gallery", "home", "locale", "meta", "nav", "notFound", "project", "signal"];
 
 // Brand and stack names that are the same in both languages.
-const SAME_IN_BOTH = new Set(["home.name", "nav.name", "nav.ai", "footer.rights"]);
+const SAME_IN_BOTH = new Set(["home.name", "nav.name", "nav.ai", "footer.rights", "project.stores.appStore", "project.stores.googlePlay"]);
 
 type Tree = { [k: string]: string | Tree };
 
