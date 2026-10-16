@@ -170,6 +170,8 @@ export const labFacts = {
   ] satisfies LabWork[],
   /** Further work for a compact list. */
   more: [
+    { title: "Engelsiz Rota", href: "/work/engelsiz-rota", line: "A map of accessible places, made for Rommer International. In testing." },
+    { title: "Wardrobe & outfit app", href: "/work/wardrobe-app", line: "A digital wardrobe that suggests what to wear, for Rulead. Just started, in active development." },
     { title: "1likte Admin Panel", href: "/work/1likte-admin-panel", line: "Operations panel for the 1likte team." },
     { title: "DUHA Architects", href: "/work/duha-architects-website", line: "Portfolio site for an architecture studio." },
     { title: "The Pale Blue Dot", href: "/work/the-pale-blue-dot", line: "A WebGL tribute to Carl Sagan's photograph." },
