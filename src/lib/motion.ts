@@ -15,7 +15,4 @@ export function registerGsap() {
 
 export const ease = "power3.out";
 
-export const prefersReducedMotion = () =>
-  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
 export { gsap, ScrollTrigger, SplitText };

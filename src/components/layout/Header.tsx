@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { cn } from "@/lib/cn";
 import { Link, usePathname } from "@/i18n/navigation";
 import { Container } from "@/components/ui/Container";
@@ -31,11 +31,15 @@ export function Header() {
   const motion = useMotionEnabled();
   const scrolled = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [open, setOpen] = useState(false);
+  const toggle = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggle.current?.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -85,6 +89,7 @@ export function Header() {
             </Link>
           )}
           <button
+            ref={toggle}
             type="button"
             className="inline-flex size-10 items-center justify-center rounded-full text-fg md:hidden"
             aria-expanded={open}

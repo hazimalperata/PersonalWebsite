@@ -9,7 +9,7 @@ import { NotFoundScene } from "./NotFoundScene";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("notFound");
-  return { title: t("title") };
+  return { title: `${t("title")} · Hazim Alper Ata` };
 }
 
 // Server-rendered 404 for every unmatched URL. The root layout sits under a

@@ -1,10 +1,4 @@
-import type { AppLocale } from "@/i18n/routing";
-
 export type L = { en: string; tr: string };
-
-export function pick(l: L, locale: AppLocale): string {
-  return l[locale];
-}
 
 export type SocialIcon = "linkedin" | "github" | "instagram" | "email";
 

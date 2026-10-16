@@ -267,7 +267,7 @@ a.legendItem:hover {
 }
 .legendItem small {
   font-size: inherit;
-  opacity: 0.7;
+  /* full colour: a dimmed count falls under AA on the dark page */
 }
 
 /* The still timeline (reduced motion, no WebGL) is fixed behind the whole page. Keep it, and its labels, out of the

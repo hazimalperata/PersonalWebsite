@@ -28,7 +28,7 @@ export async function ProjectHeader({ meta, locale }: { meta: ProjectMeta; local
   ];
 
   return (
-    <header className="mt-6 md:flex md:items-stretch md:gap-8">
+    <header className="mt-6 flex flex-col md:flex-row md:items-stretch md:gap-8">
       <div
         lang={meta.fallback ? "en" : undefined}
         className="rounded-2xl border border-fg/10 bg-bg/80 p-6 backdrop-blur-md md:w-[min(48rem,58%)] md:shrink-0 md:p-9"
@@ -72,7 +72,7 @@ export async function ProjectHeader({ meta, locale }: { meta: ProjectMeta; local
         {meta.fallback ? <p className="mt-6 text-sm text-fg/70">{t("englishOnly")}</p> : null}
       </div>
       {/* The lane's own timeline is drawn here by the particle field; the text above stays on its panel. */}
-      {lane && laneLine ? <div aria-hidden="true" {...SIGNAL_HEADER} className="mt-4 h-56 md:mt-0 md:h-auto md:min-h-72 md:flex-1" /> : null}
+      {lane && laneLine ? <div aria-hidden="true" {...SIGNAL_HEADER} className="order-first mb-4 h-56 md:order-none md:mb-0 md:h-auto md:min-h-72 md:flex-1" /> : null}
     </header>
   );
 }
