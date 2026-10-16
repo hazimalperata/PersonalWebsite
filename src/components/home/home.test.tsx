@@ -10,7 +10,7 @@ import trA11y from "../../../messages/tr/a11y.json";
 import trHome from "../../../messages/tr/home.json";
 import trProject from "../../../messages/tr/project.json";
 
-const setPipelineFocus = vi.fn();
+const setPipelineProgress = vi.fn();
 const motionOn = vi.hoisted(() => ({ value: false }));
 type TriggerConfig = { onUpdate?: (self: { progress: number }) => void; onToggle?: (self: { isActive: boolean }) => void };
 const triggers = vi.hoisted(() => ({ list: [] as Array<{ config: TriggerConfig; kill: () => void }> }));
@@ -42,13 +42,14 @@ vi.mock("@/components/signal", () => ({
     section: "data-signal",
     work: "data-signal-work",
     step: "data-signal-step",
+    pipeRun: "data-signal-pipe-run",
   },
   SignalSection: ({ id, state, children }: { id: string; state: string; children: ReactNode }) => (
     <section id={id} data-signal={state}>
       {children}
     </section>
   ),
-  useSignal: () => ({ setPipelineFocus, coarse: false, motion: false }),
+  useSignal: () => ({ setPipelineProgress, coarse: false, motion: false }),
   useMotionEnabled: () => motionOn.value,
   useSignalScene: () => {},
 }));
@@ -56,7 +57,6 @@ vi.mock("@/components/signal", () => ({
 import { getProjects, type ProjectMeta } from "@/lib/content";
 import type { ProofFact } from "@/lib/proof";
 import { AiSection } from "./AiSection";
-import { stepForProgress } from "./aiProgress";
 import { AiSteps } from "./AiSteps";
 import { Contact } from "./Contact";
 import { Experience } from "./Experience";
@@ -86,7 +86,7 @@ beforeAll(async () => {
 });
 afterEach(() => {
   cleanup();
-  setPipelineFocus.mockClear();
+  setPipelineProgress.mockClear();
   vi.unstubAllGlobals();
 });
 
@@ -210,7 +210,14 @@ describe("AiSection", () => {
       expect(li.hidden).toBe(false);
       expect(li.getAttribute("aria-hidden")).toBeNull();
     });
-    expect(container.querySelectorAll("[data-signal-step]")).toHaveLength(4);
+    // the four node slots sit in a hidden row above the list, not inside the cards
+    const slots = [...container.querySelectorAll("[data-signal-step]")];
+    expect(slots.map((s) => s.getAttribute("data-signal-step"))).toEqual(["0", "1", "2", "3"]);
+    for (const s of slots) {
+      expect(s.closest("[aria-hidden='true']")).toBeTruthy();
+      expect(items.some((li) => li.contains(s))).toBe(false);
+      expect(s.compareDocumentPosition(screen.getByRole("list", { name: "How I work with AI" })) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    }
     expect(screen.queryAllByRole("button")).toHaveLength(0);
     expect(container.querySelector("[aria-expanded]")).toBeNull();
   });
@@ -223,13 +230,13 @@ describe("AiSection", () => {
     expect(container.textContent).not.toMatch(/handing a session over|click-to-inspect|written rule every agent/);
   });
 
-  it("without motion no scroll trigger is created and no step is dimmed", async () => {
+  it("without motion no scroll trigger is created and the fill stays clear", async () => {
     triggers.list.length = 0;
     const { container } = view(<AiSteps />);
     await act(async () => {});
     expect(triggers.list).toHaveLength(0);
     expect(container.querySelector("[data-active]")).toBeNull();
-    expect(setPipelineFocus).toHaveBeenLastCalledWith(null);
+    expect(setPipelineProgress).not.toHaveBeenCalled();
   });
 
   describe("with motion", () => {
@@ -241,41 +248,60 @@ describe("AiSection", () => {
       triggers.list.length = 0;
     });
 
-    it("follows scroll progress, lights the active node and clears the focus off screen", async () => {
+    it("hands the runway's scroll progress to the field and clears it on unmount", async () => {
       triggers.list.length = 0;
       motionOn.value = true;
-      const { container, unmount } = view(<AiSteps />);
+      const { unmount } = view(<AiSteps />);
       await act(async () => {});
-      expect(triggers.list).toHaveLength(2);
-      const [progress, onScreen] = triggers.list;
-      const active = () => [...container.querySelectorAll("li")].map((li) => li.getAttribute("data-active"));
-      expect(active()).toEqual(["true", "false", "false", "false"]);
-      act(() => onScreen.config.onToggle?.({ isActive: true }));
-      expect(setPipelineFocus).toHaveBeenLastCalledWith(0);
+      expect(triggers.list).toHaveLength(1);
+      const [progress] = triggers.list;
+      expect(setPipelineProgress).toHaveBeenLastCalledWith(0);
       act(() => progress.config.onUpdate?.({ progress: 0.6 }));
-      expect(active()).toEqual(["false", "false", "true", "false"]);
-      expect(setPipelineFocus).toHaveBeenLastCalledWith(2);
+      expect(setPipelineProgress).toHaveBeenLastCalledWith(0.6);
       act(() => progress.config.onUpdate?.({ progress: 1 }));
-      expect(setPipelineFocus).toHaveBeenLastCalledWith(3);
-      act(() => onScreen.config.onToggle?.({ isActive: false }));
-      expect(setPipelineFocus).toHaveBeenLastCalledWith(null);
+      expect(setPipelineProgress).toHaveBeenLastCalledWith(1);
       unmount();
       expect(progress.kill).toHaveBeenCalled();
+      expect(setPipelineProgress).toHaveBeenLastCalledWith(null);
     });
-  });
-});
 
-describe("stepForProgress", () => {
-  it("maps runway progress to a step, clamped", () => {
-    expect(stepForProgress(0, 4)).toBe(0);
-    expect(stepForProgress(0.24, 4)).toBe(0);
-    expect(stepForProgress(0.25, 4)).toBe(1);
-    expect(stepForProgress(0.5, 4)).toBe(2);
-    expect(stepForProgress(0.99, 4)).toBe(3);
-    expect(stepForProgress(1, 4)).toBe(3);
-    expect(stepForProgress(-0.3, 4)).toBe(0);
-    expect(stepForProgress(7, 4)).toBe(3);
-    expect(stepForProgress(Number.NaN, 4)).toBe(0);
+    it("goes inert and clears the fill when static mode is set after mount, and resumes if it is lifted", async () => {
+      triggers.list.length = 0;
+      motionOn.value = true;
+      const { container } = view(<AiSteps />);
+      await act(async () => {});
+      const [progress] = triggers.list;
+      const run = container.querySelector<HTMLElement>("[data-signal-pipe-run]")!;
+      run.style.setProperty("--on0", "0.4");
+      setPipelineProgress.mockClear();
+      await act(async () => {
+        document.documentElement.setAttribute("data-signal-static-mode", "");
+        await Promise.resolve();
+      });
+      expect(setPipelineProgress).toHaveBeenLastCalledWith(null);
+      expect(run.style.getPropertyValue("--on0")).toBe("");
+      // scroll updates no longer reach the field, and no second trigger is made
+      act(() => progress.config.onUpdate?.({ progress: 0.5 }));
+      expect(setPipelineProgress).toHaveBeenLastCalledWith(null);
+      expect(triggers.list).toHaveLength(1);
+      await act(async () => {
+        document.documentElement.removeAttribute("data-signal-static-mode");
+        await Promise.resolve();
+      });
+      act(() => progress.config.onUpdate?.({ progress: 0.5 }));
+      expect(setPipelineProgress).toHaveBeenLastCalledWith(0.5);
+      expect(triggers.list).toHaveLength(1);
+    });
+
+    it("creates no trigger at all when static mode is already set", async () => {
+      triggers.list.length = 0;
+      motionOn.value = true;
+      document.documentElement.setAttribute("data-signal-static-mode", "");
+      view(<AiSteps />);
+      await act(async () => {});
+      expect(triggers.list).toHaveLength(0);
+      document.documentElement.removeAttribute("data-signal-static-mode");
+    });
   });
 });
 

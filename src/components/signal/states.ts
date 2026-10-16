@@ -37,7 +37,7 @@ export interface StateMeta {
   alpha: number;
   /** the state rotates slowly (contact ring) */
   orbit?: boolean;
-  /** the state is the pipeline (its focused node glows) */
+  /** the state is the pipeline (it fills left to right with the runway's progress) */
   pipe?: boolean;
 }
 
@@ -114,7 +114,7 @@ export function getLayout(vw: number, vh: number, mobile: boolean, anchors?: Lay
       }),
       ys: steps.map((b) => (b ? b.y + b.h / 2 : baseY)),
       size: stepSizes.length
-        ? Math.min(96, Math.max(32, Math.min(...stepSizes) * 0.5))
+        ? Math.min(96, Math.max(32, Math.min(...stepSizes)))
         : mobile
           ? Math.min(54, colW * 0.7)
           : Math.min(96, colW * 0.36),

@@ -138,11 +138,6 @@ export function measureAnchors(keys: string[], els: HTMLElement[], vh: number, s
   return list.sort((x, y) => x.state - y.state);
 }
 
-/** True while the pipeline state is on screen (or morphing to or from it). */
-export function pipelineShowing(keys: string[], i0: number, i1: number): boolean {
-  return keys[i0] === "pipeline" || keys[i1] === "pipeline";
-}
-
 // ---------- CPU blending (same easing and stagger as the vertex shader) ----------
 
 const quintic = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);

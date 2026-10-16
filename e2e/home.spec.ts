@@ -43,12 +43,12 @@ test("locale switch goes from /tr to the unprefixed home", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
 });
 
-test("AI workflow is a pinned runway: scroll picks the active step", async ({ page }, testInfo) => {
+test("AI workflow is a pinned runway: the pipeline fills left to right and cards light up cumulatively", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop", "scroll-driven emphasis is checked on the desktop project");
   await page.goto("/");
   const steps = page.locator("#ai-workflow li");
   await expect(steps).toHaveCount(4);
-  // no disclosure controls any more, and every line is in the DOM and readable
+  // no disclosure controls, and every line is in the DOM and readable
   await expect(page.locator("#ai-workflow button, #ai-workflow [aria-expanded]")).toHaveCount(0);
   for (let i = 0; i < 4; i++) await expect(steps.nth(i).locator("p")).toBeVisible();
 
@@ -62,20 +62,28 @@ test("AI workflow is a pinned runway: scroll picks the active step", async ({ pa
     page.evaluate((y) => window.scrollTo(0, y), Math.round(runway.top + (runway.height - runway.vh) * p));
   const opacity = (i: number) => steps.nth(i).evaluate((el) => Number(getComputedStyle(el).opacity));
 
+  // the nodes sit in a row above the cards, one over each card column
+  const geo = await page.evaluate(() => {
+    const slots = [...document.querySelectorAll("#ai-workflow [data-signal-step]")].map((e) => e.getBoundingClientRect());
+    const cards = [...document.querySelectorAll("#ai-workflow li")].map((e) => e.getBoundingClientRect());
+    return { slots: slots.map((r) => [r.left + r.width / 2, r.bottom]), cards: cards.map((r) => [r.left + r.width / 2, r.top]) };
+  });
+  geo.slots.forEach(([cx, bottom], i) => {
+    expect(Math.abs(cx - geo.cards[i][0])).toBeLessThan(2);
+    expect(bottom).toBeLessThanOrEqual(geo.cards[i][1]);
+  });
+
   await scrollTo(0.05);
-  await expect(steps.nth(0)).toHaveAttribute("data-active", "true");
-  await expect.poll(() => opacity(0)).toBeGreaterThan(0.95);
-  await expect.poll(() => opacity(3)).toBeLessThan(0.8);
+  await expect.poll(async () => (await opacity(0)) - (await opacity(2))).toBeGreaterThan(0.05);
+  await expect.poll(() => opacity(3)).toBeLessThan(0.75);
 
   await scrollTo(0.55);
-  await expect(steps.nth(2)).toHaveAttribute("data-active", "true");
-  await expect(steps.nth(0)).toHaveAttribute("data-active", "false");
-  await expect.poll(() => opacity(2)).toBeGreaterThan(0.95);
-  await expect.poll(() => opacity(0)).toBeLessThan(0.8);
+  await expect.poll(() => opacity(0)).toBeGreaterThan(0.95);
+  await expect.poll(() => opacity(1)).toBeGreaterThan(0.95);
+  await expect.poll(() => opacity(3)).toBeLessThan(0.75);
 
   await scrollTo(0.97);
-  await expect(steps.nth(3)).toHaveAttribute("data-active", "true");
-  await expect.poll(() => opacity(3)).toBeGreaterThan(0.95);
+  for (let i = 0; i < 4; i++) await expect.poll(() => opacity(i)).toBeGreaterThan(0.95);
 });
 
 test.describe("reduced motion", () => {
@@ -87,7 +95,6 @@ test.describe("reduced motion", () => {
     for (let i = 0; i < 4; i++) {
       await expect(steps.nth(i).locator("p")).toBeVisible();
       await expect.poll(() => steps.nth(i).evaluate((el) => Number(getComputedStyle(el).opacity))).toBe(1);
-      await expect(steps.nth(i)).not.toHaveAttribute("data-active", /.*/);
     }
     const layout = await page.evaluate(() => {
       const sticky = document.querySelector("#ai-workflow ol")!.parentElement!;

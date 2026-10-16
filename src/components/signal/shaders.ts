@@ -20,7 +20,7 @@ uniform vec4 uA; // size, noise, repel, alpha of the from-state
 uniform vec4 uB; // same for the to-state
 uniform vec2 uFocus; // focused project of from / to state, -1 for none
 uniform vec2 uIsPipe; // 1 when the from / to state is the pipeline
-uniform vec3 uHot; // focused pipeline node: x, y, radius (huge when nothing is focused)
+uniform float uPipeX; // world x the workflow pipeline has filled up to (huge = everything lit)
 
 varying vec3 vColor;
 varying float vAlpha;
@@ -104,9 +104,9 @@ void main(){
   float dimB = (uFocus.y > -0.5 && abs(aLane - uFocus.y) > 0.5) ? 1.0 : 0.0;
   float dim = mix(dimA, dimB, e);
   float pw = mix(uIsPipe.x, uIsPipe.y, e);
-  float hot = 1.0 - smoothstep(uHot.z, uHot.z * 1.7, distance(pos.xy, uHot.xy));
-  float emph = mix(1.0, mix(0.26, 1.0, hot), pw);
-  gl_PointSize *= 1.0 + 0.45 * pw * hot;
+  float lit = 1.0 - smoothstep(uPipeX - 50.0, uPipeX + 50.0, pos.x);
+  float emph = mix(1.0, mix(0.26, 1.0, lit), pw);
+  gl_PointSize *= 1.0 + 0.45 * pw * lit;
   vAlpha = mix(uA.w, uB.w, e) * mix(1.0, 0.15, dim) * (0.82 + 0.18 * aSeed) * emph * uFade;
   vColor = aColor;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);

@@ -17,14 +17,14 @@ export type { SignalScene } from "./scenes";
 
 export interface SignalContextValue {
   /** The pipeline node that glows (0-3), or `null` to light all of them. For the AI section. */
-  setPipelineFocus: (index: number | null) => void;
+  setPipelineProgress: (p: number | null) => void;
   /** Few points, no cursor repel (coarse pointer or a small screen). */
   coarse: boolean;
   /** False under reduced motion: no canvas, no smooth scroll. */
   motion: boolean;
 }
 
-const SignalContext = createContext<SignalContextValue>({ setPipelineFocus: () => {}, coarse: false, motion: false });
+const SignalContext = createContext<SignalContextValue>({ setPipelineProgress: () => {}, coarse: false, motion: false });
 
 export const useSignal = () => useContext(SignalContext);
 
@@ -121,7 +121,7 @@ export function SignalProvider({ children }: { children: ReactNode }) {
 
   const canvasReady = useAfterIdle(motion && env !== null);
   const value = useMemo<SignalContextValue>(
-    () => ({ setPipelineFocus: signalStore.setPipelineFocus, coarse: env?.coarse ?? false, motion }),
+    () => ({ setPipelineProgress: signalStore.setPipelineProgress, coarse: env?.coarse ?? false, motion }),
     [env?.coarse, motion],
   );
 

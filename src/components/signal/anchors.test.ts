@@ -1,6 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { buildPoints } from "./points";
-import { pipelineShowing } from "./scenes";
 import { SIGNAL_ATTR } from "./dom";
 import { buildHomeStates, getLayout, toScreen } from "./states";
 import { createSignalStore } from "./store";
@@ -73,22 +72,47 @@ describe("DOM anchoring", () => {
   });
 });
 
-describe("pipeline focus lifetime", () => {
+describe("pipeline fill lifetime", () => {
   let store: ReturnType<typeof createSignalStore>;
   beforeEach(() => {
     store = createSignalStore();
   });
-  it("is cleared by a scene change", () => {
-    store.setPipelineFocus(2);
-    expect(store.get().pipelineFocus).toBe(2);
-    store.setScene({ kind: "gallery" });
-    expect(store.get().pipelineFocus).toBeNull();
+  it("starts with no fill, takes a progress and clears it again", () => {
+    expect(store.get().pipelineProgress).toBeNull();
+    store.setPipelineProgress(0.4);
+    expect(store.get().pipelineProgress).toBe(0.4);
+    store.setPipelineProgress(null);
+    expect(store.get().pipelineProgress).toBeNull();
   });
-  it("knows when the home state has left the pipeline", () => {
-    const keys = ["nebula", "calm", "pipeline", "contact"];
-    expect(pipelineShowing(keys, 1, 2)).toBe(true);
-    expect(pipelineShowing(keys, 2, 3)).toBe(true);
-    expect(pipelineShowing(keys, 0, 1)).toBe(false);
-    expect(pipelineShowing(keys, 3, 3)).toBe(false);
+  it("is cleared by a scene change and by a reset", () => {
+    store.setPipelineProgress(0.7);
+    store.setScene({ kind: "gallery" });
+    expect(store.get().pipelineProgress).toBeNull();
+    store.setPipelineProgress(0.2);
+    store.reset();
+    expect(store.get().pipelineProgress).toBeNull();
+  });
+  it("does not notify when the value is unchanged", () => {
+    const listener = vi.fn();
+    store.subscribe(listener);
+    store.setPipelineProgress(0.5);
+    store.setPipelineProgress(0.5);
+    expect(listener).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("pipeline layout", () => {
+  it("anchors the four nodes to the supplied slots and sizes them to the slot, capped at 96", () => {
+    const slots = [0, 1, 2, 3].map((i) => ({ x: 40 + i * 300, y: 200, w: 280, h: 96 }));
+    const L = getLayout(1440, 900, false, { step: slots });
+    expect(L.pipe.xs).toEqual([180, 480, 780, 1080]);
+    expect(L.pipe.ys).toEqual([248, 248, 248, 248]);
+    expect(L.pipe.size).toBe(96);
+    const row = [0, 1, 2, 3].map((i) => ({ x: 16 + i * 80, y: 300, w: 72, h: 54 }));
+    expect(getLayout(390, 844, true, { step: row }).pipe.size).toBe(54);
+  });
+  it("falls back to the prototype formula without anchors", () => {
+    expect(getLayout(1440, 900, false).pipe.size).toBeLessThanOrEqual(96);
+    expect(getLayout(390, 844, true).pipe.size).toBeLessThanOrEqual(54);
   });
 });

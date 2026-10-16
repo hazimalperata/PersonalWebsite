@@ -25,6 +25,8 @@ export const SIGNAL_ATTR = {
   work: "data-signal-work",
   /** `data-signal-step="<i>"`: the element a pipeline node sits on */
   step: "data-signal-step",
+  /** the workflow runway element: the engine writes the cards' `--on0..3` emphasis on it while the pipeline fills */
+  pipeRun: "data-signal-pipe-run",
   /** the 2D fallback layer (reduced motion, no WebGL) */
   static: "data-signal-static",
   /** the decorative label overlay drawn over the field */

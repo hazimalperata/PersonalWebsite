@@ -6,7 +6,8 @@ import * as THREE from "three";
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/motion";
 import { anchoredBox, elementBox, SIGNAL_ATTR, signalSelector } from "./dom";
 import { buildPoints, laneIndex, laneMeta } from "./points";
-import { blend, buildTrack, lerpMeta, measureAnchors, pipelineShowing, playheadAt, type Anchor, type Track } from "./scenes";
+import { pipelineEdge, pipelineEmphasis } from "./pipeline";
+import { blend, buildTrack, lerpMeta, measureAnchors, playheadAt, type Anchor, type Track } from "./scenes";
 import type { SignalScene } from "./scenes";
 import { fragmentShader, vertexShader } from "./shaders";
 import { clusterBox, getLayout, type Layout, type StateMeta } from "./states";
@@ -97,7 +98,7 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
         uB: { value: new THREE.Vector4(3, 40, 1, 0.8) },
         uFocus: { value: new THREE.Vector2(-1, -1) },
         uIsPipe: { value: new THREE.Vector2(0, 0) },
-        uHot: { value: new THREE.Vector3(0, 0, 1e5) },
+        uPipeX: { value: 1e5 },
       },
     });
     return { geometry: g, material: m, fromAttr, toAttr };
@@ -179,7 +180,8 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
       fade: 0,
       pres: { tl: 0, axis: 0, illus: 0 },
       sent: { tl: -1, axis: -1, illus: -1 },
-      hot: { x: 0, y: 0, lr: Math.log(4000), init: false },
+      pipeP: 1,
+      pipeOn: "",
     };
 
     const setMeta = (A: StateMeta, B: StateMeta) => {
@@ -336,10 +338,6 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
         }
       }
       S.mix = mix;
-      // a highlighted step never outlives the pipeline state
-      if (!S.trans && track.drive === "home" && signalStore.get().pipelineFocus !== null && !pipelineShowing(track.keys, i0, i1)) {
-        signalStore.setPipelineFocus(null);
-      }
 
       // orbit (contact ring)
       const A = S.metaA;
@@ -354,25 +352,22 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
       mouse.lerp(mouseTarget, 1 - Math.exp(-dt * 10));
       u.uMouse.value.copy(mouse);
 
-      // the focused pipeline node glows; with no focus every node is lit
+      // the pipeline fills left to right with the runway's scroll progress (no progress = every node lit);
+      // the cards read the same edge as --on0..3 on the runway element
       if (S.L) {
-        const f = signalStore.get().pipelineFocus;
-        const { xs, ys, size: nodeSize } = S.L.pipe;
-        if (f !== null && xs[f] !== undefined) {
-          const tx = xs[f] - S.L.vw / 2;
-          const ty = S.L.vh / 2 - ys[f];
-          if (!S.hot.init) {
-            S.hot.x = tx;
-            S.hot.y = ty;
-            S.hot.init = true;
-          }
-          S.hot.x += (tx - S.hot.x) * damp(7, dt);
-          S.hot.y += (ty - S.hot.y) * damp(7, dt);
-          S.hot.lr += (Math.log(nodeSize * 0.62) - S.hot.lr) * damp(7, dt);
-        } else {
-          S.hot.lr += (Math.log(4000) - S.hot.lr) * damp(4, dt);
+        const target = signalStore.get().pipelineProgress ?? 1;
+        S.pipeP += (target - S.pipeP) * (1 - Math.exp(-dt * 6));
+        const xs = S.L.pipe.xs;
+        const edge = pipelineEdge(xs, S.pipeP);
+        u.uPipeX.value = edge - S.L.vw / 2;
+        const on = pipelineEmphasis(xs, edge)
+          .map((v) => v.toFixed(2))
+          .join(",");
+        if (on !== S.pipeOn) {
+          S.pipeOn = on;
+          const run = document.querySelector<HTMLElement>(signalSelector("pipeRun"));
+          if (run) on.split(",").forEach((v, n) => run.style.setProperty(`--on${n}`, v));
         }
-        u.uHot.value.set(S.hot.x, S.hot.y, Math.exp(S.hot.lr));
       }
 
       // overlay layers follow the playhead

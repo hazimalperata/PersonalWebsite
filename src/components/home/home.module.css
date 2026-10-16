@@ -574,10 +574,15 @@ a.legendItem:hover {
   line-height: 1.55;
 }
 /* The workflow runway: a tall box holding a sticky one-screen panel. Scroll progress through the runway (a
-   ScrollTrigger on the page's one ticker) picks the active step; the others dim. */
+   ScrollTrigger on the page's one ticker) fills the pipeline above the cards left to right; the engine writes each
+   card's emphasis as --on0..3 (1 = passed, 0 = upcoming). Without the engine every card stays lit. */
 .aiRun {
   height: 210svh;
   position: relative;
+  --on0: 1;
+  --on1: 1;
+  --on2: 1;
+  --on3: 1;
 }
 .aiSticky {
   position: sticky;
@@ -607,7 +612,7 @@ a.legendItem:hover {
 }
 .step {
   position: relative;
-  /* no blur here: the field draws a crisp pipeline node in the slot behind each card */
+  /* no blur here: the field draws crisp pipeline nodes above the cards */
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   background: transparent;
@@ -616,18 +621,54 @@ a.legendItem:hover {
   flex-direction: column;
   gap: 10px;
 }
-/* emphasis is opacity only */
+/* the four slots the field draws its pipeline nodes in: one per column, a row in open space above the cards */
+.nodes {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.slot {
+  display: block;
+  height: 96px;
+}
+/* Emphasis is opacity only. The text never drops below 0.68 (AA); the card's own border and fill dim further. */
 .stepsPinned .step {
-  opacity: 0.68;
-  transition: opacity 0.35s ease;
+  isolation: isolate;
+  border-color: transparent;
+  background: transparent;
 }
-.stepsPinned .step[data-active="true"] {
-  opacity: 1;
-  border-color: rgb(127 178 255 / 0.45);
+.stepsPinned .step::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border: 1px solid rgb(232 234 240 / 0.1);
+  border-radius: inherit;
+  background: color-mix(in oklab, var(--color-bg) 66%, transparent);
 }
-.node {
-  width: 100%;
-  height: 120px;
+.stepsPinned .step:nth-child(1) {
+  opacity: calc(0.68 + 0.32 * var(--on0));
+}
+.stepsPinned .step:nth-child(2) {
+  opacity: calc(0.68 + 0.32 * var(--on1));
+}
+.stepsPinned .step:nth-child(3) {
+  opacity: calc(0.68 + 0.32 * var(--on2));
+}
+.stepsPinned .step:nth-child(4) {
+  opacity: calc(0.68 + 0.32 * var(--on3));
+}
+.stepsPinned .step:nth-child(1)::before {
+  opacity: calc(0.15 + 0.85 * var(--on0));
+}
+.stepsPinned .step:nth-child(2)::before {
+  opacity: calc(0.15 + 0.85 * var(--on1));
+}
+.stepsPinned .step:nth-child(3)::before {
+  opacity: calc(0.15 + 0.85 * var(--on2));
+}
+.stepsPinned .step:nth-child(4)::before {
+  opacity: calc(0.15 + 0.85 * var(--on3));
 }
 .stepIdx {
   font-family: var(--font-plex), ui-monospace, monospace;
@@ -879,18 +920,17 @@ a.legendItem:hover {
     grid-template-columns: minmax(0, 1fr);
     gap: 8px;
   }
+  .nodes {
+    gap: 8px;
+    margin: 6px 0;
+  }
+  .slot {
+    height: 54px;
+  }
   .step {
-    display: grid;
-    grid-template-columns: 56px minmax(0, 1fr);
-    column-gap: 14px;
-    row-gap: 6px;
+    display: block;
     padding: 12px 14px;
     background: color-mix(in oklab, var(--color-bg) 84%, transparent);
-  }
-  .node {
-    grid-row: 1 / span 2;
-    width: 56px;
-    height: 56px;
   }
   /* the index sits in the card's corner so the steps stay short enough to fit a 360 x 640 screen in any language */
   .stepIdx {
@@ -961,7 +1001,11 @@ a.legendItem:hover {
   padding-top: 10svh;
   padding-bottom: 6svh;
 }
-:global(html[data-signal-static-mode]) .stepsPinned .step {
+:global(html[data-signal-static-mode]) .nodes {
+  display: none;
+}
+:global(html[data-signal-static-mode]) .stepsPinned .step,
+:global(html[data-signal-static-mode]) .stepsPinned .step::before {
   opacity: 1;
 }
 :global(html[data-signal-static-mode]) .contact {
@@ -1010,7 +1054,11 @@ a.legendItem:hover {
     padding-top: 10svh;
     padding-bottom: 6svh;
   }
-  .stepsPinned .step {
+  .nodes {
+    display: none;
+  }
+  .stepsPinned .step,
+  .stepsPinned .step::before {
     opacity: 1;
   }
   .contact {

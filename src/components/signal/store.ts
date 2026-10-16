@@ -4,8 +4,8 @@ import type { Axis } from "./states";
 export interface SignalSnapshot {
   scene: SignalScene;
   key: string;
-  /** index of the lit pipeline node, or null for all lit */
-  pipelineFocus: number | null;
+  /** scroll progress (0 to 1) through the workflow runway: the pipeline fills left to right; null = all lit */
+  pipelineProgress: number | null;
   /** date axis of the current project scene (viewport px), or null */
   axis: Axis | null;
   /** where the "Illustration" tag of the pose skeleton goes (viewport px), or null */
@@ -20,7 +20,7 @@ type Listener = () => void;
  */
 export function createSignalStore() {
   const initial: SignalScene = { kind: "home" };
-  let snap: SignalSnapshot = { scene: initial, key: sceneKey(initial), pipelineFocus: null, axis: null, illus: null };
+  let snap: SignalSnapshot = { scene: initial, key: sceneKey(initial), pipelineProgress: null, axis: null, illus: null };
   const listeners = new Set<Listener>();
   const emit = () => listeners.forEach((l) => l());
   const set = (patch: Partial<SignalSnapshot>) => {
@@ -38,12 +38,12 @@ export function createSignalStore() {
     setScene(scene: SignalScene) {
       const key = sceneKey(scene);
       if (key === snap.key) return;
-      // a new scene never inherits the old scene's highlighted pipeline step
-      set({ scene, key, axis: null, illus: null, pipelineFocus: null });
+      // a new scene never inherits the old scene's pipeline fill
+      set({ scene, key, axis: null, illus: null, pipelineProgress: null });
     },
-    setPipelineFocus(index: number | null) {
-      if (index === snap.pipelineFocus) return;
-      set({ pipelineFocus: index });
+    setPipelineProgress(p: number | null) {
+      if (p === snap.pipelineProgress) return;
+      set({ pipelineProgress: p });
     },
     setAxis(axis: Axis | null) {
       if (JSON.stringify(axis) === JSON.stringify(snap.axis)) return;
@@ -55,7 +55,7 @@ export function createSignalStore() {
     },
     reset() {
       const scene: SignalScene = { kind: "home" };
-      snap = { scene, key: sceneKey(scene), pipelineFocus: null, axis: null, illus: null };
+      snap = { scene, key: sceneKey(scene), pipelineProgress: null, axis: null, illus: null };
       emit();
     },
   };
