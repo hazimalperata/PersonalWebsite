@@ -64,7 +64,7 @@ Her dalgada ≤ 3 ajan (hesap sınırı dersi). Uygulayıcı Sonnet; inceleme il
 - [ ] **Step 1: Eski ağacı taşı/sil**
 
 ```bash
-cd /c/Users/hazim/WebstormProjects/personal-website
+cd <repo root>
 mkdir -p content/projects
 for f in "src/app/(main)/work/projects/"*.mdx; do b=$(basename "$f" .mdx); git mv "$f" "content/projects/$b.en.mdx"; done
 git rm -r -q "src/app/(main)" src/app/earth src/app/animation src/components src/resources src/types src/utils components.json
