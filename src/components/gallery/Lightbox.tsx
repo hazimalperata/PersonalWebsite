@@ -1,12 +1,12 @@
 "use client";
 
-import { useLenis } from "lenis/react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { MotionConfig, motion, useIsPresent } from "motion/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { getLenis } from "@/components/signal/lenis";
 
 export interface LightboxItem {
   src: string;
@@ -32,7 +32,6 @@ const controlClass =
 
 export function Lightbox({ items, index, onClose, onIndex }: LightboxProps) {
   const t = useTranslations("gallery");
-  const lenis = useLenis();
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const isPresent = useIsPresent();
@@ -55,12 +54,14 @@ export function Lightbox({ items, index, onClose, onIndex }: LightboxProps) {
     if (!isPresent) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    // smooth scroll (desktop with motion) ignores overflow: hidden, so it is paused explicitly
+    const lenis = getLenis();
     lenis?.stop();
     return () => {
       document.body.style.overflow = previous;
       lenis?.start();
     };
-  }, [lenis, isPresent]);
+  }, [isPresent]);
 
   // Focus enters on the close button; the opener restores its own focus on close.
   useEffect(() => {

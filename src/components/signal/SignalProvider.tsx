@@ -6,6 +6,7 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/motion";
 import { plexMono, sora } from "./fonts";
 import { canonicalState, type HomeState } from "./states";
+import { setLenis } from "./lenis";
 import { SignalCanvas } from "./SignalCanvas";
 import { StaticTimeline } from "./StaticTimeline";
 import { signalStore } from "./store";
@@ -64,7 +65,11 @@ export function SignalProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const mq = window.matchMedia("(pointer: coarse)");
-    const read = () => setEnv({ touch: mq.matches, coarse: mq.matches || window.innerWidth < 720 });
+    const read = () => {
+      const next = { touch: mq.matches, coarse: mq.matches || window.innerWidth < 720 };
+      // phone URL-bar resizes fire constantly; do not re-render the canvas subtree when nothing changed
+      setEnv((prev) => (prev && prev.touch === next.touch && prev.coarse === next.coarse ? prev : next));
+    };
     read();
     window.addEventListener("resize", read);
     mq.addEventListener("change", read);
@@ -79,6 +84,7 @@ export function SignalProvider({ children }: { children: ReactNode }) {
     if (!motion || touch) return;
     registerGsap();
     const lenis = new Lenis({ anchors: true, lerp: 0.11, autoRaf: false });
+    setLenis(lenis);
     const tick = (t: number) => lenis.raf(t * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
@@ -93,6 +99,7 @@ export function SignalProvider({ children }: { children: ReactNode }) {
       window.clearTimeout(timer);
       ro.disconnect();
       gsap.ticker.remove(tick);
+      setLenis(null);
       lenis.destroy();
     };
   }, [motion, touch]);
@@ -121,9 +128,10 @@ export function SignalProvider({ children }: { children: ReactNode }) {
   return (
     <SignalContext.Provider value={value}>
       <div data-signal-fonts className={`${sora.variable} ${plexMono.variable}`} style={{ display: "contents" }}>
+        {children}
+        {/* after the page in DOM order (skip link first); both are fixed, so nothing moves on screen */}
         {env !== null && !motion && <StaticTimeline />}
         {env !== null && canvasReady && <SignalCanvas coarse={env.coarse} />}
-        {children}
       </div>
     </SignalContext.Provider>
   );

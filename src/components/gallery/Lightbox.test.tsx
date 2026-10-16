@@ -7,7 +7,6 @@ vi.mock("next/image", () => ({
   default: ({ src, alt }: { src: string; alt: string }) => <img src={src} alt={alt} />,
 }));
 vi.mock("next-intl", () => ({ useTranslations: () => (key: string) => key }));
-vi.mock("lenis/react", () => ({ useLenis: () => undefined }));
 
 let present = true;
 vi.mock("motion/react", async (importOriginal) => ({
@@ -15,6 +14,8 @@ vi.mock("motion/react", async (importOriginal) => ({
   useIsPresent: () => present,
 }));
 
+import type Lenis from "lenis";
+import { setLenis } from "@/components/signal/lenis";
 import { Lightbox } from "./Lightbox";
 
 const items = [
@@ -24,12 +25,23 @@ const items = [
 ];
 
 afterEach(() => {
+  setLenis(null);
   present = true;
   cleanup();
   document.body.style.overflow = "";
 });
 
 describe("Lightbox", () => {
+  it("pauses the page's smooth scroll while open and resumes it on close", () => {
+    const lenis = { stop: vi.fn(), start: vi.fn() };
+    setLenis(lenis as unknown as Lenis);
+    const { unmount } = render(<Lightbox items={items} index={0} onClose={() => {}} onIndex={() => {}} />);
+    expect(lenis.stop).toHaveBeenCalledTimes(1);
+    expect(lenis.start).not.toHaveBeenCalled();
+    unmount();
+    expect(lenis.start).toHaveBeenCalledTimes(1);
+  });
+
   it("names the dialog after the current photo and announces navigation", () => {
     render(<Lightbox items={items} index={1} onClose={() => {}} onIndex={() => {}} />);
     expect(screen.getByRole("dialog", { name: "B" })).toBeTruthy();

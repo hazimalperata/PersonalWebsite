@@ -10,6 +10,9 @@ import type { AppLocale } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
 import { Lightbox } from "./Lightbox";
 
+/** Thumbnails in the first row load eagerly: one of them is the largest paint. */
+const FIRST_ROW = 4;
+
 export function Gallery() {
   const t = useTranslations("gallery");
   const motion = useMotionEnabled();
@@ -53,7 +56,8 @@ export function Gallery() {
                 width={item.width}
                 height={item.height}
                 sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"
-                loading="lazy"
+                loading={i < FIRST_ROW ? "eager" : "lazy"}
+                fetchPriority={i === 0 ? "high" : undefined}
                 className={cn(
                   "h-auto w-full",
                   motion && "transition-transform duration-300 ease-out [@media(hover:hover)]:group-hover:scale-[1.02]",
