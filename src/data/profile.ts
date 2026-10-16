@@ -74,8 +74,8 @@ export const profile = {
           tr: "Rulead için mobil uygulamalar geliştirip yayınlıyorum: Dremly (Expo, React Native) ve Posme (Flutter), ikisi de App Store ve Google Play'de yayında.",
         },
         {
-          en: "Built Rommer, a movement-analysis platform for a hospital: on-device pose analysis in the mobile app, a staff web panel and the backend.",
-          tr: "Bir hastane için hareket analizi platformu Rommer'ı kurdum: mobil uygulamada cihaz üzerinde poz analizi, personel web paneli ve backend.",
+          en: "Built a movement-analysis platform for Rommer International, a hospital: on-device pose analysis in the mobile app, a staff web panel and the backend.",
+          tr: "Rommer International hastanesi için bir hareket analizi platformu kurdum: mobil uygulamada cihaz üzerinde poz analizi, personel web paneli ve backend.",
         },
         {
           en: "Maintain the mobile app template and admin kit that the company's new products start from.",
@@ -180,8 +180,8 @@ export const profile = {
         tr: "İzmir Yüksek Teknoloji Enstitüsü - IZTECH",
       },
       description: {
-        en: "BSc in Computer Engineering (GPA: 2.98 / 4.00)",
-        tr: "Bilgisayar Mühendisliği Lisans (GNO: 2,98 / 4,00)",
+        en: "BSc in Computer Engineering",
+        tr: "Bilgisayar Mühendisliği Lisans",
       },
     },
   ] satisfies EducationItem[],
