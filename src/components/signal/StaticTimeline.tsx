@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
 import { lanes } from "@/lib/signal/data";
 import { buildPoints } from "./points";
-import { elementBox, signalSelector } from "./dom";
+import { elementBox, SIGNAL_ATTR, signalSelector } from "./dom";
 import { SignalOverlay, useBox } from "./SignalOverlay";
 import css from "./signal.module.css";
 import { buildCalmState, buildProjectState, getLayout, timelineState, toScreen } from "./states";
@@ -63,7 +63,7 @@ export function StaticTimeline() {
 
   return (
     <>
-      <div ref={ref} className={css.static} data-signal-static>
+      <div ref={ref} className={css.static} {...{ [SIGNAL_ATTR.static]: "" }}>
         <canvas ref={canvas} role="img" aria-label={t("staticLabel")} />
       </div>
       <SignalOverlay coarse={false} fixed />

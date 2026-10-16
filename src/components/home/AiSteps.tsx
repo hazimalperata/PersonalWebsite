@@ -68,10 +68,8 @@ export function AiSteps() {
                   </button>
                 </h3>
                 <p className={css.stepLine}>{t(`steps.${key}.line`)}</p>
-                <div id={`ai-step-${key}`} className={css.detail}>
-                  <div>
-                    <p>{t(`steps.${key}.detail`)}</p>
-                  </div>
+                <div id={`ai-step-${key}`} className={css.detail} hidden={!isOpen}>
+                  <p>{t(`steps.${key}.detail`)}</p>
                 </div>
               </li>
             );
