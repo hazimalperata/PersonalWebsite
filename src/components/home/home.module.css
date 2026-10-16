@@ -270,6 +270,17 @@ a.legendItem:hover {
   opacity: 0.7;
 }
 
+/* The still timeline (reduced motion, no WebGL) is fixed behind the whole page. Keep it, and its labels, out of the
+   way of the text except while the timeline section is in the middle of the screen. */
+:global(html:not([data-home-timeline]):has([data-signal-static])) :global([data-signal-static]),
+:global(html:not([data-home-timeline]):has([data-signal-static])) :global([data-signal-overlay]) {
+  opacity: 0 !important;
+}
+:global([data-signal-static]),
+:global([data-signal-overlay]) {
+  transition: opacity 0.35s ease;
+}
+
 /* ---------- proof ---------- */
 .proofStep {
   min-height: 100svh;
@@ -755,7 +766,9 @@ a.legendItem:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 var(--pad);
+  /* the ring is fixed to the viewport centre; the footer (~100px) takes the lower edge at the page end, so push the
+     content down by twice its height to sit in the middle of the ring */
+  padding: 200px var(--pad) 0;
   text-align: center;
 }
 .contactIn {
@@ -856,6 +869,11 @@ a.legendItem:hover {
   }
 }
 @media (max-width: 720px) {
+  /* the nebula sits behind the lower half of the hero on a phone: a soft halo keeps the small lines readable */
+  .who,
+  .counterL {
+    text-shadow: 0 0 6px var(--color-bg), 0 0 14px var(--color-bg), 0 0 22px var(--color-bg);
+  }
   /* the chart fills the screen on a phone: one scrollable row of project links, caption for screen readers only */
   .tlCaption {
     position: absolute;
@@ -917,17 +935,10 @@ a.legendItem:hover {
 /* Reduced motion: the field is a still, so nothing needs a tall scroll runway. */
 @media (prefers-reduced-motion: reduce) {
   .tl {
-    height: auto;
-    padding-bottom: 8svh;
+    height: 100svh;
   }
   .tlSticky {
-    position: static;
-    height: auto;
-    padding-bottom: 0;
-  }
-  .tlFoot {
-    position: static;
-    margin-top: 18px;
+    position: relative;
   }
   .hero {
     min-height: auto;

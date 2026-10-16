@@ -46,6 +46,7 @@ import { AiSteps } from "./AiSteps";
 import { Contact } from "./Contact";
 import { Experience } from "./Experience";
 import { Hero } from "./Hero";
+import { HomeScene } from "./HomeScene";
 import { MoreWork } from "./MoreWork";
 import { Proof } from "./Proof";
 import { SelectedWork } from "./SelectedWork";
@@ -204,6 +205,37 @@ describe("AiSection", () => {
     await act(async () => {});
     fireEvent.click(screen.getAllByRole("button")[1]);
     expect(setPipelineFocus).not.toHaveBeenCalledWith(1);
+  });
+});
+
+describe("HomeScene", () => {
+  it("flags the document only while the timeline section is mid-screen", async () => {
+    let fire: (hit: boolean) => void = () => {};
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(private cb: IntersectionObserverCallback) {
+          fire = (hit) => this.cb([{ isIntersecting: hit } as IntersectionObserverEntry], this as never);
+        }
+        observe() {}
+        disconnect() {}
+        unobserve() {}
+      },
+    );
+    const section = document.createElement("section");
+    section.id = "timeline";
+    document.body.appendChild(section);
+    const { unmount } = view(<HomeScene proof={[]} work={[]} />);
+    await act(async () => {});
+    expect(document.documentElement.hasAttribute("data-home-timeline")).toBe(false);
+    act(() => fire(true));
+    expect(document.documentElement.hasAttribute("data-home-timeline")).toBe(true);
+    act(() => fire(false));
+    expect(document.documentElement.hasAttribute("data-home-timeline")).toBe(false);
+    act(() => fire(true));
+    unmount();
+    expect(document.documentElement.hasAttribute("data-home-timeline")).toBe(false);
+    section.remove();
   });
 });
 
