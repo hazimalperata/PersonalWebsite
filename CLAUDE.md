@@ -14,7 +14,7 @@ Kişisel site, "Living Signal" tasarımı. Next.js (App Router) + next-intl + Ta
 
 - Çalışma dalı `signal`. `master` canlı site: sitenin sahibinin (Hazım) OK'si olmadan `master`'a push ya da merge yok.
 - Vercel preview adresi `signal` dalı için ayrıca kontrol edilir.
-- `master`'da `/lab` rotaları yok. Diğer tasarım denemeleri `lab` etiketinde ve `docs/design-lab/` içinde kalır, siteye girmez.
+- `master`'da `/lab` rotaları yok. Diğer tasarım denemeleri `lab` dalında (etiket `design-lab-2026-10-16`, klasör orada `docs/design-lab/`) kalır; `signal` ya da `master` üzerinde yeniden kurma, siteye girmez.
 
 ## İçerik ve metin kuralları
 

@@ -38,11 +38,17 @@ for (const lane of config.lanes) {
       console.warn(`skip (missing): ${repo}`);
       continue;
     }
-    const out = execFileSync(
-      "git",
-      ["-C", repo, "log", "--all", `--author=${config.author}`, "--format=%ad", "--date=short"],
-      { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
-    );
+    let out;
+    try {
+      out = execFileSync(
+        "git",
+        ["-C", repo, "log", "--all", `--author=${config.author}`, "--format=%ad", "--date=short"],
+        { encoding: "utf8", maxBuffer: 64 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] },
+      );
+    } catch (err) {
+      const reason = err instanceof Error ? err.message : String(err);
+      fail(`git log failed for lane "${lane.id}", repo ${repo} (is it a git repo, and is git installed?): ${reason.trim().split(String.fromCharCode(10))[0]}. src/data/signal.json was left untouched.`);
+    }
     for (const [d, n] of Object.entries(countByDay(out))) counts[d] = (counts[d] ?? 0) + n;
   }
   if (Object.keys(counts).length) lanes.push({ id: lane.id, counts });

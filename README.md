@@ -82,7 +82,6 @@ A project is tied to a lane in two places: `signal: "<lane id>"` in its frontmat
 ## Messages
 
 Every visible string lives in `messages/<locale>/<namespace>.json` (`en` and `tr`, one file per namespace). Do not
-write copy in JSX. A new key goes into both locales. The Turkish text is the owner's to write; drafts are marked as
-drafts.
+write copy in JSX. A new key goes into both locales. The Turkish text is the owner's to write.
 
 Performance checks live in `docs/perf/README.md`. Lighthouse JSON and screenshots are local, git-ignored outputs.
