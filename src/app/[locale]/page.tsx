@@ -2,14 +2,22 @@ import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { About } from "@/components/about/About";
-import { Contact } from "@/components/contact/Contact";
-import { Gallery } from "@/components/gallery/Gallery";
-import { Hero } from "@/components/hero/Hero";
-import HomeOrbit from "@/components/three/HomeOrbit";
-import { SelectedWork } from "@/components/work/SelectedWork";
-import { getProjects } from "@/lib/content";
+import { SignalSection } from "@/components/signal";
+import { AiSection } from "@/components/home/AiSection";
+import { AiSteps } from "@/components/home/AiSteps";
+import { Contact } from "@/components/home/Contact";
+import { Experience } from "@/components/home/Experience";
+import { Hero } from "@/components/home/Hero";
+import { HomeScene } from "@/components/home/HomeScene";
+import { MoreWork } from "@/components/home/MoreWork";
+import { Proof, proofText } from "@/components/home/Proof";
+import { SelectedWork } from "@/components/home/SelectedWork";
+import { TimelineSection } from "@/components/home/TimelineSection";
+import css from "@/components/home/home.module.css";
+import { profile } from "@/data/profile";
 import { routing } from "@/i18n/routing";
+import { getProjects } from "@/lib/content";
+import { getProofFacts } from "@/lib/proof";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
@@ -38,16 +46,30 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+
   const projects = await getProjects(locale);
+  const selected = projects.filter((p) => p.featured);
+  const more = projects.filter((p) => !p.featured);
+  const facts = getProofFacts(
+    projects,
+    profile.experience.map((e) => e.from),
+  );
+  const apps = facts.find((f) => f.id === "apps")?.value ?? 0;
+
   return (
-    <>
-      <HomeOrbit>
-        <Hero />
-        <SelectedWork projects={projects} />
-      </HomeOrbit>
-      <About locale={locale} />
-      <Gallery />
-      <Contact locale={locale} />
-    </>
+    <div className={css.home}>
+      <HomeScene proof={facts.map((f) => proofText(f, locale))} work={selected.map((p) => p.signal)} />
+      <Hero apps={apps} />
+      <TimelineSection />
+      <Proof facts={facts} />
+      <SelectedWork projects={selected} />
+      <SignalSection id="calm" state="calm">
+        <MoreWork projects={more} />
+        <AiSection />
+      </SignalSection>
+      <AiSteps />
+      <Experience />
+      <Contact />
+    </div>
   );
 }

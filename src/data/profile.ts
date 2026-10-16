@@ -1,10 +1,4 @@
-import type { AppLocale } from "@/i18n/routing";
-
 export type L = { en: string; tr: string };
-
-export function pick(l: L, locale: AppLocale): string {
-  return l[locale];
-}
 
 export type SocialIcon = "linkedin" | "github" | "instagram" | "email";
 
@@ -23,30 +17,25 @@ export interface EducationItem {
   description: L;
 }
 
-export interface SkillGroup {
-  title: L;
-  items: string[];
-}
-
 const email = "hazimalperata@gmail.com";
 
 export const profile = {
   name: "Hazim Alper Ata",
   role: {
-    en: "Front & Mobile Engineer",
-    tr: "Frontend ve Mobil Geliştirici",
+    en: "Product Engineer",
+    tr: "Ürün Mühendisi",
   } satisfies L,
   email,
   location: { city: "Bursa", lat: 40.19, lon: 29.06, tz: "Europe/Istanbul" },
 
   intro: [
     {
-      en: "I'm a frontend and mobile developer with experience building and scaling real-world products from scratch. At 1likte I lead the development of a production platform, from the web panels to the mobile app.",
-      tr: "Gerçek ürünleri sıfırdan kurma ve ölçekleme deneyimi olan bir frontend ve mobil geliştiriciyim. 1likte'de web panellerinden mobil uygulamaya kadar canlıda çalışan bir platformun geliştirilmesine liderlik ediyorum.",
+      en: "I'm a product engineer: I make the product decisions and build the whole thing, from web and mobile to the backend and the infrastructure under them. At 1likte I lead a production platform end to end, from the web panels to the mobile app.",
+      tr: "Ürün mühendisiyim: ürün kararlarını veriyor ve işin tamamını kuruyorum; web ve mobilden backend'e ve altlarındaki altyapıya kadar. 1likte'de web panellerinden mobil uygulamaya kadar canlıda çalışan bir platformu uçtan uca yönetiyorum.",
     },
     {
-      en: "I specialize in React, Next.js and React Native, and care about performance, scalability and the details of user experience. Outside of work I'm exploring Go for APIs and game development.",
-      tr: "React, Next.js ve React Native üzerine uzmanlaşıyorum; performansa, ölçeklenebilirliğe ve kullanıcı deneyiminin ayrıntılarına önem veriyorum. İş dışında API ve oyun geliştirme için Go'yu keşfediyorum.",
+      en: "On the front I work with React, Next.js and React Native; behind them I build the APIs, databases and deployments. I care about performance, scalability and the details of user experience. Outside of work I'm exploring Go for APIs and game development.",
+      tr: "Önyüzde React, Next.js ve React Native ile çalışıyorum; arkalarında API'leri, veritabanlarını ve yayın altyapısını kuruyorum. Performansa, ölçeklenebilirliğe ve kullanıcı deneyiminin ayrıntılarına önem veriyorum. İş dışında API ve oyun geliştirme için Go'yu keşfediyorum.",
     },
   ] satisfies L[],
 
@@ -185,25 +174,6 @@ export const profile = {
       },
     },
   ] satisfies EducationItem[],
-
-  skills: [
-    {
-      title: { en: "Frontend", tr: "Frontend" },
-      items: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-    },
-    {
-      title: { en: "Mobile", tr: "Mobil" },
-      items: ["React Native", "Expo"],
-    },
-    {
-      title: { en: "Backend & systems", tr: "Backend ve sistemler" },
-      items: ["Go", "Node.js", "Express", "MySQL", "REST API"],
-    },
-    {
-      title: { en: "Performance & optimization", tr: "Performans ve optimizasyon" },
-      items: ["SEO", "LCP", "Caching", "TanStack", "Zustand"],
-    },
-  ] satisfies SkillGroup[],
 };
 
 export type Profile = typeof profile;

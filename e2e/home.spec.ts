@@ -1,90 +1,127 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
-const earthPoster = (page: Page) => page.locator('[style*="view-transition-name: earth"] img[src*="posters%2Fearth"]');
+const SECTIONS = ["work", "about", "ai", "contact"];
 
-test("english home renders sections", async ({ page }) => {
-  await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Hazim Alper Ata");
-  for (const id of ["work", "about", "gallery", "contact"]) {
-    await expect(page.locator(`#${id}`)).toBeVisible();
-  }
-});
+for (const [path, lang] of [
+  ["/", "en"],
+  ["/tr", "tr"],
+] as const) {
+  test(`home ${path}: sections and a single h1`, async ({ page }) => {
+    await page.goto(path);
+    await expect(page.locator("html")).toHaveAttribute("lang", lang);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+    for (const id of SECTIONS) await expect(page.locator(`#${id}`)).toHaveCount(1);
+  });
 
-test("turkish home and switch", async ({ page }) => {
+  test(`home ${path}: gallery link reaches /gallery`, async ({ page, request }) => {
+    await page.goto(path);
+    const link = page.locator("a#gallery");
+    await expect(link).toHaveCount(1);
+    const href = await link.getAttribute("href");
+    expect(href).toMatch(/\/gallery$/);
+    expect(href?.startsWith(lang === "tr" ? "/tr/" : "/")).toBe(true);
+    const res = await request.get(href!);
+    expect(res.status()).toBe(200);
+  });
+}
+
+test("turkish home has Turkish text and leaks no message keys", async ({ page }) => {
   await page.goto("/tr");
-  await expect(page.locator("html")).toHaveAttribute("lang", "tr");
-  await page.getByRole("button", { name: "English" }).click();
-  await expect(page).toHaveURL("/");
+  const text = await page.locator("body").innerText();
+  expect(text).toMatch(/[ğş]/);
+  // a missing message renders as its key path, e.g. "home.hero.title"
+  const keyPath = /(?:^|[>\s"'])(home|common|nav|project|a11y|footer|gallery|signal|notFound|meta)\.[a-z][A-Za-z]*(?:\.[A-Za-z]+)*(?=[<\s"'])/;
+  expect(text).not.toMatch(keyPath);
+  const html = (await page.content()).replace(/<script[\s\S]*?<\/script>/g, "").replace(/<style[\s\S]*?<\/style>/g, "");
+  expect(html.match(new RegExp(`>[^<]*${keyPath.source}`))).toBeNull();
 });
 
-test("theme toggle persists", async ({ page }) => {
+test("locale switch goes from /tr to the unprefixed home", async ({ page }) => {
+  await page.goto("/tr");
+  await page.getByRole("button", { name: "English" }).click();
+  await expect(page).toHaveURL(/localhost:\d+\/$/);
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+});
+
+test("AI workflow is a pinned runway: the pipeline fills left to right and cards light up cumulatively", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop", "scroll-driven emphasis is checked on the desktop project");
   await page.goto("/");
-  const before = await page.locator("html").getAttribute("data-theme");
-  await page.getByRole("button", { name: /theme/i }).click();
-  await expect(page.locator("html")).not.toHaveAttribute("data-theme", before!);
-  const after = await page.locator("html").getAttribute("data-theme");
-  await page.reload();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", after!);
+  const steps = page.locator("#ai-workflow li");
+  await expect(steps).toHaveCount(4);
+  // no disclosure controls, and every line is in the DOM and readable
+  await expect(page.locator("#ai-workflow button, #ai-workflow [aria-expanded]")).toHaveCount(0);
+  for (let i = 0; i < 4; i++) await expect(steps.nth(i).locator("p")).toBeVisible();
+
+  const runway = await page.evaluate(() => {
+    const r = document.querySelector("#ai-workflow ol")!.parentElement!.parentElement!;
+    const box = r.getBoundingClientRect();
+    return { top: box.top + window.scrollY, height: box.height, vh: window.innerHeight };
+  });
+  expect(runway.height).toBeGreaterThan(runway.vh * 1.5);
+  const scrollTo = (p: number) =>
+    page.evaluate((y) => window.scrollTo(0, y), Math.round(runway.top + (runway.height - runway.vh) * p));
+  const opacity = (i: number) => steps.nth(i).evaluate((el) => Number(getComputedStyle(el).opacity));
+
+  // the nodes sit in a row above the cards, one over each card column
+  const geo = await page.evaluate(() => {
+    const slots = [...document.querySelectorAll("#ai-workflow [data-signal-step]")].map((e) => e.getBoundingClientRect());
+    const cards = [...document.querySelectorAll("#ai-workflow li")].map((e) => e.getBoundingClientRect());
+    return { slots: slots.map((r) => [r.left + r.width / 2, r.bottom]), cards: cards.map((r) => [r.left + r.width / 2, r.top]) };
+  });
+  geo.slots.forEach(([cx, bottom], i) => {
+    expect(Math.abs(cx - geo.cards[i][0])).toBeLessThan(2);
+    expect(bottom).toBeLessThanOrEqual(geo.cards[i][1]);
+  });
+
+  await scrollTo(0.05);
+  await expect.poll(async () => (await opacity(0)) - (await opacity(2))).toBeGreaterThan(0.05);
+  await expect.poll(() => opacity(3)).toBeLessThan(0.75);
+
+  await scrollTo(0.55);
+  await expect.poll(() => opacity(0)).toBeGreaterThan(0.95);
+  await expect.poll(() => opacity(1)).toBeGreaterThan(0.95);
+  await expect.poll(() => opacity(3)).toBeLessThan(0.75);
+
+  await scrollTo(0.97);
+  for (let i = 0; i < 4; i++) await expect.poll(() => opacity(i)).toBeGreaterThan(0.95);
 });
 
 test.describe("reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
-  test("shows poster, no canvas", async ({ page }) => {
+  test("AI workflow is a plain list: all four lines visible, nothing pinned, no tall runway", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("canvas")).toHaveCount(0);
-    await expect(earthPoster(page)).toBeVisible();
+    const steps = page.locator("#ai-workflow li");
+    await expect(steps).toHaveCount(4);
+    for (let i = 0; i < 4; i++) {
+      await expect(steps.nth(i).locator("p")).toBeVisible();
+      await expect.poll(() => steps.nth(i).evaluate((el) => Number(getComputedStyle(el).opacity))).toBe(1);
+    }
+    const layout = await page.evaluate(() => {
+      const sticky = document.querySelector("#ai-workflow ol")!.parentElement!;
+      const runway = sticky.parentElement!;
+      return {
+        position: getComputedStyle(sticky).position,
+        runway: runway.getBoundingClientRect().height,
+        vh: window.innerHeight,
+      };
+    });
+    expect(layout.position).not.toBe("sticky");
+    expect(layout.runway).toBeLessThan(layout.vh * 1.6);
   });
 });
 
-test("home works when the textures cannot load", async ({ page }) => {
-  const errors: string[] = [];
-  page.on("pageerror", (e) => errors.push(e.message));
-  await page.route("**/textures/**", (route) => route.abort());
+test("mobile menu: Escape closes it and returns focus to the toggle", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile", "the menu button only exists below the md breakpoint");
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Hazim Alper Ata");
-  await expect(page.locator("#work")).toBeVisible();
-  await expect(page.locator("#contact")).toBeVisible();
-  // The scene preflights its textures before mounting; a blocked file sends it straight to the poster
-  // (mobile waits a settle delay first), so nothing may reach window as an uncaught error.
-  await expect(earthPoster(page)).toBeVisible({ timeout: 15_000 });
-  await page.waitForLoadState("networkidle");
-  expect(errors).toEqual([]);
-});
-
-test("unknown route is 404", async ({ page }) => {
-  const res = await page.goto("/xyz");
-  expect(res?.status()).toBe(404);
-});
-
-test("earth fades out by the about section and returns at the top", async ({ page }, testInfo) => {
-  test.skip(testInfo.project.name === "mobile", "wheel scrolling through Lenis is desktop only");
-  await page.goto("/");
-  await page.locator("canvas").first().waitFor({ state: "attached" });
-  const opacity = () =>
-    page.evaluate(() => {
-      const el = document.querySelector<HTMLElement>('[style*="view-transition-name: earth"]');
-      return el ? el.style.opacity : "missing";
-    });
-  await page.mouse.move(700, 450);
-  await expect
-    .poll(
-      async () => {
-        await page.mouse.wheel(0, 700);
-        return page.evaluate(() => document.querySelector("#about")!.getBoundingClientRect().top < window.innerHeight);
-      },
-      { timeout: 30_000, intervals: [100] },
-    )
-    .toBe(true);
-  await expect.poll(opacity, { timeout: 15_000 }).toBe("0");
-  await expect
-    .poll(
-      async () => {
-        await page.mouse.wheel(0, -900);
-        return page.evaluate(() => window.scrollY < 50);
-      },
-      { timeout: 30_000, intervals: [100] },
-    )
-    .toBe(true);
-  await expect.poll(async () => ["", "1"].includes(await opacity()), { timeout: 15_000 }).toBe(true);
+  const toggle = page.getByRole("button", { name: "Menu" });
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await toggle.click();
+  await expect(page.getByRole("button", { name: "Close menu" })).toHaveAttribute("aria-expanded", "true");
+  await expect(page.locator("#mobile-menu")).toBeVisible();
+  // move focus into the menu so the test proves focus is brought back, not merely never left
+  await page.locator("#mobile-menu a").first().focus();
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#mobile-menu")).toBeHidden();
+  await expect(page.getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "false");
+  await expect(page.getByRole("button", { name: "Menu" })).toBeFocused();
 });

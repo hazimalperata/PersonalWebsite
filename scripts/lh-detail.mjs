@@ -1,7 +1,7 @@
-// Prints what dominates a Lighthouse JSON: node scripts/lh-detail.mjs desktop|mobile
+// Prints what dominates a Lighthouse JSON: node scripts/lh-detail.mjs home-desktop|home-mobile|work-mobile|gallery-desktop ...
 import { readFileSync } from "node:fs";
 
-const name = process.argv[2] ?? "mobile";
+const name = process.argv[2] ?? "home-mobile";
 const r = JSON.parse(readFileSync(new URL(`../docs/perf/lh-${name}.json`, import.meta.url), "utf8"));
 const show = (id, n = 8) => {
   const a = r.audits[id];

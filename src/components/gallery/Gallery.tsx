@@ -4,13 +4,18 @@ import { AnimatePresence } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { Section } from "@/components/ui/Section";
+import { useMotionEnabled } from "@/components/signal";
 import { gallery } from "@/data/gallery";
 import type { AppLocale } from "@/i18n/routing";
+import { cn } from "@/lib/cn";
 import { Lightbox } from "./Lightbox";
+
+/** Thumbnails in the first row load eagerly: one of them is the largest paint. */
+const FIRST_ROW = 4;
 
 export function Gallery() {
   const t = useTranslations("gallery");
+  const motion = useMotionEnabled();
   const locale = useLocale() as AppLocale;
   const [open, setOpen] = useState<number | null>(null);
   const thumbs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -32,7 +37,7 @@ export function Gallery() {
   }, []);
 
   return (
-    <Section id="gallery" title={t("title")} className="relative z-10 bg-bg">
+    <>
       <ul className="columns-2 gap-4 md:columns-3 xl:columns-4">
         {items.map((item, i) => (
           <li key={item.src} className="mb-4 break-inside-avoid">
@@ -43,7 +48,7 @@ export function Gallery() {
               }}
               aria-label={`${t("open")}: ${item.alt}`}
               onClick={() => show(i)}
-              className="group block w-full overflow-hidden rounded-md focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent"
+              className="group block w-full overflow-hidden rounded-lg bg-bg-2 ring-1 ring-white/10 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent"
             >
               <Image
                 src={item.src}
@@ -51,8 +56,12 @@ export function Gallery() {
                 width={item.width}
                 height={item.height}
                 sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 50vw"
-                loading="lazy"
-                className="h-auto w-full transition-transform duration-300 ease-out motion-reduce:transition-none [@media(hover:hover)]:group-hover:scale-[1.02]"
+                loading={i < FIRST_ROW ? "eager" : "lazy"}
+                fetchPriority={i === 0 ? "high" : undefined}
+                className={cn(
+                  "h-auto w-full",
+                  motion && "transition-transform duration-300 ease-out [@media(hover:hover)]:group-hover:scale-[1.02]",
+                )}
               />
             </button>
           </li>
@@ -61,6 +70,6 @@ export function Gallery() {
       <AnimatePresence>
         {open !== null && <Lightbox key="lightbox" items={items} index={open} onClose={close} onIndex={show} />}
       </AnimatePresence>
-    </Section>
+    </>
   );
 }

@@ -1,0 +1,25 @@
+{
+  "back": "All work",
+  "more": "More projects",
+  "role": "Role",
+  "link": "Visit",
+  "status": "Status",
+  "stack": "Stack",
+  "stores": {
+    "appStore": "App Store",
+    "googlePlay": "Google Play"
+  },
+  "kind": {
+    "product": "Product",
+    "client": "Client work",
+    "startup": "Startup",
+    "personal": "Personal"
+  },
+  "commits": "{count, plural, one {# commit} other {# commits}}",
+  "prev": "Previous",
+  "next": "Next",
+  "englishOnly": "This page is available in English only.",
+  "completed": "Completed",
+  "inProgress": "In progress",
+  "planned": "Planned"
+}

@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { siteName, siteUrl } from "@/lib/site";
 
 const avatarPath = "/images/avatar.jpeg";
-const siteRole = "Front & Mobile Engineer";
+const siteRole = "Product Engineer";
 
 export const runtime = "nodejs";
 

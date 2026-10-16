@@ -1,0 +1,13 @@
+{
+  "author": "Your Name\\|your-github-login\\|you@example.com",
+  "lanes": [
+    { "id": "seller", "repos": ["/absolute/path/to/seller-repo"] },
+    { "id": "admin", "repos": ["/absolute/path/to/admin-repo"] },
+    { "id": "landing", "repos": ["/absolute/path/to/landing-repo"] },
+    { "id": "site", "repos": ["/absolute/path/to/this-site-repo"] },
+    { "id": "mobile", "repos": ["/absolute/path/to/mobile-repo"] },
+    { "id": "posme", "repos": ["/absolute/path/to/posme-repo"] },
+    { "id": "dremly", "repos": ["/absolute/path/to/dremly-repo"] },
+    { "id": "rommer", "repos": ["/absolute/path/to/first-repo", "/absolute/path/to/second-repo"] }
+  ]
+}

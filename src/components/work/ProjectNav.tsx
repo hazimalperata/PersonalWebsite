@@ -10,8 +10,8 @@ function NavLink({ project, label, align }: { project: NavTarget; label: string;
       href={`/work/${project.slug}`}
       className={`group block rounded-sm py-1 ${align === "end" ? "text-right" : "text-left"}`}
     >
-      <span className="block text-xs text-fg-2">{label}</span>
-      <span className="mt-1 block font-display text-xl transition-colors duration-200 ease-out group-hover:text-accent motion-reduce:transition-none">
+      <span className="block text-sm text-fg/80">{label}</span>
+      <span className="mt-1 block font-display text-xl font-semibold transition-colors duration-200 ease-out group-hover:text-accent motion-reduce:transition-none">
         {project.title}
       </span>
     </Link>
@@ -21,7 +21,7 @@ function NavLink({ project, label, align }: { project: NavTarget; label: string;
 export async function ProjectNav({ prev, next }: { prev: NavTarget; next: NavTarget }) {
   const t = await getTranslations("project");
   return (
-    <nav aria-label={t("more")} className="mt-24 grid grid-cols-2 gap-6 border-t border-fg-2/15 pt-8">
+    <nav aria-label={t("more")} className="mt-16 grid max-w-3xl grid-cols-2 gap-6 rounded-2xl border border-fg/10 bg-bg/80 p-6 backdrop-blur-md">
       <NavLink project={prev} label={t("prev")} align="start" />
       <NavLink project={next} label={t("next")} align="end" />
     </nav>

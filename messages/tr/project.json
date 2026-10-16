@@ -1,0 +1,25 @@
+{
+  "back": "Tüm işler",
+  "more": "Diğer projeler",
+  "role": "Rol",
+  "link": "Ziyaret et",
+  "status": "Durum",
+  "stack": "Teknolojiler",
+  "stores": {
+    "appStore": "App Store",
+    "googlePlay": "Google Play"
+  },
+  "kind": {
+    "product": "Ürün",
+    "client": "Müşteri işi",
+    "startup": "Girişim",
+    "personal": "Kişisel"
+  },
+  "commits": "{count, plural, other {# commit}}",
+  "prev": "Önceki",
+  "next": "Sonraki",
+  "englishOnly": "Bu sayfa yalnızca İngilizce.",
+  "completed": "Tamamlandı",
+  "inProgress": "Devam ediyor",
+  "planned": "Planlandı"
+}

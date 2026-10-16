@@ -1,0 +1,114 @@
+{
+  "name": "Hazim Alper Ata",
+  "hero": {
+    "tag": "Ürün mühendisi · Bursa, Türkiye",
+    "line1": "En yüksek",
+    "line2": "standartta inşa edildi.",
+    "message": "Üstlendiğim her işi en yüksek standartta kurarım: ciddi, gerçek ve modern teknolojinin gerektirdiği şekilde.",
+    "apps": "{count} uygulama App Store ve Google Play'de yayında",
+    "seeWork": "İşlere bak",
+    "contact": "İletişime geç",
+    "counter": "commit, {lanes} projede ({first}–{last})",
+    "scroll": "Kaydır"
+  },
+  "timeline": {
+    "title": "Bir nokta, bir commit.",
+    "caption": "Her nokta benim attığım bir commit; git'ten sayıldı.",
+    "legend": "Zaman çizelgesindeki projeler",
+    "commits": "{count} commit"
+  },
+  "proof": {
+    "heading": "Rakamlarla",
+    "apps": "uygulama App Store ve Google Play'de yayında",
+    "seller": "1likte satıcı panelinde {year} yılından beri commit",
+    "mobile": "1likte mobil uygulamasında commit",
+    "years": "yıldır canlıya yazılım çıkarıyorum"
+  },
+  "work": {
+    "heading": "Seçilmiş işler",
+    "caseStudy": "Proje sayfası",
+    "commits": "{count} commit",
+    "screenshot": "{title} uygulama ekran görüntüsü {n}",
+    "screenshotWide": "{title} ekran görüntüsü",
+    "clientNote": "Müşteri projesi · ekranlar henüz herkese açık değil",
+    "illustrationCaption": "Çizim · sistem özeti, ekran görüntüsü değil",
+    "illustrationAlt": "Telefon uygulaması, API ve personel paneli yan yana bağlı",
+    "illustration": {
+      "app": "Mobil uygulama",
+      "appNote": "poz cihazda",
+      "api": "API",
+      "apiNote": "NestJS · Postgres",
+      "panel": "Personel paneli",
+      "panelNote": "Next.js"
+    },
+    "stackLabel": "Teknolojiler",
+    "kind": {
+      "product": "Ürün",
+      "client": "Müşteri",
+      "startup": "Girişim",
+      "personal": "Kişisel"
+    },
+    "store": {
+      "appStore": "App Store",
+      "googlePlay": "Google Play"
+    }
+  },
+  "more": {
+    "tag": "Diğer işler",
+    "title": "Bunları da yaptım.",
+    "galleryTitle": "Fotoğraf galerisi",
+    "galleryLine": "Bir fotoğraf seçkisi."
+  },
+  "ai": {
+    "tag": "AI",
+    "title": "Yapay zekayı nasıl kullanıyorum",
+    "intro": "Yapay zeka hem nasıl geliştirdiğimin hem de ne geliştirdiğimin parçası. Beni hızlandırıyor; çıtayı düşürmüyor.",
+    "productsLabel": "Ürünlerimde yapay zeka",
+    "products": {
+      "dremly": {
+        "name": "Dremly",
+        "line": "Yazı ya da sesle anlatılan bir rüyayı yorumlar, sonra görsele ya da kısa bir videoya dönüştürür."
+      },
+      "posme": {
+        "name": "Posme",
+        "line": "Kameradan tek bir kare okur ve o sahne için bir poz tasarlar; canlı yönlendirme telefonda çalışır."
+      },
+      "rommer": {
+        "name": "Rommer için hareket analizi",
+        "line": "Hasta egzersiz yaparken poz, cihaz üzerinde gerçek zamanlı analiz edilir."
+      }
+    },
+    "lead": "Yalnızca bir asistana komut yazmıyorum. Kendi Claude Code düzenimi kurdum ve onu gerçek projelerde eğitmeye devam ediyorum.",
+    "stepsLabel": "Yapay zekayla çalışma biçimim",
+    "steps": {
+      "spec": {
+        "title": "Önce spesifikasyon",
+        "line": "Her özellik, tek satır kod yazılmadan önce yazılı bir spesifikasyon ve görev planıyla başlar."
+      },
+      "agents": {
+        "title": "Ekip gibi ajanlar",
+        "line": "Kodlama ajanları birbirinden bağımsız görevleri paralel yapar, her biri kendi izole dalında."
+      },
+      "review": {
+        "title": "Bağımsız inceleme",
+        "line": "Her görev, ayrı bir inceleyici tarafından hem spesifikasyona hem kaliteye göre kontrol edilir; son kararı ben veririm."
+      },
+      "gates": {
+        "title": "Güven değil, kapı",
+        "line": "Tip denetimi, lint, birim ve uçtan uca testler geçmeden hiçbir şey birleştirilmez ya da yayınlanmaz."
+      }
+    }
+  },
+  "experience": {
+    "tag": "Deneyim",
+    "title": "Nerede geliştirildi.",
+    "present": "Günümüz",
+    "timelineLabel": "Deneyim yılları"
+  },
+  "contact": {
+    "tag": "İletişim",
+    "title": "Doğru kuralım.",
+    "cv": "CV'yi indir",
+    "elsewhere": "Başka yerlerde"
+  }
+}

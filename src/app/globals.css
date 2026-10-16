@@ -2,13 +2,11 @@
 @plugin "@tailwindcss/typography";
 
 @theme static {
-  --color-bg: #0b1628;
-  --color-bg-2: #111f36;
-  --color-fg: #e8eef6;
-  --color-fg-2: #8a9bb5;
-  --color-accent: #8ccbff;
-  --color-amber: #f0b35b;
-  --color-on-amber: #0e1a2b;
+  --color-bg: #05060a;
+  --color-bg-2: #0d0f17;
+  --color-fg: #e8eaf0;
+  --color-fg-2: #8b90a0;
+  --color-accent: #7fb2ff;
   --text-xs: 0.875rem;
   --text-base: 1.0625rem;
   --text-lg: 1.25rem;
@@ -21,32 +19,18 @@
 }
 
 @theme inline {
-  --font-display: var(--font-syne);
-  --font-body: var(--font-geist);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-sora);
+  --font-body: var(--font-sora);
+  --font-mono: var(--font-plex);
 }
 
-:root[data-theme="light"] {
-  --color-bg: #f3f6fa;
-  --color-bg-2: #e8edf4;
-  --color-fg: #0e1a2b;
-  --color-fg-2: #51627a;
-  --color-accent: #1f6fd8;
-  --color-amber: #d9922e;
-  color-scheme: light;
-}
-:root[data-theme="dark"] { color-scheme: dark; }
-
-html { background: var(--color-bg); color: var(--color-fg); scroll-behavior: auto; }
+:root { color-scheme: dark; }
+html { background: var(--color-bg); color: var(--color-fg); scroll-behavior: auto; scrollbar-gutter: stable; }
 body { font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; line-height: 1; }
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; line-height: 1.1; }
 :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+::selection { background: color-mix(in oklab, var(--color-accent) 35%, transparent); color: var(--color-fg); }
 
-::view-transition { pointer-events: none; }
-/* Only the theme switch drives the root itself (circular reveal); route changes keep the default crossfade. */
-:root[data-theme-switching]::view-transition-old(root),
-:root[data-theme-switching]::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-::view-transition-group(earth) { animation: none; }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
@@ -70,9 +54,3 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; line-hei
   --tw-prose-td-borders: color-mix(in oklab, var(--color-fg-2) 30%, transparent);
 }
 .prose :where(h1, h2, h3, h4) { font-family: var(--font-display); letter-spacing: -0.02em; }
-html { scrollbar-gutter: stable; }
-
-@keyframes preloader-sweep {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(200%); }
-}

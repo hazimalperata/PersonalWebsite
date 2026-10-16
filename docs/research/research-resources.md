@@ -6,7 +6,7 @@ Stars/licenses below were read from the GitHub API on 2026-10-16 unless marked "
 ---------------------------------------------------------------------------
 ## PART A. Local skills
 
-Skill roots: `C:\Users\hazim\.claude_work\skills\`, `...\plugins\cache\`, gstack skills in `C:\Users\hazim\.claude\skills\synced\d1594396-...\`.
+Skill roots: the local skills folder, the plugin cache, and the synced gstack skills folder.
 Stage legend: BEFORE = design process / run before building. DURING = implementation guidance. AFTER = audit / QA.
 
 | Skill | Stage | What it concretely provides | Use for this project? |

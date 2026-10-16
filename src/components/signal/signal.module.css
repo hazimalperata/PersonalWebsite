@@ -1,0 +1,91 @@
+/* Dark only. Palette from the prototype: ink #05060A, text #E8EAF0, secondary #8B90A0. */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100lvh;
+  z-index: 1;
+  pointer-events: none;
+  font-family: var(--font-plex), ui-monospace, monospace;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+}
+
+.label {
+  position: absolute;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: #8b90a0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.label i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.labelLeft {
+  transform: translate(-100%, -100%);
+  justify-content: flex-end;
+}
+.tick {
+  position: absolute;
+  width: 1px;
+  background: rgba(232, 234, 240, 0.08);
+}
+.year {
+  position: absolute;
+  font-size: 11px;
+  color: #8b90a0;
+  transform: translateX(-50%);
+}
+.note {
+  position: absolute;
+  left: 16px;
+  font-size: 11px;
+  color: #8b90a0;
+}
+
+.axisLine {
+  position: absolute;
+  height: 1px;
+  background: rgba(232, 234, 240, 0.16);
+}
+.axisEnd {
+  position: absolute;
+  font-size: 11px;
+  color: #8b90a0;
+  white-space: nowrap;
+}
+
+.illustration {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #8b90a0;
+  white-space: nowrap;
+}
+
+/* the 2D stand-in when motion is off or WebGL is unavailable */
+.static {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100lvh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+.static canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

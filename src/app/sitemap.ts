@@ -10,6 +10,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/tr`, lastModified: today, alternates: { languages: homeLanguages } },
   ];
 
+  const galleryLanguages = { en: `${siteUrl}/gallery`, tr: `${siteUrl}/tr/gallery`, "x-default": `${siteUrl}/gallery` };
+  entries.push(
+    { url: `${siteUrl}/gallery`, lastModified: today, alternates: { languages: galleryLanguages } },
+    { url: `${siteUrl}/tr/gallery`, lastModified: today, alternates: { languages: galleryLanguages } },
+  );
+
   const slugs = await getProjectSlugs();
   const projects = await Promise.all(
     slugs.map(async (slug) => {
