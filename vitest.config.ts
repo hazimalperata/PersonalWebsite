@@ -16,7 +16,7 @@ export default defineConfig({
         resolve: { alias },
         test: {
           name: "node",
-          include: ["src/**/*.test.ts", "src/**/*.test.tsx"],
+          include: ["src/**/*.test.ts", "src/**/*.test.tsx", "scripts/**/*.test.mjs"],
           exclude: ["src/components/**"],
           environment: "node",
         },

@@ -45,3 +45,6 @@ next-env.d.ts
 /docs/perf/*.html
 /docs/perf/shots/
 /docs/perf/lh-*.json
+
+# signal collector local config
+/signal.config.local.json
