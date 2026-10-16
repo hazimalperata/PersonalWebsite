@@ -41,7 +41,7 @@ function createAnchor(locale: AppLocale) {
         );
       }
       return (
-        <a {...rest} href={href} target="_blank" rel="noreferrer">
+        <a {...rest} href={href} target="_blank" rel="noopener noreferrer">
           {children}
           <NewTabHint />
         </a>

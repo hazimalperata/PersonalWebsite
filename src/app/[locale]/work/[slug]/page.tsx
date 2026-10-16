@@ -5,8 +5,9 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { textLinkClass } from "@/components/ui/TextLink";
 import { MdxContent } from "@/components/mdx/mdx-components";
-import { ProjectHeader } from "@/components/work/ProjectHeader";
+import { ProjectCover, ProjectHeader } from "@/components/work/ProjectHeader";
 import { ProjectNav } from "@/components/work/ProjectNav";
+import { ProjectScene } from "@/components/work/ProjectScene";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { getProject, getProjectSlugs, getProjects } from "@/lib/content";
@@ -64,12 +65,20 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/work/
   const next = index >= 0 ? all[(index + 1) % all.length] : null;
 
   return (
-    <Container className="pt-32 pb-24">
-      <Link href="/#work" className={textLinkClass}>
+    <Container className="pt-28 pb-24">
+      <ProjectScene lane={p.meta.signal} />
+      <Link
+        href="/#work"
+        className={`${textLinkClass} inline-block rounded-full border border-fg/10 bg-bg/80 px-4 py-1.5 text-sm backdrop-blur-md`}
+      >
         {t("back")}
       </Link>
-      <ProjectHeader meta={p.meta} />
-      <div className="prose prose-lg mt-16 max-w-[70ch]" lang={p.meta.fallback ? "en" : undefined}>
+      <ProjectHeader meta={p.meta} locale={locale} />
+      <ProjectCover meta={p.meta} />
+      <div
+        className="prose prose-lg mt-10 max-w-3xl rounded-2xl border border-fg/10 bg-bg/85 p-6 backdrop-blur-md md:p-10"
+        lang={p.meta.fallback ? "en" : undefined}
+      >
         <MdxContent source={p.content} locale={locale} />
       </div>
       {prev && next && prev.slug !== slug ? <ProjectNav prev={prev} next={next} /> : null}
