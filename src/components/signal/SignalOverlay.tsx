@@ -2,10 +2,10 @@
 
 import { useLocale } from "next-intl";
 import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
-import { lanes, laneTotal } from "@/lib/signal/data";
+import { lanes } from "@/lib/signal/data";
 import { firstDay, firstYear, lastYear } from "./points";
 import css from "./signal.module.css";
-import { clusterBox, dayX, getLayout } from "./states";
+import { dayX, getLayout } from "./states";
 import { signalStore } from "./store";
 import { useSignalText } from "./useSignalText";
 
@@ -93,15 +93,7 @@ export function SignalOverlay({ coarse, fixed }: { coarse: boolean; fixed?: bool
     new Intl.DateTimeFormat(locale === "tr" ? "tr-TR" : "en-US", { month: "short", year: "numeric", timeZone: "UTC" }).format(
       new Date(`${iso}T00:00:00Z`),
     );
-  let illus: { left: number; top: number } | null = null;
-  if (box && scene.kind === "home") {
-    const L = getLayout(box.w, box.h, mobile);
-    const i = (scene.work ?? []).findIndex((x) => x.lane === "rommer");
-    if (i >= 0) {
-      const b = clusterBox(L, i, "rommer", Math.round(laneTotal("rommer") / (coarse ? 3 : 1)));
-      illus = { left: b.cx, top: b.y + b.h + 10 };
-    }
-  }
+  const illus = snap.illus;
   return (
     <div ref={ref} className={css.overlay} data-signal-overlay aria-hidden="true" style={style}>
       {box && (

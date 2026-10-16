@@ -8,6 +8,8 @@ export interface SignalSnapshot {
   pipelineFocus: number | null;
   /** date axis of the current project scene (viewport px), or null */
   axis: Axis | null;
+  /** where the "Illustration" tag of the pose skeleton goes (viewport px), or null */
+  illus: { left: number; top: number } | null;
 }
 
 type Listener = () => void;
@@ -18,7 +20,7 @@ type Listener = () => void;
  */
 export function createSignalStore() {
   const initial: SignalScene = { kind: "home" };
-  let snap: SignalSnapshot = { scene: initial, key: sceneKey(initial), pipelineFocus: null, axis: null };
+  let snap: SignalSnapshot = { scene: initial, key: sceneKey(initial), pipelineFocus: null, axis: null, illus: null };
   const listeners = new Set<Listener>();
   const emit = () => listeners.forEach((l) => l());
   const set = (patch: Partial<SignalSnapshot>) => {
@@ -36,7 +38,8 @@ export function createSignalStore() {
     setScene(scene: SignalScene) {
       const key = sceneKey(scene);
       if (key === snap.key) return;
-      set({ scene, key, axis: null });
+      // a new scene never inherits the old scene's highlighted pipeline step
+      set({ scene, key, axis: null, illus: null, pipelineFocus: null });
     },
     setPipelineFocus(index: number | null) {
       if (index === snap.pipelineFocus) return;
@@ -46,9 +49,13 @@ export function createSignalStore() {
       if (JSON.stringify(axis) === JSON.stringify(snap.axis)) return;
       set({ axis });
     },
+    setIllus(illus: { left: number; top: number } | null) {
+      if (JSON.stringify(illus) === JSON.stringify(snap.illus)) return;
+      set({ illus });
+    },
     reset() {
       const scene: SignalScene = { kind: "home" };
-      snap = { scene, key: sceneKey(scene), pipelineFocus: null, axis: null };
+      snap = { scene, key: sceneKey(scene), pipelineFocus: null, axis: null, illus: null };
       emit();
     },
   };

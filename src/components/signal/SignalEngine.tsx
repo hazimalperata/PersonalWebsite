@@ -4,12 +4,12 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
 import * as THREE from "three";
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/motion";
-import { elementBox } from "./dom";
-import { buildPoints, laneMeta } from "./points";
-import { blend, buildTrack, lerpMeta, measureAnchors, playheadAt, type Anchor, type Track } from "./scenes";
+import { anchoredBox, elementBox, signalSelector } from "./dom";
+import { buildPoints, laneIndex, laneMeta } from "./points";
+import { blend, buildTrack, lerpMeta, measureAnchors, pipelineShowing, playheadAt, type Anchor, type Track } from "./scenes";
 import type { SignalScene } from "./scenes";
 import { fragmentShader, vertexShader } from "./shaders";
-import { getLayout, type Layout, type StateMeta } from "./states";
+import { clusterBox, getLayout, type Layout, type StateMeta } from "./states";
 import { signalStore } from "./store";
 
 registerGsap();
@@ -116,13 +116,16 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
       const family = readFamily();
       if (scene.kind === "home" && (scene.proof?.length ?? 0) > 0) await fontsReady(family);
       if (cancelled) return;
-      const L = getLayout(w, h, coarse);
+      const L = getLayout(w, h, coarse, {
+        work: scene.kind === "home" ? (scene.work ?? []).map((_, i) => anchoredBox(signalSelector("work", i))) : [],
+        step: scene.kind === "home" ? [0, 1, 2, 3].map((i) => anchoredBox(signalSelector("step", i))) : [],
+      });
       const track = buildTrack(scene, {
         pts,
         L,
         family,
-        header: elementBox("[data-signal-header]"),
-        target: elementBox("[data-signal-target]"),
+        header: elementBox(signalSelector("header")),
+        target: elementBox(signalSelector("target")),
       });
       pending.current = { track, key, L, scene };
     };
@@ -135,12 +138,17 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
     let ro: ResizeObserver | undefined;
     if (typeof ResizeObserver !== "undefined") {
       ro = new ResizeObserver(() => schedule(160));
-      for (const el of document.querySelectorAll("[data-signal-header], [data-signal-target]")) ro.observe(el);
+      const sel = (["header", "target", "work", "step"] as const).map((k) => signalSelector(k)).join(", ");
+      for (const el of document.querySelectorAll(sel)) ro.observe(el);
     }
+    // page height changes (images, fonts) move anchored boxes: ScrollTrigger refreshes on those
+    const onRefresh = () => schedule(160);
+    ScrollTrigger.addEventListener("refresh", onRefresh);
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
       ro?.disconnect();
+      ScrollTrigger.removeEventListener("refresh", onRefresh);
     };
   }, [pts, size.width, size.height, coarse, snap.scene, snap.key]);
 
@@ -236,6 +244,11 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
       measure();
       S.j = changed ? (p.track.drive === "home" ? S.jTarget : 0) : Math.min(S.j, Math.max(0, S.order.length - 1));
       signalStore.setAxis(p.track.axis);
+      const rommer = p.scene.kind === "home" ? (p.scene.work ?? []).findIndex((x) => x.lane === "rommer") : -1;
+      if (rommer >= 0) {
+        const b = clusterBox(p.L, rommer, "rommer", pts.filter((q) => q.lane === laneIndex("rommer")).length);
+        signalStore.setIllus({ left: b.cx, top: b.y + b.h + 10 });
+      } else signalStore.setIllus(null);
       if (snapshot) {
         const { i0, i1, mix } = resolve();
         const m0 = p.track.meta[i0];
@@ -323,6 +336,10 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
         }
       }
       S.mix = mix;
+      // a highlighted step never outlives the pipeline state
+      if (!S.trans && track.drive === "home" && signalStore.get().pipelineFocus !== null && !pipelineShowing(track.keys, i0, i1)) {
+        signalStore.setPipelineFocus(null);
+      }
 
       // orbit (contact ring)
       const A = S.metaA;
@@ -340,10 +357,10 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
       // the focused pipeline node glows; with no focus every node is lit
       if (S.L) {
         const f = signalStore.get().pipelineFocus;
-        const { xs, y, size: nodeSize } = S.L.pipe;
+        const { xs, ys, size: nodeSize } = S.L.pipe;
         if (f !== null && xs[f] !== undefined) {
           const tx = xs[f] - S.L.vw / 2;
-          const ty = S.L.vh / 2 - y;
+          const ty = S.L.vh / 2 - ys[f];
           if (!S.hot.init) {
             S.hot.x = tx;
             S.hot.y = ty;
@@ -387,7 +404,7 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
       document.documentElement.removeEventListener("pointerleave", onLeave);
       window.removeEventListener("load", onLoad);
     };
-  }, [coarse, geometry, material, fromAttr, toAttr, seeds, gl, three, camera]);
+  }, [coarse, pts, geometry, material, fromAttr, toAttr, seeds, gl, three, camera]);
 
   useEffect(() => {
     const el = gl.domElement;

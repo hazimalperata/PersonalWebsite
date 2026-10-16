@@ -68,11 +68,22 @@ export interface Layout {
   nebula: { cx: number; cy: number; sx: number; sy: number };
   num: { cx: number; cy: number; maxW: number };
   ring: { cx: number; cy: number; r: number };
-  pipe: { y: number; xs: number[]; size: number };
-  cluster: (workIdx: number) => { cx: number; cy: number; h: number };
+  /** node centres (viewport px) and node size; `y` is the fallback row */
+  pipe: { y: number; xs: number[]; ys: number[]; size: number };
+  /** `w` is set when the cluster sits in a marked element (it bounds a browser frame) */
+  cluster: (workIdx: number) => { cx: number; cy: number; h: number; w?: number };
 }
 
-export function getLayout(vw: number, vh: number, mobile: boolean): Layout {
+/**
+ * Boxes of the page elements the field lines up with, in VIEWPORT px as they will be while their state is
+ * showing (see `anchoredBox` in dom.ts). A missing entry falls back to the viewport-fraction layout.
+ */
+export interface LayoutAnchors {
+  work?: Array<Box | null | undefined>;
+  step?: Array<Box | null | undefined>;
+}
+
+export function getLayout(vw: number, vh: number, mobile: boolean, anchors?: LayoutAnchors): Layout {
   const chart = mobile
     ? { x0: 16, x1: vw - 16, top: vh * 0.15, bottom: vh * 0.8, laneH: 0 }
     : { x0: Math.max(236, vw * 0.19), x1: vw - 56, top: vh * 0.2, bottom: vh * 0.76, laneH: 0 };
@@ -80,6 +91,9 @@ export function getLayout(vw: number, vh: number, mobile: boolean): Layout {
   const pad = mobile ? 18 : Math.min(72, Math.max(18, vw * 0.05));
   const gap = mobile ? 0 : 18;
   const colW = (vw - 2 * pad - 3 * gap) / 4;
+  const baseY = vh * (mobile ? 0.33 : 0.4);
+  const steps = [0, 1, 2, 3].map((i) => anchors?.step?.[i] ?? null);
+  const stepSizes = steps.flatMap((b) => (b ? [Math.min(b.w, b.h)] : []));
   return {
     vw,
     vh,
@@ -93,14 +107,25 @@ export function getLayout(vw: number, vh: number, mobile: boolean): Layout {
       ? { cx: vw * 0.5, cy: vh * 0.5, r: Math.min(vw * 0.4, vh * 0.3) }
       : { cx: vw * 0.5, cy: vh * 0.5, r: Math.min(vw, vh) * 0.36 },
     pipe: {
-      y: vh * (mobile ? 0.33 : 0.4),
-      xs: [0, 1, 2, 3].map((i) => pad + colW / 2 + i * (colW + gap)),
-      size: mobile ? Math.min(54, colW * 0.7) : Math.min(96, colW * 0.36),
+      y: baseY,
+      xs: [0, 1, 2, 3].map((i) => {
+        const b = steps[i];
+        return b ? b.x + b.w / 2 : pad + colW / 2 + i * (colW + gap);
+      }),
+      ys: steps.map((b) => (b ? b.y + b.h / 2 : baseY)),
+      size: stepSizes.length
+        ? Math.min(96, Math.max(32, Math.min(...stepSizes) * 0.5))
+        : mobile
+          ? Math.min(54, colW * 0.7)
+          : Math.min(96, colW * 0.36),
     },
-    cluster: (i: number) =>
-      mobile
+    cluster: (i: number) => {
+      const b = anchors?.work?.[i];
+      if (b) return { cx: b.x + b.w / 2, cy: b.y + b.h / 2, h: Math.min(b.h, vh * 0.7), w: b.w };
+      return mobile
         ? { cx: vw * 0.5, cy: vh * 0.28, h: vh * 0.34 }
-        : { cx: i % 2 === 0 ? vw * 0.72 : vw * 0.28, cy: vh * 0.5, h: vh * 0.56 },
+        : { cx: i % 2 === 0 ? vw * 0.72 : vw * 0.28, cy: vh * 0.5, h: vh * 0.56 };
+    },
   };
 }
 
@@ -250,7 +275,7 @@ function ringState(pts: Pt[], L: Layout): Pos {
 /** Four nodes joined by three connectors; every point picks an element from its seed. */
 function pipelineState(pts: Pt[], L: Layout): Pos {
   const out = new Float32Array(pts.length * 3);
-  const { xs, y, size } = L.pipe;
+  const { xs, ys, size } = L.pipe;
   const half = size / 2;
   pts.forEach((p, i) => {
     const g = rng(Math.floor(p.seed * 1e9) ^ 0x1b3d);
@@ -261,20 +286,26 @@ function pipelineState(pts: Pt[], L: Layout): Pos {
       const node = Math.min(3, Math.floor((r / 0.64) * 4));
       if (g() < 0.4) {
         x = xs[node] + (g() - 0.5) * (size - 14);
-        yy = y + (g() - 0.5) * (size - 14);
+        yy = ys[node] + (g() - 0.5) * (size - 14);
       } else {
         const [px, py] = rrPerimeter(g(), size, size, size * 0.2);
         x = xs[node] + px;
-        yy = y + py;
+        yy = ys[node] + py;
       }
     } else {
+      // a connector between node c and c+1, along whatever direction they sit in (row or stack)
       const c = Math.min(2, Math.floor(((r - 0.64) / 0.36) * 3));
-      const a = xs[c] + half + 8;
-      const b = xs[c + 1] - half - 8;
+      const dx = xs[c + 1] - xs[c];
+      const dy = ys[c + 1] - ys[c];
+      const len = Math.hypot(dx, dy) || 1;
+      const ux = dx / len;
+      const uy = dy / len;
       const t = g();
-      x = a + (b - a) * t;
-      yy = y + (g() - 0.5) * 3;
-      if (t > 0.9) yy += (g() - 0.5) * 2 * (1 - t) * 40;
+      const along = half + 8 + t * Math.max(0, len - 2 * (half + 8));
+      let off = (g() - 0.5) * 3;
+      if (t > 0.9) off += (g() - 0.5) * 2 * (1 - t) * 40;
+      x = xs[c] + ux * along - uy * off;
+      yy = ys[c] + uy * along + ux * off;
     }
     toWorld(out, i, L, x, yy, (g() - 0.5) * 1.2);
   });
@@ -398,14 +429,15 @@ function skeletonPoint(f: number, g: () => number, hs: number): [number, number]
 }
 
 /** A browser frame never wider than the half of the screen its cluster sits in. */
-const browserWidth = (L: Layout, cx: number, hs: number) => Math.min(hs * 1.55, 2 * (Math.min(cx, L.vw - cx) - 24));
+const browserWidth = (L: Layout, cx: number, hs: number, boxW?: number) =>
+  Math.min(hs * 1.55, boxW ?? 2 * (Math.min(cx, L.vw - cx) - 24));
 
 /** Box a lane's cluster occupies on screen (viewport px), for overlays that label it. */
 export function clusterBox(L: Layout, workIdx: number, lane: LaneId, n: number): Box & { cx: number; cy: number } {
-  const { cx, cy, h } = L.cluster(workIdx);
+  const { cx, cy, h, w: boxW } = L.cluster(workIdx);
   const hs = h * clusterScale(n, L.mobile);
   const shape = SHAPES[lane];
-  const w = shape === "browser" ? browserWidth(L, cx, hs) : shape === "phone" ? hs * 0.5 : hs * 0.7;
+  const w = shape === "browser" ? browserWidth(L, cx, hs, boxW) : shape === "phone" ? hs * 0.5 : hs * 0.7;
   const hh = shape === "browser" ? w * 0.62 : shape === "phone" ? hs : hs * 0.9;
   return { cx, cy, x: cx - w / 2, y: cy - hh / 2, w, h: hh };
 }
@@ -418,10 +450,10 @@ function workState(pts: Pt[], L: Layout, workIdx: number, lane: LaneId | null, a
   const n = mine.length;
   if (n === 0) return out;
   const shape = SHAPES[lane];
-  const { cx, cy, h } = L.cluster(workIdx);
+  const { cx, cy, h, w: boxW } = L.cluster(workIdx);
   const hs = h * clusterScale(n, L.mobile);
   const browser = shape === "browser";
-  const w = browser ? browserWidth(L, cx, hs) : hs * 0.5;
+  const w = browser ? browserWidth(L, cx, hs, boxW) : hs * 0.5;
   const hh = browser ? w * 0.62 : hs;
   mine.forEach((idx, k) => {
     const g = rng(Math.floor(pts[idx].seed * 1e9) ^ 0x77);

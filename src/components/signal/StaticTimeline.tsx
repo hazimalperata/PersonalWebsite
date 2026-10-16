@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
 import { lanes } from "@/lib/signal/data";
 import { buildPoints } from "./points";
-import { elementBox } from "./dom";
+import { elementBox, signalSelector } from "./dom";
 import { SignalOverlay, useBox } from "./SignalOverlay";
 import css from "./signal.module.css";
 import { buildCalmState, buildProjectState, getLayout, timelineState, toScreen } from "./states";
@@ -42,7 +42,7 @@ export function StaticTimeline() {
     if (scene.kind === "home") {
       positions = timelineState(pts, L);
     } else if (scene.kind === "project" && scene.lane) {
-      const s = buildProjectState(pts, L, scene.lane, elementBox("[data-signal-header]") ?? { x: 0, y: 0, w: box.w, h: box.h * 0.4 });
+      const s = buildProjectState(pts, L, scene.lane, elementBox(signalSelector("header")) ?? { x: 0, y: 0, w: box.w, h: box.h * 0.4 });
       positions = s.positions;
       focus = s.meta.focus;
       size = 1.4 * s.pointScale;
