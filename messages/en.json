@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "title": "Hazim Alper Ata · Frontend & mobile engineer",
+    "description": "Frontend and mobile engineer building products from idea to production with React, Next.js and React Native."
+  },
+  "nav": { "work": "Work", "about": "About", "gallery": "Gallery", "contact": "Contact", "skip": "Skip to content" },
+  "hero": {
+    "name": "Hazim Alper Ata",
+    "role": "Frontend & mobile engineer",
+    "line": "building products from idea to production.",
+    "location": "Bursa",
+    "openToWork": "open to work",
+    "cta": "Say hi"
+  },
+  "work": { "title": "Selected work", "all": "All work", "view": "View project" },
+  "about": { "title": "About", "experience": "Experience", "education": "Education", "skills": "Skills", "present": "Present" },
+  "gallery": { "title": "Gallery", "open": "Open photo", "close": "Close", "prev": "Previous photo", "next": "Next photo" },
+  "contact": { "title": "Let's talk", "cvEn": "CV (English)", "cvTr": "CV (Turkish)", "localTime": "Local time in Bursa" },
+  "footer": { "rights": "© {year} Hazim Alper Ata", "top": "Back to top" },
+  "project": {
+    "back": "All work",
+    "more": "More projects",
+    "role": "Role",
+    "year": "Year",
+    "link": "Visit",
+    "status": "Status",
+    "prev": "Previous",
+    "next": "Next",
+    "englishOnly": "This page is available in English only.",
+    "completed": "Completed",
+    "inProgress": "In progress",
+    "planned": "Planned"
+  },
+  "notFound": { "title": "This page drifted off orbit.", "home": "Back home" },
+  "theme": { "toggle": "Switch to {theme} theme", "dark": "dark", "light": "light" },
+  "locale": { "switch": "Türkçe" },
+  "preloader": { "label": "Loading" },
+  "a11y": { "mainNav": "Main navigation", "externalLink": "Opens in a new tab" }
+}

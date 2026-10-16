@@ -1,0 +1,78 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme static {
+  --color-bg: #0b1628;
+  --color-bg-2: #111f36;
+  --color-fg: #e8eef6;
+  --color-fg-2: #8a9bb5;
+  --color-accent: #8ccbff;
+  --color-amber: #f0b35b;
+  --color-on-amber: #0e1a2b;
+  --text-xs: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5625rem;
+  --text-2xl: 1.95rem;
+  --text-3xl: 2.44rem;
+  --text-4xl: 3.05rem;
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --container-site: 1440px;
+}
+
+@theme inline {
+  --font-display: var(--font-syne);
+  --font-body: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root[data-theme="light"] {
+  --color-bg: #f3f6fa;
+  --color-bg-2: #e8edf4;
+  --color-fg: #0e1a2b;
+  --color-fg-2: #51627a;
+  --color-accent: #1f6fd8;
+  --color-amber: #d9922e;
+  color-scheme: light;
+}
+:root[data-theme="dark"] { color-scheme: dark; }
+
+html { background: var(--color-bg); color: var(--color-fg); scroll-behavior: auto; }
+body { font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; line-height: 1; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+
+::view-transition { pointer-events: none; }
+/* Only the theme switch drives the root itself (circular reveal); route changes keep the default crossfade. */
+:root[data-theme-switching]::view-transition-old(root),
+:root[data-theme-switching]::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-group(earth) { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}
+
+.prose {
+  --tw-prose-body: var(--color-fg);
+  --tw-prose-headings: var(--color-fg);
+  --tw-prose-lead: var(--color-fg-2);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-fg);
+  --tw-prose-counters: var(--color-fg-2);
+  --tw-prose-bullets: var(--color-fg-2);
+  --tw-prose-hr: color-mix(in oklab, var(--color-fg-2) 30%, transparent);
+  --tw-prose-quotes: var(--color-fg);
+  --tw-prose-quote-borders: var(--color-accent);
+  --tw-prose-captions: var(--color-fg-2);
+  --tw-prose-code: var(--color-fg);
+  --tw-prose-pre-code: var(--color-fg);
+  --tw-prose-pre-bg: var(--color-bg-2);
+  --tw-prose-th-borders: var(--color-fg-2);
+  --tw-prose-td-borders: color-mix(in oklab, var(--color-fg-2) 30%, transparent);
+}
+.prose :where(h1, h2, h3, h4) { font-family: var(--font-display); letter-spacing: -0.02em; }
+html { scrollbar-gutter: stable; }
+
+@keyframes preloader-sweep {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(200%); }
+}

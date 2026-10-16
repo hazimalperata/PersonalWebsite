@@ -1,4 +1,4 @@
-import { baseURL } from "@/resources";
+import { siteUrl } from "@/lib/site";
 
 export default function robots() {
   return {
@@ -7,6 +7,6 @@ export default function robots() {
         userAgent: "*",
       },
     ],
-    sitemap: `${baseURL}/sitemap.xml`,
+    sitemap: `${siteUrl}/sitemap.xml`,
   };
 }

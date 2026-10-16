@@ -38,3 +38,10 @@ next-env.d.ts
 # produced style files
 /styles/tailwind.css
 /.idea
+
+# playwright / perf reports
+/playwright-report
+/test-results
+/docs/perf/*.html
+/docs/perf/shots/
+/docs/perf/lh-*.json

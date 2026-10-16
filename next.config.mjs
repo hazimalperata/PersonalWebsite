@@ -1,22 +1,39 @@
-import mdx from "@next/mdx";
-
-const withMDX = mdx({
-  extension: /\.mdx?$/,
-  options: {},
-});
-
 /** @type {import('next').NextConfig} */
+import createNextIntlPlugin from "next-intl/plugin";
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
+
+const securityHeaders = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+];
+
+// Old section and project URLs from the previous site.
+const legacy = [
+  ["/about", "/#about"],
+  ["/work", "/#work"],
+  ["/gallery", "/#gallery"],
+  ["/earth", "/work/the-pale-blue-dot"],
+];
+
 const nextConfig = {
-  pageExtensions: ["ts", "tsx", "md", "mdx"],
-  transpilePackages: ["next-mdx-remote"],
-  images: {
-    remotePatterns: [
-    ],
+  images: { formats: ["image/avif", "image/webp"] },
+  experimental: { globalNotFound: true },
+  async redirects() {
+    return legacy.flatMap(([from, to]) => [
+      { source: from, destination: to, permanent: true },
+      { source: `/tr${from}`, destination: `/tr${to.startsWith("/#") ? to.slice(1) : to}`, permanent: true },
+    ]);
   },
-  sassOptions: {
-    compiler: "modern",
-    silenceDeprecations: ["legacy-js-api"],
+  async headers() {
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      {
+        source: "/(textures|posters)/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+    ];
   },
 };
-
-export default withMDX(nextConfig);
+export default withNextIntl(nextConfig);

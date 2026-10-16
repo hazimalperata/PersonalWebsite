@@ -2,7 +2,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
-import pluginQuery from "@tanstack/eslint-plugin-query";
 import nextVitals from 'eslint-config-next/core-web-vitals'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
@@ -23,8 +22,12 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
+    'playwright-report/**',
+    'test-results/**',
+    'scripts/**',
+    '.remember/**',
+    '.superpowers/**',
   ]),
-  ...pluginQuery.configs["flat/recommended"],
   ...compat.extends(
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
@@ -32,6 +35,7 @@ const eslintConfig = defineConfig([
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "warn",
+      "no-undef": "off", // TypeScript checks undefined names (global LayoutProps etc.)
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "warn",
     },

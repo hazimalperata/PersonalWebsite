@@ -1,11 +1,14 @@
 import { ImageResponse } from "next/og";
-import { baseURL, person } from "@/resources";
+import { siteName, siteUrl } from "@/lib/site";
+
+const avatarPath = "/images/avatar.jpeg";
+const siteRole = "Front & Mobile Engineer";
 
 export const runtime = "nodejs";
 
 export async function GET(request: Request) {
-  let url = new URL(request.url);
-  let title = url.searchParams.get("title") || "Portfolio";
+  const url = new URL(request.url);
+  const title = url.searchParams.get("title") || "Portfolio";
 
   async function loadGoogleFont(font: string) {
     const url = `https://fonts.googleapis.com/css2?family=${font}`;
@@ -63,7 +66,8 @@ export async function GET(request: Request) {
           }}
         >
           <img
-            src={baseURL + person.avatar}
+            alt=""
+            src={siteUrl + avatarPath}
             style={{
               width: "12rem",
               height: "12rem",
@@ -86,7 +90,7 @@ export async function GET(request: Request) {
                 textWrap: "balance",
               }}
             >
-              {person.name}
+              {siteName}
             </span>
             <span
               style={{
@@ -97,7 +101,7 @@ export async function GET(request: Request) {
                 opacity: "0.6",
               }}
             >
-              {person.role}
+              {siteRole}
             </span>
           </div>
         </div>

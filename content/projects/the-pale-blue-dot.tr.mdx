@@ -1,0 +1,64 @@
+---
+title: "The Pale Blue Dot"
+publishedAt: "2026-05-12"
+year: "2026"
+summary: "Carl Sagan'ın ünlü 'Pale Blue Dot' deneyimini ileri WebGL teknikleriyle yeniden kuran, astrofiziği felsefeyle buluşturan sinematik bir 3D uzay yolculuğu."
+images:
+  - "/images/projects/earth/earth.png"
+status: "completed"
+role: "Geliştirici"
+stack:
+  - "Three.js"
+  - "WebGL"
+  - "GLSL"
+  - "GSAP"
+  - "Framer Motion"
+featured: true
+order: 4
+---
+
+## Vizyon
+
+"Şu noktaya tekrar bakın. Burası işte. Burası evimiz. Biziz." Bu proje, Carl Sagan'ın evrendeki yerimiz üzerine yaptığı derin düşüncenin bir saygı duruşu. Amaç, insanı bir an durmaya zorlayan bir dijital deneyim kurmaktı: sıradan bir portföy görünümünden, ortak evimize varoluşsal bir bakışa geçiş.
+
+## Teknik ayrıntılar
+
+### 1. Dünya'nın çok katmanlı atmosferi
+Gerçekçi bir görünüm için küre üzerinde karmaşık bir katman sistemi kurdum:
+- **Yüzey katmanı**: Ayrıntılı arazi ve okyanus yansımaları için 10k çözünürlüklü diffuse, bump ve specular haritalar kullanılıyor.
+- **Gece ışıkları**: Gezegenin "karanlık yüzündeki" şehir ışıklarını ortaya çıkaran, additive malzemeli ayrı bir mesh.
+- **Bulut sistemi**: 8k dokulu, yüzeyden bağımsız hareket eden ve paralaks derinliği yaratan yüzen bir küre katmanı.
+- **Fresnel atmosfer**: Kameranın bakış açısına göre atmosferik saçılmayı (mavi kenar parıltısı) simüle eden özel bir GLSL shader'ı.
+
+### 2. Prosedürel yıldız alanı ve özel shader'lar
+Evren sabit bir arka plan değil; 15.000 noktadan oluşan prosedürel bir yıldız alanı.
+- **Yıldız sınıflandırması**: Yıldızlar gerçek yıldız sıcaklıklarına göre renklendirildi (O tipi mavi, G tipi sarı, M tipi kırmızı).
+- **Shader ile ışıldama**: Her noktayı CPU'da güncellemek yerine, her yıldızın koordinatını tohum olarak kullanıp opaklığı sinüs dalgasıyla salındıran bir vertex shader yazdım. Böylece verimli bir "ışıldama" etkisi elde edildi.
+- **Radyal parlama**: "Kare piksel" görüntüsünü önlemek için fragment shader her yıldız için üstel sönümlü yumuşak radyal geçişler çiziyor.
+
+### 3. GSAP ile kurgulanmış sinematik
+Deneyim bir dizi "adım" olarak kurgulandı. Özel bir kaydırma motoru yazdım:
+- Ayrık geçişleri tetiklemek için `wheel` ve `touch` olaylarını yakalıyor.
+- **GSAP** ile `earthGroup` dönüşünü, konumunu ve `PerspectiveCamera` yakınlaştırmasını aynı anda canlandırıyor.
+- Kullanıcının sinematik akışı bozmaması için animasyonlar sırasında etkileşimi kilitliyor.
+
+### 4. İşitsel-görsel anlatı
+Kullanıcı "Outro" bölümüne geldiğinde deneyim vites değiştiriyor:
+- **Uzamsal ses**: Ortam müziği yavaşça açılarak yalnızlık ve hayranlık hissini güçlendiriyor.
+- **Daktilo anlatımı**: Özel bir Framer Motion uygulaması Sagan'ın sözlerini yavaşça ortaya çıkarıyor; bu, kameranın derin boşluğa doğru yavaş sürüklenmesiyle senkron ilerliyor.
+
+## Kullanılan teknolojiler
+
+- **Three.js & WebGL**: Temel 3D render ve sahne yönetimi.
+- **GLSL shader'ları**: Özel Fresnel atmosfer ve yıldız alanı GPU programları.
+- **GSAP (GreenSock)**: Karmaşık, çok değişkenli animasyonların yönetimi.
+- **Framer Motion**: Arayüz geçişleri ve anlatı metni animasyonları.
+- **AgX tone mapping**: Sinematik renk üretimi ve yüksek dinamik aralıklı ışığın yönetimi.
+
+## Zorluklar ve öğrendiklerim
+
+En büyük zorluk **perspektif geçişi** oldu. Kamerayı belirli bir şehrin yakın çekiminden, Dünya'nın yalnızca bir "piksel" olduğu uzak bir görünüme taşımak, kameranın `near` ve `far` düzlemlerinin ve görüş açısının dikkatle ele alınmasını gerektirdi. Ayrıca 10k dokuları ve binlerce shader tabanlı parçacığı mobil cihazlarda akıcı çalıştırmak, GPU bellek yönetimi ve doku anizotropisi konusundaki bilgimi derinleştirdi.
+
+## Son düşünceler
+
+Bu proje, bir geliştirici olarak teknik becerilerimle bir tasarımcı olarak yaratıcı vizyonumun kesişim noktasında duruyor. Web'in yalnızca işlevsel arayüzlerden ibaret olmadığını; hikâye anlatımı ve duygusal etki için de bir ortam olabileceğini gösteriyor.
