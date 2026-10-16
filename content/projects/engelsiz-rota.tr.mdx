@@ -1,0 +1,45 @@
+---
+title: "Engelsiz Rota"
+publishedAt: "2026-09-10"
+year: "2026"
+summary: "iOS ve Android için Bursa'daki erişilebilir mekânların haritası. Çevrimdışı harita ve evden çıkmadan bakabileceğin erişilebilirlik bilgileri var."
+images: []
+status: "inProgress"
+role: "Tersane Dijital'de mobil geliştirici; Rommer International için yapıldı"
+stack:
+  - "Expo"
+  - "React Native"
+  - "TypeScript"
+featured: false
+order: 8
+---
+
+## Genel bakış
+
+Engelsiz Rota, Bursa'daki erişilebilir mekânları bulmak için yapılmış küçük bir mobil uygulama. Tersane Dijital'in müşterisi olan hastane Rommer International için hazırlandı. Mobil uygulamayı Tersane Dijital'de mobil geliştirici olarak ben geliştirdim.
+
+Fikir basit: bir yere gitmeden önce içeri girip giremeyeceğini bilmelisin. Her mekânda rampa, asansör ya da engelli tuvaleti gibi olanaklar ve bilginin en son ne zaman doğrulandığı görünüyor.
+
+Uygulama şu anda testte; henüz herkese açık mağazalarda yayında değil.
+
+## Uygulama ne yapıyor
+
+- **Harita ve yakındakiler**: Bursa genelindeki mekânların haritası. Konumunu açarsan en yakın mekânlar başa gelir.
+- **Arama ve filtreler**: Mekânı adıyla ara ya da haritayı tek bir kategoriye daralt.
+- **Erişilebilirlik bilgisi**: Her olanak "var", "yok" ya da "henüz doğrulanmadı" olarak işaretlenir; cevabı olmayan bir şey yanlışlıkla "evet" diye okunmaz.
+- **Çevrimdışı harita**: Haritayı önceden indirirsen internetin olmadığı yerlerde de çalışır.
+- **Kaydedilenler**: Yalnızca telefonunda duran kişisel bir liste.
+- **Mekân öner**: Haritada olmayan bir mekânı fotoğrafı ve harita üzerindeki konumuyla gönderebilirsin.
+- **İpuçları**: Şehirde dolaşmak için kısa, pratik notlar.
+- **Erişilebilir tasarım**: Açık, koyu ve yüksek kontrastlı görünüm, ayarlanabilir yazı boyutu, hareketi azaltma ve ekran okuyucu desteği.
+- **Altı dil**: Türkçe, İngilizce, Rusça, Arapça, Arnavutça ve Bulgarca.
+
+## Ne yaptım
+
+Mobil uygulamanın tamamını geliştirdim: harita, listeler ve filtreler, çevrimdışı harita, mekân sayfaları, öneri formu ve ayarlar. Uygulama erişilebilirlik üzerine olduğu için kontrast, yazı boyutu ve ekran okuyucu kullanımını ilk ekrandan itibaren bir ek özellik olarak değil, zorunlu gereksinim olarak ele aldım.
+
+## Kullanılan teknolojiler
+
+- **Expo ve React Native**, gezinme için Expo Router
+- **TypeScript**
+- Harita için **MapLibre**
