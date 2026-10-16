@@ -919,7 +919,9 @@ a.legendItem:hover {
   .social {
     margin-top: 6px;
     gap: 0 10px;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
+    /* the ring is ~0.46 x the screen width in radius: drop the links just below it (transform only, no reflow) */
+    transform: translateY(calc(46vw - 65px));
   }
 }
 @media (max-width: 640px) {
