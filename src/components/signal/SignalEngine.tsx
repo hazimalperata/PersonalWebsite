@@ -4,7 +4,7 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
 import * as THREE from "three";
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/motion";
-import { anchoredBox, elementBox, signalSelector } from "./dom";
+import { anchoredBox, elementBox, SIGNAL_ATTR, signalSelector } from "./dom";
 import { buildPoints, laneIndex, laneMeta } from "./points";
 import { blend, buildTrack, lerpMeta, measureAnchors, pipelineShowing, playheadAt, type Anchor, type Track } from "./scenes";
 import type { SignalScene } from "./scenes";
@@ -155,7 +155,7 @@ function Field({ coarse, onLost }: { coarse: boolean; onLost: () => void }) {
   // The ticker: scroll -> playhead, playhead -> uniforms, render. Lenis is driven by the same ticker (provider).
   useEffect(() => {
     const u = material.uniforms;
-    const overlay = () => document.querySelector<HTMLElement>("[data-signal-overlay]");
+    const overlay = () => document.querySelector<HTMLElement>(`[${SIGNAL_ATTR.overlay}]`);
     const S = {
       track: null as Track | null,
       key: "",

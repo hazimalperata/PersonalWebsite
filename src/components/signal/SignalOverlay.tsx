@@ -4,6 +4,7 @@ import { useLocale } from "next-intl";
 import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { lanes } from "@/lib/signal/data";
 import { firstDay, firstYear, lastYear } from "./points";
+import { SIGNAL_ATTR } from "./dom";
 import css from "./signal.module.css";
 import { dayX, getLayout } from "./states";
 import { signalStore } from "./store";
@@ -95,7 +96,7 @@ export function SignalOverlay({ coarse, fixed }: { coarse: boolean; fixed?: bool
     );
   const illus = snap.illus;
   return (
-    <div ref={ref} className={css.overlay} data-signal-overlay aria-hidden="true" style={style}>
+    <div ref={ref} className={css.overlay} {...{ [SIGNAL_ATTR.overlay]: "" }} aria-hidden="true" style={style}>
       {box && (
         <>
           <div className={css.layer} style={{ opacity: "var(--tl)" }}>
