@@ -89,16 +89,31 @@ Keep the rest:
 
 ## 5. Home page
 
-**Section order** (as in the prototype, with the AI section shortened, see §9):
+**Section order** (as in the prototype, with the AI section merged and shortened, see §9). Owner, 2026-10-16:
+**no capabilities section** ("what I build with" is not needed; how he uses AI is what matters).
 1. hero;
 2. timeline;
 3. proof;
 4. selected work (5);
 5. more work;
-6. capabilities;
-7. how I use AI;
-8. experience;
-9. contact.
+6. how I use AI;
+7. experience;
+8. contact.
+
+**How I use AI (owner, 2026-10-16: merge the 4-step workflow and the 5-part system, which read as the same
+section):**
+- Title and intro.
+- The three "AI in my products" lines.
+- One lead line: "I don't just prompt an assistant. I built my own Claude Code setup and keep training it on real
+  projects."
+- **Four steps side by side.** Each step has a short visible line and expands on click or keyboard (an accessible
+  disclosure) into a detail paragraph carrying the matching parts of the system:
+  1. "Spec first" → his own skills.
+  2. "Agents as a team" → how he directs them.
+  3. "Independent review" → the tools he wrote.
+  4. "Gates, not trust" → rules from real incidents and what he watches for.
+- Exact EN copy is in the plan, Task 5.
+- The particle state is one 4-node pipeline. There is no pentagon.
 
 **Header:**
 - name;
@@ -120,7 +135,7 @@ Keep the rest:
   - Selected work = the featured projects in `order`. More work = the rest.
   - **Movement analysis for Rommer** needs a case page (`rommer-movement-analysis`, EN + TR). Text only, no
     images, drafted from the `labFacts` entry and the Tersane experience line, marked as a draft for the owner.
-- **Profile, experience, capabilities, education:** `src/data/profile.ts` (EN/TR).
+- **Profile, experience, education:** `src/data/profile.ts` (EN/TR). The capabilities data is no longer shown.
 - **UI strings and the AI section text:** `messages/en.json` and `messages/tr.json`. TR is a draft for the owner
   to correct.
 - **Proof numbers:** derived, not typed in.
@@ -140,8 +155,8 @@ Port `src/lab/d4/` into the site as a real module (e.g. `src/components/signal/`
   also drives Lenis and renders.
 
 **Per-page behaviour:**
-- **Home:** the prototype's states: nebula → timeline → numbers → per-project clusters → AI pipeline → AI system
-  pentagon → contact ring.
+- **Home:** the prototype's states: nebula → timeline → numbers → per-project clusters → AI pipeline (4 nodes; the
+  active and expanded step glows) → contact ring.
 - **Case page:**
   - Only that project's points are bright; the rest dim. On load they form that project's own timeline in the
     header (x = its date range).
@@ -213,8 +228,8 @@ Port `src/lab/d4/` into the site as a real module (e.g. `src/components/signal/`
 1. Dremly and Posme clusters are sparse; make each project's cluster read as a shape at its real point count
    (scale the shape to the count, or add a faint outline).
 2. Movement analysis for Rommer: give its cluster a pose-skeleton shape (labelled illustration).
-3. The AI section's two scroll runways add about 6.7 screens. Shorten the whole AI section to about 3 screens on
-   desktop without losing the pipeline and the pentagon.
+3. The AI section's two scroll runways add about 6.7 screens. The merged section (§5) is at most ~3 desktop
+   screens, with one pipeline runway and no pentagon.
 4. Mobile workflow text is dense: give the steps more space, or show one step at a time.
 5. Cluster and card placement is tuned for 390×844 only. Check 360, 412 and 430 widths and tablet (768, 1024).
 6. Dremly store images contain device mockups ("phone inside a phone" when framed). Do not put them in a

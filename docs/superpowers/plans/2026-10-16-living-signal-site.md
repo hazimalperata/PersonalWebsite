@@ -193,6 +193,8 @@ builds on: `git show design-lab-2026-10-16:src/lab/d4/<file>` and `docs/design-l
   - `export function getProofFacts(projects: ProjectMeta[], experienceStarts: string[]): ProofFact[]`
   - `export function formatProof(value: number, locale: "en" | "tr"): string` (EN `1,700`, TR `1.700`)
 
+**Statuses (owner, 2026-10-16):** `react-window-modals` and `adventures-of-the-knight` → `status: "completed"`.
+
 **Featured (exact):** `order` 1–5: dremly, posme, rommer-movement-analysis, 1likte-mobile-application,
 1likte-seller-panel. Every other project gets `featured: false`.
 
@@ -259,7 +261,7 @@ Title "Movement analysis for Rommer" (TR "Rommer için hareket analizi"), `image
     the active scene; the engine morphs from the previous scene's state.
   - `export function SignalSection({ id, state, children }: { id: string; state: HomeState; children: ReactNode })`.
     It marks a home section as an anchor for scroll-driven states (`data-signal`), as in the prototype.
-  - `export type HomeState = "nebula" | "timeline" | "numbers" | \`work:${number}\` | "calm" | "pipeline" | "system" | "contact"`
+  - `export type HomeState = "nebula" | "timeline" | "numbers" | \`work:${number}\` | "calm" | "pipeline" | "contact"`
   - `export function buildHomeStates(...)`, `export function buildProjectState(...)`,
     `export function buildGalleryState(...)`, `export function buildNotFoundState(...)` in `states.ts` (pure,
     unit-testable).
@@ -340,11 +342,10 @@ Title "Movement analysis for Rommer" (TR "Rommer için hareket analizi"), `image
 
 **Files:**
 - Create `src/components/home/`:
-  - `Hero.tsx`, `TimelineSection.tsx`, `Proof.tsx`, `SelectedWork.tsx`, `MoreWork.tsx`, `Capabilities.tsx`,
+  - `Hero.tsx`, `TimelineSection.tsx`, `Proof.tsx`, `SelectedWork.tsx`, `MoreWork.tsx`,
     `AiSection.tsx`, `Experience.tsx`, `Contact.tsx`, `HomeScene.tsx` (client, calls `useSignalScene({ kind: "home" })`).
 - Modify: `src/app/[locale]/page.tsx` (keep its `generateMetadata`: title, description, canonical on www,
-  hreflang, Open Graph + Twitter card), `messages/{en,tr}/home.json`, `src/data/profile.ts` (capabilities and AI
-  text move here or to messages, one source).
+  hreflang, Open Graph + Twitter card), `messages/{en,tr}/home.json`, `src/data/profile.ts` (no capabilities section; AI text in `home.json`).
 - Test: `src/components/home/*.test.tsx` (selected).
 
 **Interfaces:**
@@ -352,7 +353,7 @@ Title "Movement analysis for Rommer" (TR "Rommer için hareket analizi"), `image
   - Task 2 `getProjects`, `getProofFacts`, `formatProof`;
   - Task 3 `SignalSection`, `useSignalScene`, `useMotionEnabled`;
   - Task 1 `totalCommits`, `signalRange`, `lanes`.
-- Produces: section anchors `#work`, `#about` (on the experience section), `#ai`, `#contact`, and
+- Produces: section anchors `#work`, `#about` (on the experience section), `#ai`, `#contact` (no capabilities section), and
   `<a id="gallery" href="/gallery">` (localized href) in the more-work area.
 
 **Content:**
@@ -361,6 +362,17 @@ Title "Movement analysis for Rommer" (TR "Rommer için hareket analizi"), `image
 - AI section texts are the `labFacts.ai` values (EN). Write TR drafts.
 - Hero counter = `totalCommits`, with the caption "commits across {lanes} projects, {first}–{last}".
 
+
+**AI section (owner, 2026-10-16): one merged section, no capabilities section.** Exact EN copy (write TR drafts):
+- title "How I use AI"; intro "AI is part of how I build and part of what I build. It makes me faster; it does not lower the bar."
+- products: Dremly "Interprets a dream from text or voice, then turns it into an image or a short video." · Posme "Reads a single camera frame and designs a pose for that scene; live coaching runs on the phone." · Movement analysis for Rommer "Pose is analysed on the device in real time while the patient exercises."
+- lead "I don't just prompt an assistant. I built my own Claude Code setup and keep training it on real projects."
+- four steps side by side, each a disclosure (button with `aria-expanded`, keyboard operable; only one open at a time is fine) — visible line / expanded detail:
+  1. "Spec first" — "Every feature starts as a written spec and a task plan before any code is written." / "My own Claude Code skills encode how I work: planning, handing a session over and picking it up again, motion rules for every interface."
+  2. "Agents as a team" — "Coding agents build independent tasks in parallel, each in its own isolated branch." / "I lead them like a team: clear briefs, the cheapest model that can do the job well, and a plain report of what was verified and what was not."
+  3. "Independent review" — "Each task is checked against the spec and for quality by a separate reviewer, and I make the final call." / "Tools I wrote help me check: a click-to-inspect picker for web and mobile to point at the exact element, a verifier agent that runs the quality gate, a launcher that boots the emulator and the app."
+  4. "Gates, not trust" — "Type checks, lint, unit and end-to-end tests have to pass before anything is merged or shipped." / "When something fails silently, it becomes a written rule every agent reads. No internal detail reaches users, no production change happens without asking, and nothing is called verified until I have read the actual output."
+- particle state: the 4-node `pipeline`; the open (or scroll-active) step's node glows. No pentagon, no separate system runway; the whole section ≤ ~3 desktop screens.
 **Polish (spec §9):**
 - The whole AI section is about 3 desktop screens (merge the pipeline and system runways into one pinned runway of
   ~250 vh, or two of ~120 vh).
