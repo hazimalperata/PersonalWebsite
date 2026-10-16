@@ -19,7 +19,7 @@ Kişisel site. Next.js (App Router) + next-intl + Tailwind 4 + R3F dünya sahnes
 - Kullanıcıya görünen hiçbir metin iç ya da teknik bilgi sızdırmasın: sürüm, kütüphane adı, HTTP kodu, altyapı, ölçüm sayısı yok. Alt bilgi yalnız "© 2026 Hazim Alper Ata".
 - Bütün arayüz metni `messages/en.json` ve `messages/tr.json` içinde. JSX'e sabit metin yazma.
 - Vaka sayfaları `content/projects/*.mdx`, veri `src/data/`.
-- Türkçe metin, galeri alt metinleri ve proje durumları sitenin sahibinin işi: yeniden yazma, `KALAN.md`'ye ekle.
+- Türkçe metin, galeri alt metinleri ve proje durumları sitenin sahibinin işi: yeniden yazma, taslak yaz ve sahibine ilet.
 
 ## Tasarım kuralları
 
