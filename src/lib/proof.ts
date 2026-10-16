@@ -12,8 +12,9 @@ function roundedDown(total: number): number {
   return Math.floor(total / 100) * 100;
 }
 
+// `mobile` carries no sinceYear: its git history starts in 2025 but the app is older, so a year would mislead.
 function commitFact(id: "seller" | "mobile"): ProofFact {
-  const first = laneRange(id)?.first;
+  const first = id === "seller" ? laneRange(id)?.first : undefined;
   return {
     id,
     value: roundedDown(laneTotal(id)),

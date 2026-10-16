@@ -49,7 +49,7 @@ describe("getProofFacts", () => {
     expect(facts).toEqual([
       { id: "apps", value: 3, suffix: "" },
       { id: "seller", value: 1700, suffix: "+", sinceYear: 2022 },
-      { id: "mobile", value: 900, suffix: "+", sinceYear: 2025 },
+      { id: "mobile", value: 900, suffix: "+" },
       { id: "years", value: 6, suffix: "+" },
     ]);
   });
