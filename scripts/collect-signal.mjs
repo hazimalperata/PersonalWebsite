@@ -1,26 +1,39 @@
 // Collects per-day commit counts (dates and counts only) from local repos.
 // Read-only: runs `git log` only. Config: signal.config.local.json (git-ignored).
-// Output: src/data/signal.json
+// Output: src/data/signal.json. Never overwritten when nothing was collected.
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { countByDay, toSignal } from "./signal-lib.mjs";
+import { countByDay, hasCollectedData, toSignal } from "./signal-lib.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const configPath = join(root, "signal.config.local.json");
 
-if (!existsSync(configPath)) {
-  console.error("Missing signal.config.local.json. Copy signal.config.example.json and fill in your paths.");
+function fail(message) {
+  console.error(message);
   process.exit(1);
 }
 
-const config = JSON.parse(readFileSync(configPath, "utf8"));
+if (!existsSync(configPath)) {
+  fail("Missing signal.config.local.json. Copy signal.config.example.json and fill in your paths.");
+}
+
+let config;
+try {
+  config = JSON.parse(readFileSync(configPath, "utf8"));
+} catch (err) {
+  fail(`Cannot read signal.config.local.json: ${err instanceof Error ? err.message : err}`);
+}
+if (!config || typeof config.author !== "string" || !Array.isArray(config.lanes)) {
+  fail('signal.config.local.json must have an "author" string and a "lanes" array.');
+}
+
 const lanes = [];
 
 for (const lane of config.lanes) {
   const counts = {};
-  for (const repo of lane.repos) {
+  for (const repo of lane.repos ?? []) {
     if (!existsSync(repo)) {
       console.warn(`skip (missing): ${repo}`);
       continue;
@@ -33,6 +46,10 @@ for (const lane of config.lanes) {
     for (const [d, n] of Object.entries(countByDay(out))) counts[d] = (counts[d] ?? 0) + n;
   }
   if (Object.keys(counts).length) lanes.push({ id: lane.id, counts });
+}
+
+if (!hasCollectedData(lanes)) {
+  fail("No commits collected from any lane. Check the repo paths and the author pattern. src/data/signal.json was left untouched.");
 }
 
 const data = toSignal(lanes, new Date().toISOString().slice(0, 10));

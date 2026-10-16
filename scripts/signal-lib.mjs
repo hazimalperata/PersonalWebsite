@@ -22,3 +22,8 @@ export function toSignal(lanes, generatedAt) {
     })),
   };
 }
+
+/** True when at least one lane has at least one commit. Otherwise the collector must not write. */
+export function hasCollectedData(lanes) {
+  return lanes.some(({ counts }) => Object.values(counts).some((n) => n > 0));
+}

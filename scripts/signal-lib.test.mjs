@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { countByDay, toSignal } from "./signal-lib.mjs";
+import { countByDay, hasCollectedData, toSignal } from "./signal-lib.mjs";
 
 describe("countByDay", () => {
   it("counts per day and ignores blank lines", () => {
@@ -31,5 +31,17 @@ describe("toSignal", () => {
         },
       ],
     });
+  });
+});
+
+describe("hasCollectedData", () => {
+  it("refuses when no lanes were collected", () => {
+    expect(hasCollectedData([])).toBe(false);
+  });
+  it("refuses when every lane has zero commits", () => {
+    expect(hasCollectedData([{ id: "a", counts: {} }, { id: "b", counts: { "2024-01-01": 0 } }])).toBe(false);
+  });
+  it("accepts when at least one lane has commits", () => {
+    expect(hasCollectedData([{ id: "a", counts: {} }, { id: "b", counts: { "2024-01-01": 2 } }])).toBe(true);
   });
 });
