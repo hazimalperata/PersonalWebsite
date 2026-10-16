@@ -35,6 +35,7 @@ function Nav() {
         <li><a href="#proof">Proof</a></li>
         <li><a href="#work">Work</a></li>
         <li><a href="#capabilities">Capabilities</a></li>
+        <li><a href="#ai">AI</a></li>
         <li><a href="#experience">Experience</a></li>
       </ul>
       <a className="cta mono" href="#contact">
@@ -302,9 +303,74 @@ function Experience() {
   );
 }
 
+function AiIntro() {
+  const ai = labFacts.ai;
+  return (
+    <section className="band" id="ai" aria-labelledby="ai-h">
+      <span className="tag mono">AI</span>
+      <h2 id="ai-h" data-reveal>{ai.title}</h2>
+      <p className="ai-intro" data-reveal>{ai.intro}</p>
+      <div className="ai-prod">
+        {ai.inProducts.map((p) => (
+          <div className="cell panel" key={p.product} data-reveal>
+            <h3>{p.product}</h3>
+            <p>{p.line}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AiWorkflow() {
+  return (
+    <section className="ai-run" data-signal="12" data-ai aria-labelledby="wf-h">
+      <div className="ai-sticky">
+        <span className="tag mono">Workflow</span>
+        <h3 id="wf-h" className="ai-h">Four steps, every time.</h3>
+        <ol className="ai-steps">
+          {labFacts.ai.workflow.map((s, i) => (
+            <li className="ai-step panel" key={s.step}>
+              <span className="idx mono">0{i + 1}</span>
+              <h4>{s.step}</h4>
+              <p>{s.line}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+function AiSystem() {
+  const sys = labFacts.ai.system;
+  return (
+    <section className="sys-run" data-signal="13" data-sys aria-labelledby="sys-h">
+      <div className="ai-sticky">
+        <div className="sys-copy panel">
+          <span className="tag mono">The system</span>
+          <h3 id="sys-h" className="ai-h">{sys.title}</h3>
+          <p className="sys-intro">{sys.intro}</p>
+          <ol className="sys-parts">
+            {sys.parts.map((p, i) => (
+              <li className="sys-part" data-i={i} key={p.name}>
+                <span className="idx mono">0{i + 1}</span>
+                <div>
+                  <h4>{p.name}</h4>
+                  <p>{p.line}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Contact() {
   return (
-    <section className="contact" id="contact" data-signal="12" aria-labelledby="contact-h">
+    <section className="contact" id="contact" data-signal="15" aria-labelledby="contact-h">
       <div className="in">
         <span className="tag mono">Contact</span>
         <h2 id="contact-h">Let’s build it properly.</h2>
@@ -403,6 +469,11 @@ export function Content() {
         <More />
         <div data-signal="11">
           <Capabilities />
+          <AiIntro />
+        </div>
+        <AiWorkflow />
+        <AiSystem />
+        <div data-signal="14">
           <Experience />
         </div>
         <Contact />

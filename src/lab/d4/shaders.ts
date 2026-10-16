@@ -18,6 +18,10 @@ uniform float uToContact;
 uniform vec4 uA; // size, noise, repel, alpha of the from-state
 uniform vec4 uB; // same for the to-state
 uniform vec2 uFocus; // focused project of from / to state, -1 for none
+uniform float uPipeX; // world x the workflow pipeline has filled up to
+uniform vec2 uIsPipe; // 1 when the from / to state is the pipeline
+uniform vec3 uHot; // active node of the system network: x, y, radius
+uniform vec2 uIsSys;
 
 varying vec3 vColor;
 varying float vAlpha;
@@ -100,7 +104,13 @@ void main(){
   float dimA = (uFocus.x > -0.5 && abs(aProj - uFocus.x) > 0.5) ? 1.0 : 0.0;
   float dimB = (uFocus.y > -0.5 && abs(aProj - uFocus.y) > 0.5) ? 1.0 : 0.0;
   float dim = mix(dimA, dimB, e);
-  vAlpha = mix(uA.w, uB.w, e) * mix(1.0, 0.15, dim) * (0.82 + 0.18 * aSeed);
+  float pw = mix(uIsPipe.x, uIsPipe.y, e);
+  float lit = 1.0 - smoothstep(uPipeX - 50.0, uPipeX + 50.0, pos.x);
+  float sw = mix(uIsSys.x, uIsSys.y, e);
+  float hot = 1.0 - smoothstep(uHot.z, uHot.z * 1.7, distance(pos.xy, uHot.xy));
+  float emph = mix(1.0, mix(0.26, 1.0, lit), pw) * mix(1.0, mix(0.24, 1.0, hot), sw);
+  gl_PointSize *= 1.0 + 0.45 * (pw * lit + sw * hot);
+  vAlpha = mix(uA.w, uB.w, e) * mix(1.0, 0.15, dim) * (0.82 + 0.18 * aSeed) * emph;
   vColor = aColor;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }

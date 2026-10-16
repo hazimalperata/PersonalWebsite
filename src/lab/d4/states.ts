@@ -1,6 +1,6 @@
 import { projects, rng, spanDays, type Pt } from "./data";
 
-export const STATE = { nebula: 0, timeline: 1, num0: 2, work0: 6, calm: 11, contact: 12, count: 13 } as const;
+export const STATE = { nebula: 0, timeline: 1, num0: 2, work0: 6, calm: 11, pipe: 12, sys: 13, calm2: 14, contact: 15, count: 16 } as const;
 
 export interface Layout {
   vw: number;
@@ -10,13 +10,15 @@ export interface Layout {
   nebula: { cx: number; cy: number; sx: number; sy: number };
   num: { cx: number; cy: number; maxW: number };
   ring: { cx: number; cy: number; r: number };
+  pipe: { y: number; xs: number[]; size: number };
+  sys: { nodes: Array<[number, number]>; size: number };
   cluster: (workIdx: number) => { cx: number; cy: number; h: number };
 }
 
 export function getLayout(vw: number, vh: number, mobile: boolean): Layout {
   const chart = mobile
     ? { x0: 16, x1: vw - 16, top: vh * 0.15, bottom: vh * 0.8, laneH: 0 }
-    : { x0: Math.max(190, vw * 0.17), x1: vw - 56, top: vh * 0.2, bottom: vh * 0.76, laneH: 0 };
+    : { x0: Math.max(236, vw * 0.19), x1: vw - 56, top: vh * 0.2, bottom: vh * 0.76, laneH: 0 };
   chart.laneH = (chart.bottom - chart.top) / projects.length;
   return {
     vw,
@@ -30,6 +32,27 @@ export function getLayout(vw: number, vh: number, mobile: boolean): Layout {
     ring: mobile
       ? { cx: vw * 0.5, cy: vh * 0.5, r: Math.min(vw * 0.4, vh * 0.3) }
       : { cx: vw * 0.5, cy: vh * 0.5, r: Math.min(vw, vh) * 0.36 },
+    pipe: (() => {
+      const pad = mobile ? 18 : Math.min(72, Math.max(18, vw * 0.05));
+      const gap = mobile ? 0 : 18;
+      const colW = (vw - 2 * pad - 3 * gap) / 4;
+      return {
+        y: vh * (mobile ? 0.33 : 0.4),
+        xs: [0, 1, 2, 3].map((i) => pad + colW / 2 + i * (colW + gap)),
+        size: mobile ? Math.min(54, colW * 0.7) : Math.min(96, colW * 0.36),
+      };
+    })(),
+    sys: (() => {
+      const cx = mobile ? vw * 0.5 : vw * 0.72;
+      const cy = mobile ? vh * 0.27 : vh * 0.52;
+      const rx = mobile ? vw * 0.3 : vw * 0.13;
+      const ry = mobile ? vh * 0.13 : vh * 0.29;
+      const nodes = [0, 1, 2, 3, 4].map((k): [number, number] => {
+        const a = -Math.PI / 2 + (k * 2 * Math.PI) / 5;
+        return [cx + Math.cos(a) * rx, cy + Math.sin(a) * ry];
+      });
+      return { nodes, size: mobile ? 46 : 78 };
+    })(),
     cluster: (i: number) =>
       mobile
         ? { cx: vw * 0.5, cy: vh * 0.26, h: vh * 0.3 }
@@ -57,6 +80,9 @@ export function stateMeta(mobile: boolean): StateMeta[] {
   for (let i = 0; i < 4; i++) m.push({ size: 2.4 * k, noise: 1.6, repel: mobile ? 0 : 0.5, focus: -1, alpha: 0.95 }); // numbers
   for (let i = 0; i < 5; i++) m.push({ size: 3.6 * k, noise: 5, repel: 0, focus: projects.findIndex((p) => p.work === i), alpha: 1 }); // work
   m.push({ size: 2.4 * k, noise: 40, repel: mobile ? 0 : 0.6, focus: -1, alpha: 0.42 }); // calm
+  m.push({ size: 3 * k, noise: 1.2, repel: 0, focus: -1, alpha: 0.95 }); // workflow pipeline
+  m.push({ size: 3 * k, noise: 1.6, repel: 0, focus: -1, alpha: 0.95 }); // system network
+  m.push({ size: 2.4 * k, noise: 40, repel: mobile ? 0 : 0.6, focus: -1, alpha: 0.42 }); // calm 2
   m.push({ size: 2.8 * k, noise: 10, repel: 0, focus: -1, alpha: 0.95 }); // contact
   return m;
 }
@@ -166,6 +192,72 @@ function ringState(pts: Pt[], L: Layout): Pos {
   return out;
 }
 
+/** Four nodes (spec, agents, review, gates) joined by three connectors; every point picks an element from its seed. */
+function pipelineState(pts: Pt[], L: Layout): Pos {
+  const out = new Float32Array(pts.length * 3);
+  const { xs, y, size } = L.pipe;
+  const half = size / 2;
+  pts.forEach((p, i) => {
+    const g = rng(Math.floor(p.seed * 1e9) ^ 0x1b3d);
+    const r = g();
+    let x: number;
+    let yy: number;
+    if (r < 0.64) {
+      const node = Math.min(3, Math.floor((r / 0.64) * 4));
+      if (g() < 0.4) {
+        x = xs[node] + (g() - 0.5) * (size - 14);
+        yy = y + (g() - 0.5) * (size - 14);
+      } else {
+        const [px, py] = rrPerimeter(g(), size, size, size * 0.2);
+        x = xs[node] + px;
+        yy = y + py;
+      }
+    } else {
+      const c = Math.min(2, Math.floor(((r - 0.64) / 0.36) * 3));
+      const a = xs[c] + half + 8;
+      const b = xs[c + 1] - half - 8;
+      const t = g();
+      x = a + (b - a) * t;
+      yy = y + (g() - 0.5) * 3;
+      if (t > 0.9) yy += (g() - 0.5) * 2 * (1 - t) * 40;
+    }
+    toWorld(out, i, L, x, yy, (g() - 0.5) * 1.2);
+  });
+  return out;
+}
+
+/** Five nodes in a ring, each linked to its neighbours: the system built around the assistant. */
+function systemState(pts: Pt[], L: Layout): Pos {
+  const out = new Float32Array(pts.length * 3);
+  const { nodes, size } = L.sys;
+  const rad = size / 2;
+  pts.forEach((p, i) => {
+    const g = rng(Math.floor(p.seed * 1e9) ^ 0x2c71);
+    const r = g();
+    let x: number;
+    let y: number;
+    if (r < 0.6) {
+      const n = nodes[Math.min(4, Math.floor((r / 0.6) * 5))];
+      const a = g() * 6.2831853;
+      const d = g() < 0.45 ? rad : Math.sqrt(g()) * rad;
+      x = n[0] + Math.cos(a) * d;
+      y = n[1] + Math.sin(a) * d;
+    } else {
+      const e = Math.min(4, Math.floor(((r - 0.6) / 0.4) * 5));
+      const A = nodes[e];
+      const B = nodes[(e + 1) % 5];
+      const dx = B[0] - A[0];
+      const dy = B[1] - A[1];
+      const len = Math.hypot(dx, dy) || 1;
+      const t = (rad + 6) / len + g() * (1 - (2 * (rad + 6)) / len);
+      x = A[0] + dx * t + (g() - 0.5) * 3;
+      y = A[1] + dy * t + (g() - 0.5) * 3;
+    }
+    toWorld(out, i, L, x, y, (g() - 0.5) * 1.2);
+  });
+  return out;
+}
+
 /** point on a rounded-rect perimeter, t in [0,1) */
 function rrPerimeter(t: number, w: number, h: number, rad: number): [number, number] {
   const sw = w - 2 * rad;
@@ -248,6 +340,9 @@ export function buildStates(pts: Pt[], L: Layout, family: string, texts: string[
   const states: Pos[] = [nebula, timelineState(pts, L)];
   texts.forEach((t, i) => states.push(typeof document === "undefined" ? nebula : numberState(pts, L, t, family, i)));
   for (let i = 0; i < 5; i++) states.push(workState(pts, L, i, ambient));
+  states.push(ambient);
+  states.push(pipelineState(pts, L));
+  states.push(systemState(pts, L));
   states.push(ambient);
   states.push(ringState(pts, L));
   return { states, meta: stateMeta(L.mobile) };

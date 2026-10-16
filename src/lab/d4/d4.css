@@ -839,3 +839,149 @@ main.d4-main {
 .d4 .d4-main.static .work { min-height: auto; padding-top: 6svh; padding-bottom: 6svh; }
 .d4 .d4-main.static .work .work-card { margin-top: 0; }
 .d4 .d4-main.static .contact { min-height: 60svh; padding: 8svh var(--pad); }
+
+/* how I use AI */
+.d4 .ai-intro {
+  max-width: 40rem;
+  color: #c4c8d6;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.6;
+  margin: -10px 0 30px;
+}
+.d4 .ai-prod {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 70rem;
+}
+@media (max-width: 860px) {
+  .d4 .ai-prod { grid-template-columns: minmax(0, 1fr); }
+}
+.d4 .ai-prod .cell { padding: 22px; }
+.d4 .ai-prod h3 {
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+}
+.d4 .ai-prod p {
+  margin: 0;
+  color: #c4c8d6;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.d4 .ai-run { height: 230svh; position: relative; --on0: 1; --on1: 1; --on2: 1; --on3: 1; }
+.d4 .sys-run { height: 440svh; position: relative; }
+.d4 .ai-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: 84px var(--pad) 0;
+}
+.d4 .ai-h {
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  margin: 12px 0 0;
+}
+.d4 .ai-steps {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(40svh + 76px);
+  margin: 0;
+  padding: 0 var(--pad);
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+.d4 .ai-step {
+  padding: 18px 20px 20px;
+  transition: opacity 0.35s ease;
+}
+.d4 .ai-step:nth-child(1) { opacity: calc(0.3 + 0.7 * var(--on0)); }
+.d4 .ai-step:nth-child(2) { opacity: calc(0.3 + 0.7 * var(--on1)); }
+.d4 .ai-step:nth-child(3) { opacity: calc(0.3 + 0.7 * var(--on2)); }
+.d4 .ai-step:nth-child(4) { opacity: calc(0.3 + 0.7 * var(--on3)); }
+.d4 .ai-step .idx,
+.d4 .sys-part .idx {
+  font-size: 12px;
+  color: var(--accent);
+}
+.d4 .ai-step h4,
+.d4 .sys-part h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 8px 0 8px;
+}
+.d4 .ai-step p,
+.d4 .sys-part p {
+  margin: 0;
+  color: #c4c8d6;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.d4 .sys-copy {
+  width: min(37rem, 100%);
+  padding: 22px 26px 24px;
+}
+.d4 .sys-intro {
+  margin: 12px 0 16px;
+  color: #c4c8d6;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.d4 .sys-parts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.d4 .sys-part {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 8px;
+  padding: 9px 0 9px;
+  border-top: 1px solid rgba(232, 234, 240, 0.08);
+  transition: opacity 0.35s ease;
+}
+.d4 .sys-part h4 { margin: 0 0 4px; font-size: 1rem; }
+.d4 .sys-part p { font-size: 13px; line-height: 1.5; }
+.d4 .sys-run[data-active] .sys-part { opacity: 0.36; }
+.d4 .sys-run[data-active="0"] .sys-part[data-i="0"],
+.d4 .sys-run[data-active="1"] .sys-part[data-i="1"],
+.d4 .sys-run[data-active="2"] .sys-part[data-i="2"],
+.d4 .sys-run[data-active="3"] .sys-part[data-i="3"],
+.d4 .sys-run[data-active="4"] .sys-part[data-i="4"] { opacity: 1; }
+
+@media (max-width: 760px) {
+  .d4 .ai-h { font-size: 1.45rem; }
+  .d4 .ai-steps {
+    top: calc(33svh + 48px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .d4 .ai-step { padding: 11px 14px 12px; display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: 8px; background: rgba(5, 6, 10, 0.8); }
+  .d4 .ai-step h4 { margin: 0 0 3px; font-size: 0.98rem; }
+  .d4 .ai-step p { grid-column: 2; font-size: 12.5px; line-height: 1.45; }
+  .d4 .ai-step .idx { grid-row: 1; }
+  .d4 .sys-copy { margin-top: 40svh; padding: 14px 16px 12px; background: rgba(5, 6, 10, 0.84); }
+  .d4 .sys-copy .ai-h { font-size: 1.15rem; margin-top: 6px; }
+  .d4 .sys-intro { font-size: 12.5px; margin: 6px 0 8px; line-height: 1.45; }
+  .d4 .sys-part { padding: 6px 0; }
+  .d4 .sys-part h4 { font-size: 0.92rem; margin: 0; }
+  .d4 .sys-run[data-active] .sys-part p { display: none; }
+  .d4 .sys-run[data-active="0"] .sys-part[data-i="0"] p,
+  .d4 .sys-run[data-active="1"] .sys-part[data-i="1"] p,
+  .d4 .sys-run[data-active="2"] .sys-part[data-i="2"] p,
+  .d4 .sys-run[data-active="3"] .sys-part[data-i="3"] p,
+  .d4 .sys-run[data-active="4"] .sys-part[data-i="4"] p { display: block; margin-top: 4px; font-size: 12px; line-height: 1.42; }
+}
+
+.d4 .d4-main.static .ai-run,
+.d4 .d4-main.static .sys-run { height: auto; }
+.d4 .d4-main.static .ai-sticky { position: static; height: auto; padding-bottom: 6svh; }
+.d4 .d4-main.static .ai-steps { position: static; margin-top: 24px; padding: 0; }
+.d4 .d4-main.static .sys-copy { margin-top: 0; }
+@media (max-width: 760px) {
+  .d4 .d4-main.static .ai-steps { margin-top: 16px; }
+}

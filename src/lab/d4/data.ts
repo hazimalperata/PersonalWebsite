@@ -17,7 +17,7 @@ const META: Array<{ name: string; color: string; work: number }> = [
   { name: "1likte Mobile", color: "#5CC8FF", work: 3 },
   { name: "Posme", color: "#FFB86B", work: 1 },
   { name: "Dremly", color: "#9B8CFF", work: 0 },
-  { name: "Rommer", color: "#6EE7B7", work: 2 },
+  { name: "Movement analysis (Rommer)", color: "#6EE7B7", work: 2 },
 ];
 
 function hex(c: string): [number, number, number] {

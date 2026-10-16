@@ -14,7 +14,7 @@ const SOURCES = [
   { name: "1likte Landing", repos: [W + "1likte-LandingPage"] },
   { name: "Dremly", repos: [W + "dremly-app"] },
   { name: "Posme", repos: [A + "Framy"] },
-  { name: "Rommer", repos: [W + "rommer-mobile-app", W + "rommer-platform"] },
+  { name: "Movement analysis (Rommer)", repos: [W + "rommer-mobile-app", W + "rommer-platform"] },
   { name: "This site", repos: [W + "personal-website"] },
 ];
 
