@@ -1,0 +1,44 @@
+---
+title: "Posme"
+publishedAt: "2026-09-12"
+year: "2026"
+summary: "A camera app that draws a pose on your live view and coaches you into it, so nobody has to guess how to stand."
+images:
+  - "/images/projects/posme/posme.webp"
+  - "/images/projects/posme/posme-1.webp"
+link: "https://apps.apple.com/us/app/posme-ai-your-pose-director/id6782053776"
+status: "completed"
+role: "Mobile engineer at Tersane Dijital; product by Rulead"
+stack:
+  - "Flutter"
+  - "Dart"
+featured: true
+order: 7
+---
+
+## Overview
+
+Posme is a camera app for iOS and Android. The product belongs to Rulead. I work on it as a mobile engineer at Tersane Dijital, and I build and ship the mobile app.
+
+You frame the spot where you will stand and tap one button. Posme reads that single frame, and a pose built for the scene appears over the live camera view. You step into it, and the app tells you what to change while you move.
+
+## What the app does
+
+- **Pose guide**: An outline of the suggested pose is drawn on the live camera view, based on the scene you framed.
+- **Live coaching**: A match score shows how close you are to the guide. Up to three short lines, each with an arrow, say what to fix, and each one disappears once you get it right. Coaching runs on the phone.
+- **Voice guidance**: The next fix can be read out loud, so you can keep looking at the pose. It can be turned off with one tap.
+- **Hands-free shutter**: Raise a hand and hold it, and the camera counts down and takes the photo. A 3, 5 or 10 second timer is also available.
+- **Review before saving**: Every photo opens a review screen first. You can share it, retouch it with AI, or discard it. Only the photos you keep are saved to your gallery.
+- **Feedback**: If a pose guide or a retouch misses, you can flag it and say what went wrong.
+- **Guest use, shots and plans**: The app works without an account. A shot is one AI pose guide, and plans give a set number of shots per period. Taking real photos is never limited.
+- **Languages**: English and Turkish.
+
+## Technologies
+
+- **Flutter and Dart**
+- **Camera** access with a feature-based structure, `flutter_bloc` for state and `go_router` for navigation
+- **Subscriptions** through in-app purchases
+
+## Availability
+
+Posme is live on the [App Store](https://apps.apple.com/us/app/posme-ai-your-pose-director/id6782053776) and on [Google Play](https://play.google.com/store/apps/details?id=com.rulead.posme).

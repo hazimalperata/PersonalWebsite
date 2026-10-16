@@ -8,7 +8,7 @@ describe("content", () => {
     const list = await getProjects("en");
     const featured = list.filter((p) => p.featured).map((p) => p.order);
     expect(featured).toEqual([...featured].sort((a, b) => a - b));
-    expect(list.length).toBe(9);
+    expect(list.length).toBe(11);
     // featured block comes before every non-featured project
     const firstRest = list.findIndex((p) => !p.featured);
     expect(list.slice(firstRest).every((p) => !p.featured)).toBe(true);
@@ -46,8 +46,8 @@ describe("content", () => {
 
   it("lists every slug once", async () => {
     const slugs = await getProjectSlugs();
-    expect(slugs.length).toBe(9);
-    expect(new Set(slugs).size).toBe(9);
+    expect(slugs.length).toBe(11);
+    expect(new Set(slugs).size).toBe(11);
   });
 
   it("ignores a slug that only has a Turkish file", async () => {
