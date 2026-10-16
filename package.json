@@ -10,7 +10,6 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "e2e": "playwright test",
-    "textures": "node scripts/textures.mjs",
     "signal": "node scripts/collect-signal.mjs",
     "gate": "yarn typecheck && yarn lint && yarn test && yarn build"
   },

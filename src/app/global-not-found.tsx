@@ -1,8 +1,7 @@
 import "./globals.css";
 import { getTranslations, getLocale } from "next-intl/server";
-import { fontBody, fontDisplay, fontMono } from "@/lib/fonts";
+import { plexMono, sora } from "@/components/signal/fonts";
 import { cn } from "@/lib/cn";
-import { ThemeScript } from "@/components/layout/ThemeScript";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -16,10 +15,7 @@ export default async function GlobalNotFound() {
   const locale = await getLocale();
   const t = await getTranslations("notFound");
   return (
-    <html lang={locale} suppressHydrationWarning className={cn(fontDisplay.variable, fontBody.variable, fontMono.variable)}>
-      <head>
-        <ThemeScript />
-      </head>
+    <html lang={locale} className={cn(sora.variable, plexMono.variable)}>
       <body className="min-h-dvh bg-bg text-fg">
         <main id="content" className="flex min-h-dvh flex-col items-start justify-center gap-6 p-6">
           <h1 className="font-display text-4xl">{t("title")}</h1>

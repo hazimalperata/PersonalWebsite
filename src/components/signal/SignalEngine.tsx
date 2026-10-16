@@ -439,6 +439,7 @@ export default function SignalEngine({ coarse, onLost }: { coarse: boolean; onLo
         camera={{ position: [0, 0, 10], near: 0.1, far: 100, zoom: 1 }}
         dpr={[1, coarse ? 1 : 1.5]}
         frameloop="never"
+        style={{ pointerEvents: "none" }}
         gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
       >
         <Field coarse={coarse} onLost={onLost} />

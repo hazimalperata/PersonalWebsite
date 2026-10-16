@@ -2,13 +2,6 @@ import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { About } from "@/components/about/About";
-import { Contact } from "@/components/contact/Contact";
-import { Gallery } from "@/components/gallery/Gallery";
-import { Hero } from "@/components/hero/Hero";
-import HomeOrbit from "@/components/three/HomeOrbit";
-import { SelectedWork } from "@/components/work/SelectedWork";
-import { getProjects } from "@/lib/content";
 import { routing } from "@/i18n/routing";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
@@ -38,16 +31,11 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
-  const projects = await getProjects(locale);
+  const t = await getTranslations({ locale, namespace: "home" });
+  // Placeholder until the Living Signal home page lands.
   return (
-    <>
-      <HomeOrbit>
-        <Hero />
-        <SelectedWork projects={projects} />
-      </HomeOrbit>
-      <About locale={locale} />
-      <Gallery />
-      <Contact locale={locale} />
-    </>
+    <section className="relative z-10 flex min-h-dvh items-center">
+      <h1 className="mx-auto w-full max-w-[var(--container-site)] px-4 font-display text-4xl md:px-6">{t("name")}</h1>
+    </section>
   );
 }

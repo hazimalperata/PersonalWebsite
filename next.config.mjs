@@ -13,7 +13,6 @@ const securityHeaders = [
 const legacy = [
   ["/about", "/#about"],
   ["/work", "/#work"],
-  ["/gallery", "/#gallery"],
   ["/earth", "/work/the-pale-blue-dot"],
 ];
 
@@ -29,10 +28,6 @@ const nextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
-      {
-        source: "/(textures|posters)/:path*",
-        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
-      },
     ];
   },
 };

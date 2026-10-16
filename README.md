@@ -39,7 +39,7 @@ under "Selected work" on the home page.
 ## Adding a language
 
 1. Add the locale code to `locales` in `src/i18n/routing.ts`.
-2. Copy `messages/en.json` to `messages/<code>.json` and translate every key.
+2. Copy `messages/en/` to `messages/<code>/` and translate every key.
 3. Add the language to the text fields in `src/data/profile.ts` and `src/data/gallery.ts` (type `L`) and to the
    content files if you want translated case studies (`<slug>.<code>.mdx`).
 4. The locale switch currently toggles between two languages; with three or more it needs a menu.
