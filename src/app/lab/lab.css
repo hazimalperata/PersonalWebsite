@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+/* Each prototype brings its own palette and type; this file only provides Tailwind and a neutral reset. */
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { margin: 0; }
