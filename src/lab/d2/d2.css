@@ -1,0 +1,153 @@
+/* Direction 2: Kinetic Editorial. Everything scoped under .d2 so nothing leaks into other prototypes. */
+html:has(.d2) {
+  scrollbar-gutter: stable;
+  background: #f2efe8;
+}
+
+/* In a layer so Tailwind utilities on the same elements still win over these base rules. */
+@layer components {
+.d2 {
+  --paper: #f2efe8;
+  --ink: #0b0b0b;
+  --red: #e2261c;
+  --acid: #e4ff3a;
+  --gut: clamp(16px, 2.4vw, 40px);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-d2-body), system-ui, sans-serif;
+  font-size: clamp(18px, 1.35vw, 20px);
+  line-height: 1.5;
+  font-weight: 400;
+  overflow-x: clip;
+  min-height: 100vh;
+}
+.d2 *,
+.d2 *::before,
+.d2 *::after {
+  box-sizing: border-box;
+}
+.d2 a {
+  color: inherit;
+  text-decoration: none;
+}
+.d2 :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+}
+.d2 .acid-ring:focus-visible {
+  outline-color: var(--ink);
+}
+
+.d2 .disp {
+  font-family: var(--font-d2-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-variation-settings: "wdth" 75;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.d2 .label {
+  font-family: var(--font-d2-body), system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+.d2 .rule {
+  height: 1px;
+  background: currentColor;
+  transform-origin: 0 50%;
+}
+.d2 .grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gut);
+}
+.d2 .cols {
+  background-image: linear-gradient(to right, rgb(11 11 11 / 0.07) 1px, transparent 1px);
+  background-size: calc((100% - 2 * var(--gut)) / 12) 100%;
+  background-position: var(--gut) 0;
+}
+
+/* Hidden before the entrance only when motion is allowed; noscript and reduced motion keep everything visible. */
+@media (prefers-reduced-motion: no-preference) {
+  .d2 .prehide {
+    visibility: hidden;
+  }
+}
+
+/* Underline draws on hover/focus. */
+.d2 .ul {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0% 0.07em no-repeat;
+  transition: background-size 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.d2 .ul:hover,
+.d2 .ul:focus-visible,
+.d2 a:hover .ul,
+.d2 a:focus-visible .ul {
+  background-size: 100% 0.07em;
+}
+
+/* Marquee */
+.d2 .marq-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.d2 .marq-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding-right: 0.6em;
+  white-space: nowrap;
+}
+
+/* Work list */
+.d2 .rows:hover .row:not(:hover):not(:focus-visible) {
+  opacity: 0.3;
+}
+.d2 .row {
+  transition: opacity 0.35s ease;
+}
+.d2 .row-inline {
+  display: flex;
+}
+@media (hover: hover) and (pointer: fine) {
+  .d2 .row-inline {
+    display: none;
+  }
+}
+.d2 .row:hover .row-title {
+  transform: translateX(1.2vw);
+}
+.d2 .row-title {
+  display: inline-block;
+  white-space: nowrap;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-origin: 0 50%;
+}
+
+.d2 .phone {
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  background: var(--ink);
+  overflow: hidden;
+  position: relative;
+}
+.d2 .sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .d2 * {
+    scroll-behavior: auto !important;
+  }
+}
+}
