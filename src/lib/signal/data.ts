@@ -1,6 +1,10 @@
 import { lanes, type LaneId } from "@/data/lanes";
 import rawSignal from "@/data/signal.json";
 
+// One import path for consumers: lane definitions and commit data together.
+export { lanes };
+export type { Lane, LaneId } from "@/data/lanes";
+
 export interface SignalDay {
   /** YYYY-MM-DD */
   d: string;
