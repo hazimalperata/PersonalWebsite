@@ -137,6 +137,11 @@
   color: var(--color-accent);
   min-width: 4.6ch;
 }
+@media (prefers-reduced-motion: no-preference) {
+  .counterPending {
+    opacity: 0;
+  }
+}
 .counterL {
   font-family: var(--font-plex), ui-monospace, monospace;
   font-size: 0.875rem;
@@ -272,12 +277,12 @@ a.legendItem:hover {
 
 /* The still timeline (reduced motion, no WebGL) is fixed behind the whole page. Keep it, and its labels, out of the
    way of the text except while the timeline section is in the middle of the screen. */
-:global(html:not([data-home-timeline]):has([data-signal-static])) :global([data-signal-static]),
-:global(html:not([data-home-timeline]):has([data-signal-static])) :global([data-signal-overlay]) {
+:global(html[data-home]:not([data-home-timeline]):has([data-signal-static])) :global([data-signal-static]),
+:global(html[data-home]:not([data-home-timeline]):has([data-signal-static])) :global([data-signal-overlay]) {
   opacity: 0 !important;
 }
-:global([data-signal-static]),
-:global([data-signal-overlay]) {
+:global(html[data-home]) :global([data-signal-static]),
+:global(html[data-home]) :global([data-signal-overlay]) {
   transition: opacity 0.35s ease;
 }
 
@@ -602,7 +607,6 @@ a.legendItem:hover {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transition: border-color 0.25s ease;
 }
 .stepOpen {
   border-color: rgb(127 178 255 / 0.45);
@@ -669,18 +673,8 @@ a.legendItem:hover {
   font-size: 0.9375rem;
   line-height: 1.5;
 }
-.detail {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-}
-.stepOpen .detail {
-  grid-template-rows: 1fr;
-  opacity: 1;
-}
-.detail > div {
-  overflow: hidden;
-}
+/* A closed detail carries the hidden attribute (out of layout and the accessibility tree). An open one takes its
+   space at once; only its text fades and slides in, and only when motion is on. */
 .detail p {
   margin: 0;
   padding-top: 2px;
@@ -688,14 +682,19 @@ a.legendItem:hover {
   font-size: 0.875rem;
   line-height: 1.55;
 }
-.stepsAnimated .detail {
-  transition:
-    grid-template-rows 0.3s var(--ease),
-    opacity 0.25s ease;
+.stepsAnimated .stepOpen .detail p {
+  animation: detailIn 0.3s var(--ease) both;
 }
-.stepsInstant .detail,
+.stepsInstant .detail p,
 .stepsInstant .chev {
+  animation: none;
   transition-duration: 0.01s;
+}
+@keyframes detailIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
 }
 
 /* ---------- experience ---------- */
@@ -766,9 +765,9 @@ a.legendItem:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* the ring is fixed to the viewport centre; the footer (~100px) takes the lower edge at the page end, so push the
-     content down by twice its height to sit in the middle of the ring */
-  padding: 200px var(--pad) 0;
+  /* the ring is fixed to the viewport centre; at the page end the footer takes the lower edge, so push the content
+     down by twice the footer's measured height (HomeScene publishes it) to sit in the middle of the ring */
+  padding: calc(var(--footer-h, 100px) * 2) var(--pad) 0;
   text-align: center;
 }
 .contactIn {
@@ -899,6 +898,28 @@ a.legendItem:hover {
     height: 1px;
     overflow: hidden;
     clip: rect(0 0 0 0);
+  }
+}
+@media (max-width: 430px) {
+  /* the ring is only ~330px across on a phone: keep the whole stack inside it */
+  .contactIn {
+    width: min(15.5rem, 100%);
+  }
+  .contact h2 {
+    font-size: 1.5rem;
+    margin: 8px 0 10px;
+  }
+  .mail {
+    font-size: 0.8rem;
+    padding: 6px 2px;
+  }
+  .contact .btns {
+    margin-top: 12px;
+  }
+  .social {
+    margin-top: 6px;
+    gap: 0 10px;
+    font-size: 0.75rem;
   }
 }
 @media (max-width: 640px) {

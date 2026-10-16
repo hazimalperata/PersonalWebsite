@@ -25,6 +25,10 @@ export const SIGNAL_ATTR = {
   work: "data-signal-work",
   /** `data-signal-step="<i>"`: the element a pipeline node sits on */
   step: "data-signal-step",
+  /** the 2D fallback layer (reduced motion, no WebGL) */
+  static: "data-signal-static",
+  /** the decorative label overlay drawn over the field */
+  overlay: "data-signal-overlay",
 } as const;
 
 export const signalSelector = (attr: keyof typeof SIGNAL_ATTR, index?: number) =>

@@ -184,6 +184,19 @@ describe("AiSection", () => {
     expect(setPipelineFocus).toHaveBeenLastCalledWith(null);
   });
 
+  it("keeps closed step details out of the accessibility tree", async () => {
+    view(<AiSteps />);
+    await act(async () => {});
+    const buttons = screen.getAllByRole("button");
+    const detail = (i: number) => document.getElementById(buttons[i].getAttribute("aria-controls") ?? "") as HTMLElement;
+    expect(detail(0).hidden).toBe(false);
+    expect(within(detail(0)).getByText(/handing a session over/)).toBeTruthy();
+    for (const i of [1, 2, 3]) expect(detail(i).hidden).toBe(true);
+    fireEvent.click(buttons[1]);
+    expect(detail(0).hidden).toBe(true);
+    expect(detail(1).hidden).toBe(false);
+  });
+
   it("does not light a node while the section is off screen", async () => {
     vi.stubGlobal(
       "IntersectionObserver",
@@ -227,6 +240,7 @@ describe("HomeScene", () => {
     document.body.appendChild(section);
     const { unmount } = view(<HomeScene proof={[]} work={[]} />);
     await act(async () => {});
+    expect(document.documentElement.hasAttribute("data-home")).toBe(true);
     expect(document.documentElement.hasAttribute("data-home-timeline")).toBe(false);
     act(() => fire(true));
     expect(document.documentElement.hasAttribute("data-home-timeline")).toBe(true);
@@ -235,6 +249,7 @@ describe("HomeScene", () => {
     act(() => fire(true));
     unmount();
     expect(document.documentElement.hasAttribute("data-home-timeline")).toBe(false);
+    expect(document.documentElement.hasAttribute("data-home")).toBe(false);
     section.remove();
   });
 });
