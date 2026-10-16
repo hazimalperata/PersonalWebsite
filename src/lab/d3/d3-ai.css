@@ -1,0 +1,283 @@
+/* Direction 3 — "How I use AI": pipeline + system terminal. */
+
+.d3-pl {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(20px, 2.4vw, 40px);
+  padding-top: 44px;
+  --p: 1;
+}
+.d3-pl-track {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.d3-pl-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #9fb2ff, #e8cfff, #ffd8b4);
+  box-shadow: 0 0 14px 1px rgba(190, 205, 255, 0.55);
+  transform: scaleX(var(--p));
+  transform-origin: left;
+}
+.d3-pl-step {
+  position: relative;
+  transition: opacity 0.6s;
+}
+.d3-pl-node {
+  position: absolute;
+  top: -44px;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 0 0 16px 2px rgba(190, 205, 255, 0.6);
+  transition: background 0.5s, box-shadow 0.5s;
+}
+.d3-pl.is-armed .d3-pl-step:not(.is-on) {
+  opacity: 0.35;
+}
+.d3-pl.is-armed .d3-pl-step:not(.is-on) .d3-pl-node {
+  background: #2a2a31;
+  box-shadow: none;
+}
+.d3-pl-n {
+  margin-bottom: 14px;
+}
+.d3-pl-title {
+  font-size: clamp(1.7rem, 2.6vw, 2.8rem);
+  margin-bottom: 14px;
+}
+.d3-pl-line {
+  color: #b7b4ae;
+  font-weight: 300;
+  font-size: 0.97rem;
+}
+.d3-prods-label {
+  margin-top: clamp(64px, 11vh, 120px);
+  margin-bottom: 20px;
+}
+.d3-prods {
+  border-top: 1px solid var(--hair);
+}
+.d3-prod {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--hair);
+  align-items: baseline;
+}
+.d3-prod-name {
+  font-weight: 300;
+  font-size: clamp(1.4rem, 2.4vw, 2.4rem);
+  letter-spacing: -0.03em;
+}
+.d3-prod-line {
+  color: #b7b4ae;
+  font-weight: 300;
+}
+
+.d3-sys {
+  position: relative;
+  height: 400svh;
+}
+.d3-sys-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: 100px var(--gutter) 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(24px, 5vh, 56px);
+  background: radial-gradient(45% 55% at 70% 55%, rgba(150, 165, 255, 0.1), transparent 72%);
+}
+.d3-sys-h {
+  font-size: clamp(2.4rem, 5.6vw, 6rem);
+  max-width: 14em;
+}
+.d3-sys-intro {
+  margin-top: 18px;
+  max-width: 36em;
+  color: #b7b4ae;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+}
+.d3-sys-body {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  gap: clamp(24px, 4vw, 72px);
+  align-items: stretch;
+}
+.d3-sys-names {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+.d3-sys-name {
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+  padding: 12px 0 12px 16px;
+  border-left: 1px solid var(--hair);
+  font-weight: 300;
+  font-size: clamp(1.05rem, 1.6vw, 1.6rem);
+  letter-spacing: -0.02em;
+  color: var(--mute);
+  transition: color 0.4s, border-color 0.4s;
+}
+.d3-sys-name.is-on {
+  color: var(--ink);
+  border-left-color: #c9d6ff;
+}
+.d3-sys-term {
+  position: relative;
+  overflow: hidden;
+  min-height: 300px;
+  padding: 56px clamp(20px, 2.6vw, 40px) 40px;
+  border-radius: 20px;
+  border: 1px solid var(--hair);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.012) 60%), #0a0a0e;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.d3-sys-dots {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.d3-sys-dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+}
+.d3-sys-dots span {
+  margin-left: auto;
+}
+.d3-sys-cmd {
+  color: #9fb2ff;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 12.5px;
+  margin-bottom: 18px;
+  overflow-wrap: anywhere;
+  min-height: 1.5em;
+}
+.d3-sys-text {
+  display: inline;
+  font-family: var(--d3-mono), ui-monospace, monospace;
+  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+  line-height: 1.7;
+  color: var(--ink);
+}
+.d3-sys-caret {
+  display: inline-block;
+  width: 9px;
+  height: 1.1em;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  background: var(--ink);
+  animation: d3-blink 1s steps(2) infinite;
+}
+@keyframes d3-blink {
+  50% {
+    opacity: 0;
+  }
+}
+.d3-sys-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #9fb2ff, #e8cfff, #ffd8b4);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.d3-sys-static .d3-sys-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.d3-sys-static .d3-cap {
+  min-height: 0;
+}
+
+@media (max-width: 1023px) {
+  .d3-pl {
+    grid-template-columns: 1fr;
+    padding: 0 0 0 36px;
+    row-gap: 36px;
+  }
+  .d3-pl-track {
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+  .d3-pl-fill {
+    background: linear-gradient(to bottom, #9fb2ff, #e8cfff, #ffd8b4);
+    transform: scaleY(var(--p));
+    transform-origin: top;
+  }
+  .d3-pl-node {
+    top: 6px;
+    left: -36px;
+  }
+  .d3-prod {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 767px) {
+  .d3-sys {
+    height: 340svh;
+  }
+  .d3-sys-sticky {
+    padding-top: 84px;
+    gap: 18px;
+  }
+  .d3-sys-body {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .d3-sys-names {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .d3-sys-name {
+    padding: 6px 12px;
+    border: 1px solid var(--hair);
+    border-radius: 999px;
+    font-size: 0.8rem;
+  }
+  .d3-sys-name span:first-child {
+    display: none;
+  }
+  .d3-sys-name.is-on {
+    border-color: #c9d6ff;
+  }
+  .d3-sys-term {
+    min-height: 0;
+    padding-top: 48px;
+  }
+  .d3-sys-static .d3-sys-grid {
+    grid-template-columns: 1fr;
+  }
+}
