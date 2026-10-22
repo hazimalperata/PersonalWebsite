@@ -4,7 +4,7 @@
     "tag": "Ürün mühendisi · Bursa, Türkiye",
     "line1": "En yüksek",
     "line2": "standartta inşa edildi.",
-    "message": "Üstlendiğim her işi en yüksek standartta kurarım: ciddi, gerçek ve modern teknolojinin gerektirdiği şekilde.",
+    "message": "Üstlendiğim her işe gerçek bir ürün gibi bakar, bugün nasıl yapılması gerekiyorsa öyle kurarım.",
     "apps": "{count} uygulama App Store ve Google Play'de yayında",
     "seeWork": "İşlere bak",
     "contact": "İletişime geç",
@@ -62,7 +62,7 @@
   "ai": {
     "tag": "AI",
     "title": "Yapay zekayı nasıl kullanıyorum",
-    "intro": "Yapay zeka hem nasıl geliştirdiğimin hem de ne geliştirdiğimin parçası. Beni hızlandırıyor; çıtayı düşürmüyor.",
+    "intro": "Geliştirirken yapay zeka kullanıyorum, geliştirdiğim ürünlerin bir kısmı da yapay zeka kullanıyor. Beni hızlandırıyor ama çıtayı düşürmüyor.",
     "productsLabel": "Ürünlerimde yapay zeka",
     "products": {
       "dremly": {
@@ -75,10 +75,10 @@
       },
       "rommer": {
         "name": "Rommer için hareket analizi",
-        "line": "Hasta egzersiz yaparken poz, cihaz üzerinde gerçek zamanlı analiz edilir."
+        "line": "Hasta egzersiz yaparken cihaz, pozunu gerçek zamanlı analiz eder."
       }
     },
-    "lead": "Yalnızca bir asistana komut yazmıyorum. Kendi Claude Code düzenimi kurdum ve onu gerçek projelerde eğitmeye devam ediyorum.",
+    "lead": "Kendi Claude Code düzenimi kurdum ve gerçek projelerde üzerinde çalışmaya devam ediyorum.",
     "stepsLabel": "Yapay zekayla çalışma biçimim",
     "steps": {
       "spec": {
@@ -87,11 +87,11 @@
       },
       "agents": {
         "title": "Ekip gibi ajanlar",
-        "line": "Kodlama ajanları birbirinden bağımsız görevleri paralel yapar, her biri kendi izole dalında."
+        "line": "Kodlama ajanları bağımsız görevler üzerinde paralel çalışır, her biri kendi dalında."
       },
       "review": {
         "title": "Bağımsız inceleme",
-        "line": "Her görev, ayrı bir inceleyici tarafından hem spesifikasyona hem kaliteye göre kontrol edilir; son kararı ben veririm."
+        "line": "Her görevi ayrı bir inceleyici hem spesifikasyona hem kaliteye göre kontrol eder. Son kararı ben veririm."
       },
       "gates": {
         "title": "Güven değil, kapı",
@@ -101,7 +101,7 @@
   },
   "experience": {
     "tag": "Deneyim",
-    "title": "Nerede geliştirildi.",
+    "title": "Çalıştığım yerler.",
     "present": "Günümüz",
     "timelineLabel": "Deneyim yılları"
   },

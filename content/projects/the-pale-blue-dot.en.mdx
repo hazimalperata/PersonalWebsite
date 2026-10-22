@@ -2,7 +2,7 @@
 title: "The Pale Blue Dot"
 publishedAt: "2026-05-12"
 year: "2026"
-summary: "A cinematic 3D journey through space, blending astrophysics with philosophy to recreate Carl Sagan's iconic 'Pale Blue Dot' experience using advanced WebGL techniques."
+summary: "A 3D journey through space in WebGL, recreating Carl Sagan's 'Pale Blue Dot' passage."
 images:
   - "/images/projects/earth/earth.png"
 status: "completed"
@@ -19,48 +19,42 @@ kind: "personal"
 platforms: ["Web"]
 ---
 
-## The Vision
+## The idea
 
-"Look again at that dot. That's here. That's home. That's us." This project is a tribute to Carl Sagan's profound reflection on our place in the universe. The goal was to create a digital experience that forces a moment of pause—a transition from a standard portfolio view to an existential observation of our shared home.
+"Look again at that dot. That's here. That's home. That's us." This project is a tribute to Carl Sagan's reflection on our place in the universe. I wanted a page that makes you stop for a moment, moving from a normal portfolio view to a look at our shared home from far away.
 
-## Technical Deep Dive
+## How it works
 
-### 1. Earth's Atmospheric Multi-Layering
-To achieve a realistic look, I implemented a complex layering system for the globe:
-- **Surface Layer**: Utilizes 10k high-resolution diffuse, bump, and specular maps for detailed terrain and ocean reflections.
-- **Night Lights**: A separate mesh with an additive material that reveals city lights on the "dark side" of the planet.
-- **Cloud System**: A floating sphere layer with 8k textures that drifts independently from the surface, creating parallax depth.
-- **Fresnel Atmosphere**: A custom GLSL shader that simulates atmospheric scattering (the blue rim glow) based on the camera's viewing angle.
+### 1. Earth's layers
+The globe is built from several layers:
+- **Surface**: 10k diffuse, bump, and specular maps for terrain and ocean reflections.
+- **Night lights**: a separate mesh with an additive material that shows city lights on the dark side of the planet.
+- **Clouds**: a floating sphere with 8k textures that drifts independently of the surface, which gives parallax depth.
+- **Atmosphere**: a custom GLSL Fresnel shader that simulates atmospheric scattering (the blue rim glow) depending on the camera angle.
 
-### 2. Procedural Starfield & Custom Shaders
-The universe isn't just a static background; it's a procedurally generated starfield of 15,000 points.
-- **Stellar Classification**: Stars are color-coded based on real stellar temperatures (O-type blue, G-type yellow, M-type red).
-- **Shader-Based Twinkling**: Instead of updating every point via CPU, I wrote a vertex shader that uses each star's coordinates as a seed for a sine-wave opacity oscillation, creating a performance-efficient "twinkling" effect.
-- **Radial Glow**: To avoid "square pixels," a fragment shader renders soft radial gradients with power-function falloffs for each star.
+### 2. Starfield and shaders
+The background is a procedurally generated starfield of 15,000 points.
+- Stars are colored by real stellar temperatures: O-type blue, G-type yellow, M-type red.
+- Twinkling runs on the GPU. Instead of updating each point on the CPU, a vertex shader uses each star's coordinates as a seed for a sine-wave opacity oscillation.
+- To avoid square pixels, a fragment shader draws a soft radial gradient with a power-function falloff for each star.
 
-### 3. Orchestrated Cinematics with GSAP
-The experience is structured as a series of "Steps." I built a custom scroll-jacking engine that:
-- Intercepts `wheel` and `touch` events to trigger discrete transitions.
-- Uses **GSAP** to animate the `earthGroup` rotation, position, and the `PerspectiveCamera` zoom simultaneously.
-- Locks interactions during animations to ensure the user doesn't break the cinematic flow.
+### 3. Scroll-driven steps with GSAP
+The experience is a series of steps. I wrote a custom scroll engine that:
+- intercepts `wheel` and `touch` events to trigger discrete transitions,
+- uses GSAP to animate the `earthGroup` rotation, its position, and the `PerspectiveCamera` zoom at the same time,
+- locks input during an animation so the sequence can't be broken.
 
-### 4. Audio-Visual Narrative
-As the user reaches the "Outro," the experience shifts gears:
-- **Spatial Audio**: Ambient music fades in, enhancing the sense of isolation and wonder.
-- **Typewriter Narrative**: A custom Framer Motion implementation slowly reveals Sagan's words, synchronized with the camera's slow drift into the deep void.
+### 4. Sound and text
+In the outro, ambient music fades in. A custom Framer Motion typewriter reveals Sagan's words slowly, in sync with the camera drifting into the void.
 
-## Technologies Used
+## Built with
 
-- **Three.js & WebGL**: Core 3D rendering and scene management.
-- **GLSL Shaders**: Custom atmospheric Fresnel and starfield GPU programs.
-- **GSAP (GreenSock)**: Orchestration of complex, multi-variable animations.
-- **Framer Motion**: UI transitions and narrative text animations.
-- **AgX Tone Mapping**: Used for filmic color reproduction and handling high-dynamic-range light.
+- Three.js and WebGL for 3D rendering and scene management.
+- GLSL shaders for the atmosphere and the starfield.
+- GSAP for the multi-variable animations.
+- Framer Motion for UI transitions and the text animation.
+- AgX tone mapping for filmic color and high-dynamic-range light.
 
-## Challenges and Learnings
+## What I learned
 
-The most significant challenge was the **Perspective Transition**. Moving the camera from a close-up of a specific city to a distant view where the Earth is just a "pixel" required careful handling of the camera's `near` and `far` planes and field of view. Additionally, ensuring smooth performance on mobile devices while rendering 10k textures and thousands of shader-driven particles pushed my understanding of GPU memory management and texture anisotropy.
-
-## Final Reflection
-
-This project stands as the intersection of my technical skills as a developer and my creative vision as a designer. It demonstrates that the web can be more than just functional interfaces—it can be a medium for storytelling and emotional impact.
+The hardest part was the perspective transition. Moving the camera from a close-up of one city to a distance where Earth is a single pixel meant tuning the camera's `near` and `far` planes and its field of view. Keeping it smooth on mobile with 10k textures and thousands of shader-driven particles taught me a lot about GPU memory and texture anisotropy.

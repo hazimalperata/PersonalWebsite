@@ -25,6 +25,13 @@ test("/en redirects to the unprefixed home", async ({ request }) => {
   expect(new URL(res.headers().location, "http://localhost").pathname).toBe("/");
 });
 
+test("a Turkish browser still gets English until it picks Türkçe", async ({ request }) => {
+  const headers = { "accept-language": "tr-TR,tr;q=0.9", cookie: "NEXT_LOCALE=tr" };
+  const res = await request.get("/", { headers, maxRedirects: 0 });
+  expect(res.status()).toBe(200);
+  expect(await res.text()).toMatch(/<html[^>]*\blang="en"/);
+});
+
 test("old URLs keep working", async ({ page }) => {
   await page.goto("/about");
   await expect(page).toHaveURL(/\/#about$/);

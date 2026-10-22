@@ -4,7 +4,7 @@
     "tag": "Product engineer · Bursa, Türkiye",
     "line1": "Built to the",
     "line2": "highest standard.",
-    "message": "Whatever I take on, I build it to the highest standard: serious, real, and done the way modern technology says it should be done.",
+    "message": "I treat everything I take on as a real product and build it the way it should be built today.",
     "apps": "{count, plural, one {# app is} other {# apps are}} live on the App Store and Google Play",
     "seeWork": "See the work",
     "contact": "Get in touch",
@@ -62,7 +62,7 @@
   "ai": {
     "tag": "AI",
     "title": "How I use AI",
-    "intro": "AI is part of how I build and part of what I build. It makes me faster; it does not lower the bar.",
+    "intro": "I use AI to build, and some of what I build uses AI. It makes me faster without lowering the bar.",
     "productsLabel": "AI in my products",
     "products": {
       "dremly": {
@@ -75,10 +75,10 @@
       },
       "rommer": {
         "name": "Movement analysis for Rommer",
-        "line": "Pose is analysed on the device in real time while the patient exercises."
+        "line": "While the patient exercises, the device analyses their pose in real time."
       }
     },
-    "lead": "I don't just prompt an assistant. I built my own Claude Code setup and keep training it on real projects.",
+    "lead": "I built my own Claude Code setup and keep tuning it on real projects.",
     "stepsLabel": "How I work with AI",
     "steps": {
       "spec": {
@@ -87,11 +87,11 @@
       },
       "agents": {
         "title": "Agents as a team",
-        "line": "Coding agents build independent tasks in parallel, each in its own isolated branch."
+        "line": "Coding agents work on independent tasks in parallel, each on its own branch."
       },
       "review": {
         "title": "Independent review",
-        "line": "Each task is checked against the spec and for quality by a separate reviewer, and I make the final call."
+        "line": "A separate reviewer checks each task against the spec and for quality. I make the final call."
       },
       "gates": {
         "title": "Gates, not trust",

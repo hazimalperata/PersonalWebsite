@@ -7,5 +7,6 @@ describe("routing", () => {
     expect(routing.localePrefix).toBe("as-needed");
     expect(routing.locales).toEqual(["en", "tr"]);
     expect(routing.alternateLinks).toBe(false);
+    expect(routing.localeDetection).toBe(false);
   });
 });
