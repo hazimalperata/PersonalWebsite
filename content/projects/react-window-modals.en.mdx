@@ -2,7 +2,7 @@
 title: "Open Source Library react-window-modals"
 publishedAt: "2026-04-09"
 year: "2026"
-summary: "A flexible, customizable, and lightweight React library for creating draggable, resizable, and context-managed window modals. Perfect for building desktop-like experiences on the web."
+summary: "A lightweight React library for draggable, resizable window modals with context-managed state, for building desktop-like interfaces on the web."
 images:
   - "/images/projects/library/library.png"
 link: "https://www.npmjs.com/package/react-window-modals"
@@ -22,33 +22,31 @@ platforms: ["Web"]
 
 ## Overview
 
-**react-window-modals** is a lightweight, headless React library for creating draggable, resizable, and context-managed window modals. I built this library from scratch with a focus on **flexibility**, **performance**, and **developer experience**, allowing users to implement desktop-like modals in web applications without enforcing a specific UI framework.
+react-window-modals is a headless React library for draggable, resizable window modals. I wrote it from scratch so that web apps can have desktop-like windows without being tied to a UI framework.
 
-The library decouples modal logic (dragging, resizing, boundary constraints) from UI presentation, letting developers style modals using Tailwind, Material-UI, or custom CSS.
+It keeps the modal logic (dragging, resizing, boundary constraints) separate from presentation, so you can style the windows with Tailwind, Material-UI, or plain CSS.
 
-## Key Features
+## What it has
 
-- **Draggable Windows**: Easy-to-use drag logic with configurable boundaries.
-- **Resizable Windows**: Supports dynamic width and height adjustments, respecting constraints.
-- **Context-Managed State**: Exposes hooks like `useWindowContext`, `useDraggableWindow`, and `useResizableWindow` for seamless integration.
-- **Customizable Appearance**: Fully headless design allows complete control over UI.
-- **TypeScript Support**: Strongly-typed API ensures safe and predictable development.
+- Draggable windows, with configurable boundaries.
+- Resizable windows, with dynamic width and height that respect constraints.
+- Hooks for context-managed state: `useWindowContext`, `useDraggableWindow`, and `useResizableWindow`.
+- No built-in styling, so you control the whole UI.
+- A fully typed TypeScript API.
 
-## Technologies Used
+## Built with
 
-- **React 18**
-- **TypeScript**
-- **Tailwind CSS (optional styling)**
-- **Vite for dev environment**
-- **Tsup for bundling**
+- React 18
+- TypeScript
+- Tailwind CSS (optional styling)
+- Vite for the dev environment
+- tsup for bundling
 
-## Challenges and Learnings
+## What I learned
 
-Implementing smooth drag-and-resize behavior while maintaining high performance was a core challenge. I optimized the library to handle boundary constraints, responsive screen resizing, and high-FPS mouse movements. Writing a fully headless, context-driven system pushed my understanding of **React Hooks**, **state management**, and **DOM optimization**.
+Keeping drag and resize smooth was the core challenge. The library handles boundary constraints, screen resizing, and high-frequency mouse movement. Writing a fully headless, context-driven system taught me a lot about React hooks, state management, and DOM performance.
 
-## Outcome
-
-The library enables developers to easily add **desktop-like floating windows** to their React apps, with full control over UI styling and behavior. It’s now published on NPM and ready for open-source contributions.
+It is published on npm and open to contributions.
 
 ## Usage Example
 

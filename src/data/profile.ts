@@ -30,12 +30,12 @@ export const profile = {
 
   intro: [
     {
-      en: "I'm a product engineer: I make the product decisions and build the whole thing, from web and mobile to the backend and the infrastructure under them. At 1likte I lead a production platform end to end, from the web panels to the mobile app.",
-      tr: "Ürün mühendisiyim: ürün kararlarını veriyor ve işin tamamını kuruyorum; web ve mobilden backend'e ve altlarındaki altyapıya kadar. 1likte'de web panellerinden mobil uygulamaya kadar canlıda çalışan bir platformu uçtan uca yönetiyorum.",
+      en: "I'm a product engineer. I make the product decisions and build all of it: web, mobile, the backend and the infrastructure underneath. At 1likte I run a live platform end to end, from the web panels to the mobile app.",
+      tr: "Ürün mühendisiyim. Ürün kararlarını veriyorum ve işin tamamını kuruyorum: web, mobil, backend ve altındaki altyapı. 1likte'de canlıda çalışan platformu web panellerinden mobil uygulamaya kadar uçtan uca yürütüyorum.",
     },
     {
-      en: "On the front I work with React, Next.js and React Native; behind them I build the APIs, databases and deployments. I care about performance, scalability and the details of user experience. Outside of work I'm exploring Go for APIs and game development.",
-      tr: "Önyüzde React, Next.js ve React Native ile çalışıyorum; arkalarında API'leri, veritabanlarını ve yayın altyapısını kuruyorum. Performansa, ölçeklenebilirliğe ve kullanıcı deneyiminin ayrıntılarına önem veriyorum. İş dışında API ve oyun geliştirme için Go'yu keşfediyorum.",
+      en: "On the front end I use React, Next.js and React Native. Behind them I build the APIs, databases and deployments. I care about performance, scalability and the small details of user experience. Outside work I'm learning Go for APIs and getting into game development.",
+      tr: "Önyüzde React, Next.js ve React Native kullanıyorum, arkada API'leri, veritabanlarını ve yayın altyapısını kuruyorum. Performansı, ölçeklenebilirliği ve kullanıcı deneyimindeki küçük ayrıntıları önemsiyorum. İş dışında API'ler için Go öğreniyorum, oyun geliştirmeyle de uğraşıyorum.",
     },
   ] satisfies L[],
 
@@ -59,16 +59,16 @@ export const profile = {
       to: null,
       points: [
         {
-          en: "Build and ship mobile apps for Rulead: Dremly (Expo, React Native) and Posme (Flutter), both live on the App Store and Google Play.",
-          tr: "Rulead için mobil uygulamalar geliştirip yayınlıyorum: Dremly (Expo, React Native) ve Posme (Flutter), ikisi de App Store ve Google Play'de yayında.",
+          en: "Build and ship Dremly (Expo, React Native) and Posme (Flutter). Both are live on the App Store and Google Play.",
+          tr: "Dremly'yi (Expo, React Native) ve Posme'yi (Flutter) geliştirip yayınlıyorum. İkisi de App Store ve Google Play'de.",
         },
         {
-          en: "Built a movement-analysis platform for Rommer International, a hospital: on-device pose analysis in the mobile app, a staff web panel and the backend.",
-          tr: "Rommer International hastanesi için bir hareket analizi platformu kurdum: mobil uygulamada cihaz üzerinde poz analizi, personel web paneli ve backend.",
+          en: "Built a movement-analysis platform for Rommer International, a hospital: pose analysis on the device in the mobile app, a web panel for staff, and the backend.",
+          tr: "Rommer International hastanesi için bir hareket analizi platformu kurdum: mobil uygulamada cihaz üzerinde poz analizi, personel için web paneli ve backend.",
         },
         {
-          en: "Maintain the mobile app template and admin kit that the company's new products start from.",
-          tr: "Şirketin yeni ürünlerinin başladığı mobil uygulama şablonunu ve admin kitini geliştiriyorum.",
+          en: "Maintain the mobile app template and admin kit that new apps start from.",
+          tr: "Yeni uygulamaların üzerine kurulduğu mobil uygulama şablonunu ve admin kitini geliştiriyorum.",
         },
       ],
     },
@@ -79,40 +79,40 @@ export const profile = {
       to: null,
       points: [
         {
-          en: "Developed 1likte's web platform and mobile application from scratch, managing all technology choices, architecture, and implementation processes.",
-          tr: "1likte'nin web platformunu ve mobil uygulamasını sıfırdan geliştirdim; tüm teknoloji seçimlerini, mimariyi ve uygulama süreçlerini yönettim.",
+          en: "Built 1likte's web platform and mobile app from scratch and made the technology and architecture decisions.",
+          tr: "1likte'nin web platformunu ve mobil uygulamasını sıfırdan kurdum, teknoloji ve mimari kararlarını verdim.",
         },
         {
-          en: "Built Next.js-based Seller Panel, Admin Panel, Landing Page, and Link Shortener projects, ensuring platform scalability.",
-          tr: "Platformun ölçeklenebilirliğini gözeterek Next.js tabanlı Satıcı Paneli, Admin Paneli, Landing Page ve Link Kısaltıcı projelerini geliştirdim.",
+          en: "Built the seller panel, admin panel, landing page and link shortener with Next.js.",
+          tr: "Satıcı panelini, admin panelini, tanıtım sitesini ve link kısaltıcıyı Next.js ile geliştirdim.",
         },
         {
-          en: "Implemented localization and security optimizations, enabling the platform to adapt quickly and securely to multiple markets.",
-          tr: "Yerelleştirme ve güvenlik iyileştirmeleri yaparak platformun birden fazla pazara hızlı ve güvenli biçimde uyum sağlamasını mümkün kıldım.",
+          en: "Added localization and security improvements so the platform can open up to new markets.",
+          tr: "Platformun yeni pazarlara açılabilmesi için yerelleştirme ve güvenlik iyileştirmeleri yaptım.",
         },
         {
-          en: "Converted Figma designs into pixel-perfect interfaces, improving overall user experience.",
-          tr: "Figma tasarımlarını piksel hassasiyetinde arayüzlere dönüştürerek genel kullanıcı deneyimini iyileştirdim.",
+          en: "Turned Figma designs into interfaces that match them closely.",
+          tr: "Figma tasarımlarını bire bir arayüze çevirdim.",
         },
         {
-          en: "Developed mobile application interfaces using React Native and Expo, managing the deployment and store submission process.",
-          tr: "React Native ve Expo ile mobil uygulama arayüzlerini geliştirdim; yayın ve mağazaya gönderim sürecini yönettim.",
+          en: "Built the mobile app's interfaces with React Native and Expo, and handled releases and store submissions.",
+          tr: "Mobil uygulamanın arayüzlerini React Native ve Expo ile geliştirdim, yayın ve mağaza gönderimlerini yürüttüm.",
         },
         {
-          en: "Created and optimized email templates and systems, strengthening the platform's communication infrastructure.",
-          tr: "E-posta şablonlarını ve sistemlerini oluşturup optimize ederek platformun iletişim altyapısını güçlendirdim.",
+          en: "Built and tuned the email templates and the system that sends them.",
+          tr: "E-posta şablonlarını ve onları gönderen sistemi kurup iyileştirdim.",
         },
         {
-          en: "Performed performance analysis and implemented optimizations, ensuring fast and efficient web applications.",
-          tr: "Performans analizleri yaptım ve optimizasyonlar uygulayarak web uygulamalarının hızlı ve verimli çalışmasını sağladım.",
+          en: "Measured web performance and optimized the slow parts.",
+          tr: "Web uygulamalarının performansını ölçtüm, yavaş kalan yerleri hızlandırdım.",
         },
         {
-          en: "Defined technical roadmap and analyzed future needs to plan and manage development processes.",
-          tr: "Teknik yol haritasını belirledim, gelecekteki ihtiyaçları analiz ederek geliştirme süreçlerini planladım ve yönettim.",
+          en: "Set the technical roadmap and planned development around upcoming needs.",
+          tr: "Teknik yol haritasını belirledim, geliştirmeyi gelecek ihtiyaçlara göre planladım.",
         },
         {
-          en: "Implemented SEO optimizations to enhance platform visibility and reach.",
-          tr: "Platformun görünürlüğünü ve erişimini artırmak için SEO optimizasyonları uyguladım.",
+          en: "Worked on SEO to make the platform easier to find.",
+          tr: "Platformun aramalarda daha kolay bulunması için SEO çalışması yaptım.",
         },
       ],
     },
@@ -123,20 +123,20 @@ export const profile = {
       to: "2023-10",
       points: [
         {
-          en: "Developed an online education platform from scratch, contributing to the digitalization of internal training systems.",
-          tr: "Kurum içi eğitim sistemlerinin dijitalleşmesine katkı sağlayarak çevrimiçi bir eğitim platformunu sıfırdan geliştirdim.",
+          en: "Built an online training platform from scratch for in-house training.",
+          tr: "Kurum içi eğitimler için çevrimiçi bir eğitim platformunu sıfırdan geliştirdim.",
         },
         {
-          en: "Improved UI/UX and fixed usability issues across multiple web platforms.",
-          tr: "Birden fazla web platformunda arayüz ve kullanıcı deneyimini iyileştirdim, kullanılabilirlik sorunlarını giderdim.",
+          en: "Fixed usability issues and improved the UI on several web platforms.",
+          tr: "Birkaç web platformunda kullanılabilirlik sorunlarını giderdim, arayüzü iyileştirdim.",
         },
         {
-          en: "Worked with Django to support backend development and improve system efficiency.",
-          tr: "Django ile çalışarak backend geliştirmeye destek verdim ve sistem verimliliğini artırdım.",
+          en: "Worked on the Django backend and made it run more efficiently.",
+          tr: "Django backend'inde çalıştım, sistemi daha verimli hâle getirdim.",
         },
         {
-          en: "Optimized database structures for faster and more reliable data flow.",
-          tr: "Daha hızlı ve güvenilir veri akışı için veritabanı yapılarını optimize ettim.",
+          en: "Reworked database structures so data moves faster and more reliably.",
+          tr: "Veri daha hızlı ve güvenilir aksın diye veritabanı yapılarını yeniden düzenledim.",
         },
       ],
     },
@@ -151,12 +151,12 @@ export const profile = {
           tr: "React ve modern CSS ile duyarlı web arayüzleri geliştirdim.",
         },
         {
-          en: "Improved performance through code optimization and best practices.",
-          tr: "Kod optimizasyonu ve en iyi uygulamalarla performansı iyileştirdim.",
+          en: "Optimized code to make the interfaces faster.",
+          tr: "Kodu optimize ederek arayüzleri hızlandırdım.",
         },
         {
-          en: "Contributed to experimental projects and explored new frontend technologies.",
-          tr: "Deneysel projelere katkıda bulundum ve yeni frontend teknolojilerini keşfettim.",
+          en: "Worked on experimental projects and tried out new frontend technologies.",
+          tr: "Deneysel projelerde çalıştım, yeni frontend teknolojilerini denedim.",
         },
       ],
     },

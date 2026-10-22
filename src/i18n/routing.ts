@@ -5,6 +5,8 @@ export const routing = defineRouting({
   defaultLocale: "en",
   localePrefix: "as-needed",
   alternateLinks: false,
+  // English unless the visitor picks Türkçe: no Accept-Language or cookie redirect to /tr
+  localeDetection: false,
 });
 
 export type AppLocale = (typeof routing.locales)[number];
